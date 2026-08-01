@@ -12,23 +12,25 @@ import { useState, useEffect } from 'react';
 
 const heroContent = {
   name: 'Kranthi Kumar Katta',
-  title: 'Senior Software Engineer',
-  subtitle: 'Building scalable, high-performance web applications with modern technologies',
+  title: 'SDET 2 | QA Automation Engineer',
+  subtitle:
+    'Results-driven SDET and QA Automation Engineer with 5+ years of experience in Automation Testing, API Validation, Fintech/Payment Systems, and Distributed Microservices Architecture.',
   ctaPrimary: 'View My Work',
   ctaSecondary: 'Download Resume',
-  animatedText: ['Full Stack Developer', 'React Specialist', 'TypeScript Enthusiast', 'Cloud Architect']
+  animatedText: ['SDET 2', 'QA Automation Engineer', 'Fintech Quality Advocate', 'API Test Specialist'],
 };
 
 const aboutPreview = {
   title: 'About Me',
-  content: 'Results-driven Senior Software Engineer with over 10 years of experience in designing, developing, and deploying scalable software solutions. Expertise in full-stack development with a strong focus on React, Next.js, TypeScript, and cloud technologies.',
+  content:
+    'Results-driven SDET and QA Automation Engineer with 5+ years of experience in Automation Testing, API Validation, Fintech/Payment Systems, and Distributed Microservices Architecture. Proven expertise in Selenium WebDriver, Rest Assured, Java, Kafka, CI/CD Pipelines, and End-to-End Transaction Validation across high-volume Remittance and Payment Gateway Applications.',
   cta: 'Learn More',
   quickFacts: [
-    { label: 'Experience', value: '10+ years' },
-    { label: 'Technologies', value: 'React, Next.js, TypeScript, Node.js' },
-    { label: 'Projects', value: '20+ completed' },
-    { label: 'Certifications', value: 'AWS, Kubernetes, ISTQB' }
-  ]
+    { label: 'Experience', value: '5+ years' },
+    { label: 'Location', value: 'Bangalore, India' },
+    { label: 'Domain', value: 'Fintech / Payments' },
+    { label: 'Certifications', value: 'DevOps, CI/CD, Docker, Kubernetes' },
+  ],
 };
 
 export default function Home() {
@@ -50,7 +52,7 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           {/* Base dark gradient */}
           <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800" />
-          
+
           {/* Floating gradient orbs for depth */}
           <motion.div
             className="absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-purple-600/20 blur-3xl"
@@ -74,7 +76,7 @@ export default function Home() {
             style={{
               backgroundImage:
                 'linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)',
-              backgroundSize: '60px 60px'
+              backgroundSize: '60px 60px',
             }}
           />
 
@@ -275,22 +277,22 @@ export default function Home() {
             {[
               {
                 title: 'Experience',
-                description: '10+ years building enterprise applications',
+                description: '5+ years in QA automation, fintech and payment systems',
                 link: '/experience',
-                linkText: 'View Experience'
+                linkText: 'View Experience',
               },
               {
                 title: 'Skills',
-                description: 'Full-stack expertise across modern technologies',
+                description: 'Selenium, Rest Assured, Java, Kafka, Jenkins, Kubernetes',
                 link: '/skills',
-                linkText: 'View Skills'
+                linkText: 'View Skills',
               },
               {
                 title: 'Contact',
                 description: 'Get in touch for collaborations or opportunities',
                 link: '/contact',
-                linkText: 'Contact Me'
-              }
+                linkText: 'Contact Me',
+              },
             ].map((item, index) => (
               <motion.div
                 key={index}

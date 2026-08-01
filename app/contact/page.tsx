@@ -12,25 +12,15 @@ import { motion } from 'framer-motion';
 
 const socialLinks = [
   {
-    name: 'GitHub',
-    url: 'https://github.com/kranthikatta',
-    icon: 'github'
-  },
-  {
     name: 'LinkedIn',
-    url: 'https://www.linkedin.com/in/kranthikatta',
-    icon: 'linkedin'
-  },
-  {
-    name: 'Twitter',
-    url: 'https://twitter.com/kranthikatta',
-    icon: 'twitter'
+    url: 'https://linkedin.com/in/kranthi-kumar-katta-a40093318',
+    icon: 'linkedin',
   },
   {
     name: 'Email',
-    url: 'mailto:kranthi.katta@example.com',
-    icon: 'email'
-  }
+    url: 'mailto:kranthikumarkatta2006@gmail.com',
+    icon: 'email',
+  },
 ];
 
 export default function ContactPage() {
@@ -92,13 +82,13 @@ export default function ContactPage() {
                 </Text>
 
                 <Text size="md" className="mb-2">
-                  <strong>Email:</strong> kranthi.katta@example.com
+                  <strong>Email:</strong> kranthikumarkatta2006@gmail.com
                 </Text>
                 <Text size="md" className="mb-2">
-                  <strong>Phone:</strong> +91 98765 43210
+                  <strong>Phone:</strong> +91 8466952706
                 </Text>
                 <Text size="md" className="mb-2">
-                  <strong>Location:</strong> Hyderabad, India
+                  <strong>Location:</strong> Bangalore, India
                 </Text>
               </div>
 

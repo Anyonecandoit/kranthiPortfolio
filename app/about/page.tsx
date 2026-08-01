@@ -9,23 +9,29 @@ import { SummaryText } from '../sections/SummaryText';
 import { motion } from 'framer-motion';
 
 const quickFacts = [
-  { label: 'Experience', value: '10+ years' },
-  { label: 'Location', value: 'Hyderabad, India' },
-  { label: 'Certifications', value: 'AWS, Kubernetes, ISTQB' },
-  { label: 'Education', value: 'M.Tech in Computer Science' },
-  { label: 'Specialization', value: 'Full Stack Development' },
-  { label: 'Current Role', value: 'Senior Software Engineer' }
+  { label: 'Experience', value: '5+ years' },
+  { label: 'Location', value: 'Bangalore, India' },
+  { label: 'Role', value: 'SDET 2 | QA Automation Engineer' },
+  { label: 'Education', value: 'Master’s in Mechanical Engineering' },
+  { label: 'Domain', value: 'Fintech / Payments' },
+  { label: 'Certifications', value: 'DevOps, CI/CD, Docker, Kubernetes' },
 ];
 
 const summarySections = [
   {
     title: 'Professional Summary',
-    content: `Results-driven Senior Software Engineer with over 10 years of experience in designing, developing, and deploying scalable software solutions. Expertise in full-stack development with a strong focus on React, Next.js, TypeScript, and cloud technologies. Proven track record of delivering high-quality software in Agile environments with a passion for creating efficient, maintainable, and user-centric applications.`
+    content: `Results-driven SDET and QA Automation Engineer with 5+ years of experience in Automation Testing, API Validation, Fintech/Payment Systems, and Distributed Microservices Architecture. Proven expertise in Selenium WebDriver, Rest Assured, Java, Kafka, CI/CD Pipelines, and End-to-End Transaction Validation across high-volume Remittance and Payment Gateway Applications. Skilled in designing scalable automation frameworks, validating event-driven systems, performing compliance testing, and ensuring production stability for mission-critical financial platforms. Strong experience in Agile/Scrum methodologies, defect lifecycle management, RCA, and cross-functional collaboration.`,
   },
   {
-    title: 'Technical Philosophy',
-    content: `I believe in writing clean, maintainable code that solves real business problems. My approach combines technical excellence with user-centric design, ensuring that the software I build is both powerful and intuitive. I'm passionate about leveraging modern technologies to create scalable solutions that drive business growth and innovation.`
-  }
+    title: 'Key Highlights',
+    content: `• 5+ years of experience in QA Automation, API Testing, and Fintech Systems
+• Expertise in Selenium, Rest Assured, Java, Kafka, Jenkins, and MySQL
+• Strong experience in payment gateways, distributed microservices
+• Hands-on experience with CI/CD pipelines, containerized deployments, and production validation
+• Proven ability to manage end-to-end testing, RCA, integration testing, and release coordination
+• Strong understanding of Agile/Scrum methodologies and SDLC/STLC processes
+• UI, API, FinTech / Banking / Payments Domain, Enterprise SaaS / Learning Management Domain Testing Specialist`,
+  },
 ];
 
 export default function AboutPage() {
@@ -80,7 +86,7 @@ export default function AboutPage() {
             <div className="glass rounded-3xl p-6 md:p-10">
               <ProfileCard
                 name="Kranthi Kumar Katta"
-                title="Senior Software Engineer | Full Stack Developer"
+                title="SDET 2 | QA Automation Engineer"
                 imageSrc="/images/portrait.jpg"
                 quickFacts={quickFacts}
               />

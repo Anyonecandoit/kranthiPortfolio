@@ -11,68 +11,136 @@ const skillCategories = [
   {
     title: 'Programming Languages',
     skills: [
-      { name: 'TypeScript', proficiency: 95, icon: 'typescript' },
-      { name: 'JavaScript', proficiency: 95, icon: 'javascript' },
-      { name: 'Python', proficiency: 85, icon: 'python' },
-      { name: 'Java', proficiency: 80, icon: 'java' },
-      { name: 'C#', proficiency: 75, icon: 'csharp' },
-      { name: 'Go', proficiency: 70, icon: 'go' }
-    ]
+      { name: 'Java', proficiency: 95, icon: 'java' },
+      { name: 'SQL', proficiency: 85, icon: 'database' },
+    ],
   },
   {
-    title: 'Frontend Development',
+    title: 'Automation Testing',
     skills: [
-      { name: 'React', proficiency: 95, icon: 'react' },
-      { name: 'Next.js', proficiency: 90, icon: 'nextjs' },
-      { name: 'Redux', proficiency: 85, icon: 'redux' },
-      { name: 'HTML5', proficiency: 95, icon: 'html' },
-      { name: 'CSS3', proficiency: 90, icon: 'css' },
-      { name: 'Tailwind CSS', proficiency: 85, icon: 'tailwind' }
-    ]
+      { name: 'Selenium WebDriver', proficiency: 95, icon: 'selenium' },
+      { name: 'Hybrid Framework', proficiency: 90, icon: 'code' },
+      { name: 'TestNG', proficiency: 90, icon: 'testng' },
+      { name: 'Cucumber (BDD)', proficiency: 85, icon: 'cucumber' },
+      { name: 'Appium', proficiency: 75, icon: 'appium' },
+      { name: 'Data-Driven Framework', proficiency: 80, icon: 'file' },
+    ],
   },
   {
-    title: 'Backend Development',
+    title: 'API Testing',
     skills: [
-      { name: 'Node.js', proficiency: 90, icon: 'nodejs' },
-      { name: 'Express', proficiency: 85, icon: 'express' },
-      { name: 'NestJS', proficiency: 80, icon: 'nestjs' },
-      { name: 'REST API', proficiency: 95, icon: 'api' },
-      { name: 'GraphQL', proficiency: 80, icon: 'graphql' },
-      { name: 'WebSockets', proficiency: 75, icon: 'websocket' }
-    ]
+      { name: 'Rest Assured', proficiency: 92, icon: 'rest' },
+      { name: 'Postman', proficiency: 90, icon: 'postman' },
+      { name: 'Swagger UI', proficiency: 80, icon: 'swagger' },
+    ],
   },
   {
-    title: 'Cloud & DevOps',
+    title: 'Performance Testing',
+    skills: [{ name: 'JMeter', proficiency: 75, icon: 'jmeter' }],
+  },
+  {
+    title: 'CI/CD & DevOps',
     skills: [
-      { name: 'AWS', proficiency: 85, icon: 'aws' },
+      { name: 'Jenkins', proficiency: 85, icon: 'jenkins' },
       { name: 'Docker', proficiency: 80, icon: 'docker' },
       { name: 'Kubernetes', proficiency: 75, icon: 'kubernetes' },
-      { name: 'CI/CD', proficiency: 85, icon: 'cicd' },
       { name: 'Terraform', proficiency: 70, icon: 'terraform' },
-      { name: 'Serverless', proficiency: 75, icon: 'serverless' }
-    ]
+      { name: 'Maven', proficiency: 80, icon: 'maven' },
+      { name: 'Nexus', proficiency: 70, icon: 'nexus' },
+      { name: 'Argo CD', proficiency: 65, icon: 'argo' },
+    ],
   },
   {
-    title: 'Testing & QA',
+    title: 'Messaging & Event Systems',
     skills: [
-      { name: 'Jest', proficiency: 90, icon: 'jest' },
-      { name: 'Cypress', proficiency: 85, icon: 'cypress' },
-      { name: 'Playwright', proficiency: 80, icon: 'playwright' },
-      { name: 'Mocha', proficiency: 85, icon: 'mocha' },
-      { name: 'Chai', proficiency: 85, icon: 'chai' },
-      { name: 'Selenium', proficiency: 80, icon: 'selenium' }
-    ]
+      { name: 'Apache Kafka', proficiency: 80, icon: 'kafka' },
+      { name: 'Temporal Workflows', proficiency: 65, icon: 'temporal' },
+    ],
   },
   {
-    title: 'Databases',
+    title: 'Databases & Caching',
     skills: [
-      { name: 'PostgreSQL', proficiency: 85, icon: 'postgresql' },
-      { name: 'MongoDB', proficiency: 80, icon: 'mongodb' },
-      { name: 'Redis', proficiency: 75, icon: 'redis' },
-      { name: 'MySQL', proficiency: 80, icon: 'mysql' },
-      { name: 'DynamoDB', proficiency: 70, icon: 'dynamodb' }
-    ]
-  }
+      { name: 'MySQL (Master-Slave Replication)', proficiency: 85, icon: 'mysql' },
+      { name: 'Redis', proficiency: 70, icon: 'redis' },
+    ],
+  },
+  {
+    title: 'Version Control',
+    skills: [
+      { name: 'Git', proficiency: 90, icon: 'git' },
+      { name: 'GitHub', proficiency: 85, icon: 'github' },
+      { name: 'GitLab', proficiency: 80, icon: 'gitlab' },
+      { name: 'Bitbucket', proficiency: 75, icon: 'bitbucket' },
+    ],
+  },
+  {
+    title: 'Monitoring & Logging',
+    skills: [
+      { name: 'Datadog', proficiency: 80, icon: 'datadog' },
+      { name: 'Grafana', proficiency: 75, icon: 'grafana' },
+    ],
+  },
+  {
+    title: 'Cloud & Infrastructure',
+    skills: [
+      { name: 'GCP', proficiency: 85, icon: 'gcp' },
+      { name: 'Microservices Architecture', proficiency: 80, icon: 'cloud' },
+    ],
+  },
+  {
+    title: 'Workflow & Collaboration Tools',
+    skills: [
+      { name: 'JIRA', proficiency: 90, icon: 'jira' },
+      { name: 'Confluence', proficiency: 80, icon: 'confluence' },
+      { name: 'MS Teams', proficiency: 85, icon: 'teams' },
+      { name: 'Outlook', proficiency: 80, icon: 'outlook' },
+      { name: 'Retool', proficiency: 60, icon: 'retool' },
+      { name: 'Novu', proficiency: 55, icon: 'novu' },
+    ],
+  },
+  {
+    title: 'Test Platforms & Utilities',
+    skills: [
+      { name: 'LambdaTest', proficiency: 75, icon: 'lambdatest' },
+      { name: 'TestFlight', proficiency: 65, icon: 'testflight' },
+      { name: 'App Tester', proficiency: 60, icon: 'app' },
+      { name: 'Airflow', proficiency: 65, icon: 'airflow' },
+      { name: 'Syncthing', proficiency: 55, icon: 'syncthing' },
+      { name: 'Swagger UI', proficiency: 75, icon: 'swagger' },
+    ],
+  },
+  {
+    title: 'Operating Systems',
+    skills: [
+      { name: 'Linux', proficiency: 90, icon: 'linux' },
+      { name: 'Windows', proficiency: 85, icon: 'windows' },
+      { name: 'macOS', proficiency: 80, icon: 'apple' },
+    ],
+  },
+  {
+    title: 'Productivity Tools',
+    skills: [
+      { name: 'MS Word', proficiency: 85, icon: 'word' },
+      { name: 'MS Excel', proficiency: 85, icon: 'excel' },
+      { name: 'Sublime Text', proficiency: 80, icon: 'sublime' },
+    ],
+  },
+  {
+    title: 'Methodologies',
+    skills: [
+      { name: 'Agile', proficiency: 90, icon: 'agile' },
+      { name: 'Scrum', proficiency: 90, icon: 'scrum' },
+      { name: 'SDLC', proficiency: 85, icon: 'sdlc' },
+      { name: 'STLC', proficiency: 85, icon: 'stlc' },
+    ],
+  },
+  {
+    title: 'Web Technologies',
+    skills: [
+      { name: 'HTML', proficiency: 80, icon: 'html' },
+      { name: 'XML', proficiency: 75, icon: 'xml' },
+    ],
+  },
 ];
 
 export default function SkillsPage() {
