@@ -13,42 +13,35 @@ interface SkillBadgeProps {
   delay?: number;
 }
 
-export const SkillBadge: React.FC<SkillBadgeProps> = ({
-  name,
-  proficiency,
-  icon,
-  delay = 0
-}) => {
+export const SkillBadge: React.FC<SkillBadgeProps> = ({ name, proficiency, icon, delay = 0 }) => {
+  const gradient = `linear-gradient(90deg, #a78bfa 0%, #22d3ee ${proficiency}%, rgba(255,255,255,0.1) ${proficiency}%)`;
+
   return (
-    <Card className="p-4 flex flex-col items-center text-center">
+    <Card className="p-5 flex flex-col items-center text-center hover:shadow-glow-primary transition-all">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: delay + 0.2, duration: 0.3 }}
-        className="mb-3"
+        className="mb-3 bg-white/10 rounded-full p-3"
       >
-        <Icon name={icon} size={40} className="text-primary-500" />
+        <Icon name={icon} size={36} className="text-primary-400" />
       </motion.div>
-      
-      <Text size="md" className="font-medium mb-2">
-        {name}
-      </Text>
-      
-      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-2">
+
+      <Text size="md" className="font-medium mb-2">{name}</Text>
+
+      <div className="w-full bg-white/10 rounded-full h-2.5 mb-2 overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${proficiency}%` }}
           viewport={{ once: true }}
           transition={{ delay: delay + 0.4, duration: 1, ease: 'easeOut' }}
-          className="bg-primary-500 h-2.5 rounded-full"
-          style={{ width: `${proficiency}%` }}
+          className="h-full rounded-full"
+          style={{ background: 'linear-gradient(90deg, #a78bfa, #22d3ee)' }}
         />
       </div>
-      
-      <Text size="sm" className="text-text-secondary-light dark:text-text-secondary-dark">
-        {proficiency}% proficiency
-      </Text>
+
+      <Text size="sm" className="text-text-secondary">{proficiency}% proficiency</Text>
     </Card>
   );
 };

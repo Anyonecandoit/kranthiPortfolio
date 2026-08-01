@@ -2,7 +2,7 @@ import React from 'react';
 
 type ButtonProps = {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline' | 'glass';
+  variant?: 'primary' | 'secondary' | 'outline' | 'glass' | 'gradient';
   size?: 'sm' | 'md' | 'lg';
   onClick?: () => void;
   className?: string;
@@ -19,22 +19,20 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   type = 'button',
 }) => {
-  // Base classes
-  const baseClasses = 'font-medium transition-all duration-300 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95';
-  
-  // Size classes
+  const baseClasses = 'relative inline-flex items-center justify-center font-semibold transition-all duration-300 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 overflow-hidden group';
+
   const sizeClasses = {
     sm: 'px-4 py-2 text-sm',
     md: 'px-6 py-3 text-base',
     lg: 'px-8 py-4 text-lg',
   };
-  
-  // Variant classes
+
   const variantClasses = {
-    primary: 'bg-gradient-to-r from-purple-600 to-cyan-500 text-white hover:from-purple-700 hover:to-cyan-600 shadow-lg hover:shadow-xl hover:shadow-purple-500/25',
-    secondary: 'bg-gray-800/50 text-white border border-gray-700 hover:bg-gray-700/50 hover:border-gray-600',
-    outline: 'border-2 border-purple-500 text-purple-400 hover:bg-purple-500/10 hover:border-purple-400',
-    glass: 'bg-white/10 backdrop-blur-xl border border-white/20 text-white hover:bg-white/20 hover:border-white/30',
+    primary: 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg hover:shadow-primary-500/40',
+    secondary: 'bg-white/10 border border-white/20 text-white backdrop-blur-xl hover:bg-white/20 hover:border-white/40',
+    outline: 'border-2 border-primary-400 text-primary-300 hover:bg-primary-500/10 hover:border-primary-300',
+    glass: 'glass text-white hover:shadow-glow-primary',
+    gradient: 'animated-gradient-bg text-white shadow-lg hover:shadow-accent-500/40',
   };
 
   return (

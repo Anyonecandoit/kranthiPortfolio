@@ -5,190 +5,114 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  
-  // Enable dark mode using class strategy
   darkMode: 'class',
-  
   theme: {
     extend: {
-      // Premium Color palette with glassmorphism support
       colors: {
-        // Primary colors - Enhanced for premium look
         primary: {
-          50: '#E6F0FF',
-          100: '#CCE0FF',
-          200: '#99C2FF',
-          300: '#66A3FF',
-          400: '#3385FF',
-          500: '#0A84FF', // Primary blue
-          600: '#0077FF',
-          700: '#0066E6',
-          800: '#0055CC',
-          900: '#003399',
-          950: '#001A4D',
+          50: '#f5f3ff',
+          100: '#ede9fe',
+          200: '#ddd6fe',
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#8b5cf6',
+          600: '#7c3aed',
+          700: '#6d28d9',
+          800: '#5b21b6',
+          900: '#4c1d95',
+          950: '#2e1065',
         },
-        
-        // Accent colors (orange) - Enhanced for premium look
         accent: {
-          50: '#FFF3E6',
-          100: '#FFE0CC',
-          200: '#FFCC99',
-          300: '#FFB366',
-          400: '#FF9500', // Accent orange
-          500: '#E68600',
-          600: '#CC7000',
-          700: '#995500',
-          800: '#663A00',
-          900: '#331D00',
+          50: '#ecfeff',
+          100: '#cffafe',
+          200: '#a5f3fc',
+          300: '#67e8f9',
+          400: '#22d3ee',
+          500: '#06b6d4',
+          600: '#0891b2',
+          700: '#0e7490',
+          800: '#155e75',
+          900: '#164e63',
+          950: '#083344',
         },
-        
-        // Enhanced Background colors for premium dark theme
+        secondary: {
+          50: '#fdf2f8',
+          100: '#fce7f3',
+          200: '#fbcfe8',
+          300: '#f9a8d4',
+          400: '#f472b6',
+          500: '#ec4899',
+          600: '#db2777',
+          700: '#be185d',
+          800: '#9d174d',
+          900: '#831843',
+          950: '#500724',
+        },
         background: {
-          light: '#F7F9FC',
-          dark: '#0A0A0A', // Deeper dark for premium look
-          'dark-secondary': '#0F0F0F',
-          'dark-tertiary': '#151515',
+          light: '#f8fafc',
+          dark: '#0a0f1e',
+          'dark-secondary': '#111827',
+          'dark-tertiary': '#1e293b',
         },
-        
-        // Enhanced Surface colors with glassmorphism
         surface: {
-          light: '#FFFFFF',
-          dark: '#1A1A1A', // Slightly lighter than background for depth
-          'dark-glass': 'rgba(26, 26, 26, 0.8)',
-          'glass': 'rgba(255, 255, 255, 0.05)',
+          light: '#ffffff',
+          dark: '#111827',
+          'dark-glass': 'rgba(17,24,39,0.6)',
         },
-        
-        // Enhanced Text colors for better contrast
         text: {
           primary: {
-            light: '#111111',
-            dark: '#F5F5F5', // Brighter for better readability
+            light: '#0f172a',
+            dark: '#f8fafc',
           },
           secondary: {
-            light: '#5F5F5F',
-            dark: '#B0B0B0', // Brighter secondary text
+            light: '#475569',
+            dark: '#94a3b8',
           },
-          muted: {
-            light: '#8A8A8A',
-            dark: '#707070',
-          },
-        },
-        
-        // Enhanced Border colors
-        border: {
-          light: '#E2E8F0',
-          dark: '#333333', // More subtle borders for dark theme
-          'dark-glass': 'rgba(255, 255, 255, 0.1)',
-        },
-        
-        // Gradient colors for premium effects
-        gradient: {
-          primary: 'linear-gradient(135deg, #0A84FF 0%, #0077FF 100%)',
-          accent: 'linear-gradient(135deg, #FF9500 0%, #E68600 100%)',
-          dark: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%)',
-          glass: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
         },
       },
-      
-      // Typography from PRD
       fontFamily: {
         sans: ['Inter', 'var(--font-inter)', 'system-ui', 'sans-serif'],
         mono: ['Fira Code', 'var(--font-fira-code)', 'monospace'],
       },
-      
-      // Font sizes from PRD
-      fontSize: {
-        'heading-xl': ['2.5rem', { lineHeight: '1.2', fontWeight: '600' }],
-        'heading-lg': ['1.75rem', { lineHeight: '1.3', fontWeight: '500' }],
-        'heading-md': ['1.5rem', { lineHeight: '1.4', fontWeight: '500' }],
-        'body-lg': ['1.125rem', { lineHeight: '1.6', fontWeight: '400' }],
-        'body-md': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],
-        'code': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],
-      },
-      
-      // Spacing system (4px baseline grid)
-      spacing: {
-        '0': '0',
-        '1': '0.25rem', // 4px
-        '2': '0.5rem',  // 8px
-        '3': '0.75rem', // 12px
-        '4': '1rem',    // 16px
-        '5': '1.25rem', // 20px
-        '6': '1.5rem',  // 24px
-        '8': '2rem',    // 32px
-        '10': '2.5rem', // 40px
-        '12': '3rem',   // 48px
-        '16': '4rem',   // 64px
-        '20': '5rem',   // 80px
-        '24': '6rem',   // 96px
-      },
-      
-      // Border radius
-      borderRadius: {
-        'sm': '0.25rem',
-        'md': '0.375rem',
-        'lg': '0.5rem',
-        'xl': '0.75rem',
-        '2xl': '1rem',
-        '3xl': '1.5rem',
-      },
-      
-      // Box shadows
       boxShadow: {
-        'sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-        'md': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        'lg': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-        'xl': '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+        'glow-primary': '0 0 30px rgba(139, 92, 246, 0.35)',
+        'glow-accent': '0 0 30px rgba(34, 211, 238, 0.35)',
+        'glow-secondary': '0 0 30px rgba(244, 114, 182, 0.35)',
       },
-      
-      // Animation durations
       animation: {
-        'fade-in': 'fadeIn 0.2s ease-out',
-        'slide-up': 'slideUp 0.3s ease-out',
-        'slide-down': 'slideDown 0.3s ease-out',
-        'scale-in': 'scaleIn 0.2s ease-out',
+        'fade-in': 'fadeIn 0.3s ease-out',
+        'slide-up': 'slideUp 0.4s ease-out',
+        'gradient-shift': 'gradientShift 15s ease infinite',
+        'float-slow': 'floatSlow 8s ease-in-out infinite',
+        'spin-slow': 'spinSlow 12s linear infinite',
       },
-      
-      // Keyframes for animations
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
         slideUp: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        slideDown: {
-          '0%': { opacity: '0', transform: 'translateY(-10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+        gradientShift: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
         },
-        scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.95)' },
-          '100%': { opacity: '1', transform: 'scale(1)' },
+        floatSlow: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        spinSlow: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
         },
       },
-      
-      // Transition timing
-      transitionDuration: {
-        'fast': '150ms',
-        'normal': '200ms',
-        'slow': '300ms',
-      },
-      
-      // Z-index scale
       zIndex: {
-        '0': '0',
-        '10': '10',
-        '20': '20',
-        '30': '30',
-        '40': '40',
-        '50': '50',
-        'modal': '1000',
-        'toast': '1100',
+        modal: '1000',
+        toast: '1100',
       },
     },
   },
-  
   plugins: [],
 };
