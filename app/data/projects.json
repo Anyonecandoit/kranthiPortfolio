@@ -1,53 +1,29 @@
 [
   {
-    "id": "ecommerce-platform",
-    "title": "E-commerce Platform",
-    "description": "A full-featured e-commerce platform built with Next.js, TypeScript, and Stripe integration. Features include product management, shopping cart, checkout flow, and admin dashboard.",
-    "imageSrc": "/images/projects/ecommerce.jpg",
-    "technologies": ["Next.js", "TypeScript", "React", "Stripe", "PostgreSQL", "Tailwind CSS"],
-    "githubUrl": "https://github.com/kranthikatta/ecommerce-platform",
-    "demoUrl": "https://ecommerce-demo.kranthikatta.com"
+    "id": "barq-remittance",
+    "title": "BARQ – Cross-Border Remittance Platform",
+    "description": "End-to-End testing of international remittance workflows across distributed microservices architecture handling high-volume cross-border transactions. Validated REST APIs, Kafka event-driven flows, and integrations with MoneyGram, TerraPay, Western Union, Thunes, XE, SAS, and FinScan.",
+    "imageSrc": "/images/projects/barq.jpg",
+    "technologies": ["Java", "Rest Assured", "TestNG", "Kafka", "MySQL", "Jenkins", "Kubernetes", "Docker", "Postman"],
+    "githubUrl": "#",
+    "demoUrl": "#"
   },
   {
-    "id": "dashboard-analytics",
-    "title": "Analytics Dashboard",
-    "description": "Real-time analytics dashboard for business intelligence. Features interactive charts, data visualization, and custom reporting tools built with D3.js and React.",
-    "imageSrc": "/images/projects/analytics.jpg",
-    "technologies": ["React", "TypeScript", "D3.js", "Node.js", "MongoDB", "Express"],
-    "githubUrl": "https://github.com/kranthikatta/analytics-dashboard",
-    "demoUrl": "https://analytics-demo.kranthikatta.com"
+    "id": "payment-gateway",
+    "title": "Payment Gateway Platform (PayU / Wibmo)",
+    "description": "Functional, Regression, and Integration testing for Payment Gateway Applications supporting domestic and international transactions, settlement cycles, PCI-DSS compliance, ISO8583 message conversion, and merchant onboarding workflows.",
+    "imageSrc": "/images/projects/payment-gateway.jpg",
+    "technologies": ["Selenium", "Rest Assured", "Postman", "Jenkins", "JIRA", "Kubernetes", "Helm", "MySQL"],
+    "githubUrl": "#",
+    "demoUrl": "#"
   },
   {
-    "id": "task-management",
-    "title": "Task Management System",
-    "description": "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features. Built with React, Redux, and Firebase.",
-    "imageSrc": "/images/projects/task-management.jpg",
-    "technologies": ["React", "Redux", "Firebase", "TypeScript", "Material UI", "Jest"],
-    "githubUrl": "https://github.com/kranthikatta/task-management",
-    "demoUrl": "https://tasks-demo.kranthikatta.com"
-  },
-  {
-    "id": "api-gateway",
-    "title": "API Gateway Service",
-    "description": "A scalable API gateway service that handles authentication, rate limiting, and request routing for microservices architecture. Built with Node.js, Express, and Redis.",
-    "imageSrc": "/images/projects/api-gateway.jpg",
-    "technologies": ["Node.js", "Express", "Redis", "TypeScript", "Docker", "Kubernetes"],
-    "githubUrl": "https://github.com/kranthikatta/api-gateway"
-  },
-  {
-    "id": "mobile-app-backend",
-    "title": "Mobile App Backend",
-    "description": "Backend services for a mobile application including user authentication, data storage, and real-time notifications. Built with NestJS, PostgreSQL, and AWS services.",
-    "imageSrc": "/images/projects/mobile-backend.jpg",
-    "technologies": ["NestJS", "PostgreSQL", "AWS", "TypeScript", "GraphQL", "JWT"],
-    "githubUrl": "https://github.com/kranthikatta/mobile-backend"
-  },
-  {
-    "id": "devops-pipeline",
-    "title": "CI/CD Pipeline System",
-    "description": "Automated CI/CD pipeline system for continuous integration and deployment. Features automated testing, code quality checks, and deployment to multiple environments.",
-    "imageSrc": "/images/projects/cicd.jpg",
-    "technologies": ["Docker", "Kubernetes", "Jenkins", "GitHub Actions", "Terraform", "AWS"],
-    "githubUrl": "https://github.com/kranthikatta/cicd-pipeline"
+    "id": "atlas-learning-platform",
+    "title": "Atlas – Unified Learning & Certification Platform",
+    "description": "QA leadership for React-based production releases at American Heart Association (Impelsys). Designed and implemented Selenium WebDriver automation frameworks, hybrid frameworks, API integration testing, and validation of enterprise integrations including eCards, SSO, eLearning, MotionPoint, Google Maps, ShopCPR, and Instructor Network.",
+    "imageSrc": "/images/projects/atlas.jpg",
+    "technologies": ["Selenium WebDriver", "Java", "TestNG", "Rest Assured", "ReactJS", "Angular", "MySQL", "Jenkins"],
+    "githubUrl": "#",
+    "demoUrl": "#"
   }
 ]

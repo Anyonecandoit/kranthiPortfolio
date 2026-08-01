@@ -48,7 +48,7 @@ export default function PortfolioPage() {
               My Projects
             </Heading>
             <Text size="lg" className="max-w-2xl mx-auto text-gray-300">
-              A selection of work I&apos;m proud of
+              Professional products I&apos;ve tested and validated end-to-end
             </Text>
           </motion.div>
 
