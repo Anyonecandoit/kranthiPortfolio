@@ -37,38 +37,41 @@ export const Header: React.FC = () => {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrolled ? 'bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-sm shadow-lg' : 'bg-surface-light/80 dark:bg-surface-dark/80'}`}>
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-xl shadow-2xl border-b border-gray-800' : 'bg-transparent'}`}>
+      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <Link
           href="/"
-          className="text-heading-md font-semibold text-text-primary-light dark:text-text-primary-dark transition-colors duration-normal"
+          className="text-2xl font-bold text-white hover:text-purple-400 transition-all duration-300 flex items-center gap-2"
         >
-          Kranthi Kumar Katta
+          <span className="bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent">KK</span>
         </Link>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8" aria-label="Main navigation">
+        <nav className="hidden md:flex space-x-1" aria-label="Main navigation">
           {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-text-secondary-light dark:text-text-secondary-dark hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-fast focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-              aria-label={link.label}
-            >
-              {link.label}
-            </Link>
+            <motion.div key={link.href} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href={link.href}
+                className="px-4 py-2 text-gray-300 hover:text-white hover:bg-purple-500/10 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 relative group"
+                aria-label={link.label}
+              >
+                <span className="relative">{link.label}</span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-cyan-400 transition-all duration-300 group-hover:w-full" />
+              </Link>
+            </motion.div>
           ))}
         </nav>
         
         {/* Mobile Menu Button */}
-        <Button
-          variant="primary"
-          className="md:hidden"
+        <motion.button
+          className="md:hidden p-2 rounded-full bg-gray-800/50 border border-gray-700 hover:bg-purple-500/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
         >
-          <Icon name={isMobileMenuOpen ? 'close' : 'menu'} size={20} />
-        </Button>
+          <Icon name={isMobileMenuOpen ? 'close' : 'menu'} size={24} className="text-white" />
+        </motion.button>
       </div>
       
       {/* Mobile Navigation Menu */}
@@ -78,9 +81,9 @@ export const Header: React.FC = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-700"
+            className="md:hidden bg-black/90 backdrop-blur-xl border-t border-gray-800"
           >
-            <div className="px-4 py-4 space-y-4" role="menu">
+            <div className="px-6 py-4 space-y-2" role="menu">
               {navLinks.map((link) => (
                 <motion.div
                   key={link.href}
@@ -91,7 +94,7 @@ export const Header: React.FC = () => {
                 >
                   <Link
                     href={link.href}
-                    className="block py-2 text-lg text-text-primary-light dark:text-text-primary-dark hover:text-primary-500 dark:hover:text-primary-400 transition-colors duration-fast focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                    className="block py-3 px-4 text-lg text-gray-300 hover:text-white hover:bg-purple-500/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 rounded-lg"
                     onClick={() => setIsMobileMenuOpen(false)}
                     role="menuitem"
                     aria-label={link.label}

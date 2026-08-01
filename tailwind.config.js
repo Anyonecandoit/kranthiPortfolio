@@ -11,9 +11,9 @@ export default {
   
   theme: {
     extend: {
-      // Color palette from PRD
+      // Premium Color palette with glassmorphism support
       colors: {
-        // Primary colors
+        // Primary colors - Enhanced for premium look
         primary: {
           50: '#E6F0FF',
           100: '#CCE0FF',
@@ -28,7 +28,7 @@ export default {
           950: '#001A4D',
         },
         
-        // Accent colors (orange)
+        // Accent colors (orange) - Enhanced for premium look
         accent: {
           50: '#FFF3E6',
           100: '#FFE0CC',
@@ -42,34 +42,51 @@ export default {
           900: '#331D00',
         },
         
-        // Background colors
+        // Enhanced Background colors for premium dark theme
         background: {
           light: '#F7F9FC',
-          dark: '#111111',
+          dark: '#0A0A0A', // Deeper dark for premium look
+          'dark-secondary': '#0F0F0F',
+          'dark-tertiary': '#151515',
         },
         
-        // Surface colors
+        // Enhanced Surface colors with glassmorphism
         surface: {
           light: '#FFFFFF',
-          dark: '#1E1E1E',
+          dark: '#1A1A1A', // Slightly lighter than background for depth
+          'dark-glass': 'rgba(26, 26, 26, 0.8)',
+          'glass': 'rgba(255, 255, 255, 0.05)',
         },
         
-        // Text colors
+        // Enhanced Text colors for better contrast
         text: {
           primary: {
             light: '#111111',
-            dark: '#EBEBEB',
+            dark: '#F5F5F5', // Brighter for better readability
           },
           secondary: {
             light: '#5F5F5F',
-            dark: '#A0A0A0',
+            dark: '#B0B0B0', // Brighter secondary text
+          },
+          muted: {
+            light: '#8A8A8A',
+            dark: '#707070',
           },
         },
         
-        // Border colors
+        // Enhanced Border colors
         border: {
           light: '#E2E8F0',
-          dark: '#2D2D2D',
+          dark: '#333333', // More subtle borders for dark theme
+          'dark-glass': 'rgba(255, 255, 255, 0.1)',
+        },
+        
+        // Gradient colors for premium effects
+        gradient: {
+          primary: 'linear-gradient(135deg, #0A84FF 0%, #0077FF 100%)',
+          accent: 'linear-gradient(135deg, #FF9500 0%, #E68600 100%)',
+          dark: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%)',
+          glass: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
         },
       },
       

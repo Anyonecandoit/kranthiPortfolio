@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Text } from '../components/typography/Text';
 import { Heading } from '../components/typography/Heading';
 
@@ -19,16 +20,23 @@ export const SummaryText: React.FC<SummaryTextProps> = ({
   className = ''
 }) => {
   return (
-    <div className={`space-y-8 ${className}`}>
+    <div className={`space-y-12 ${className}`}>
       {sections.map((section, index) => (
-        <div key={index}>
-          <Heading level={3} className="mb-3">
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: index * 0.1 }}
+          className="glass p-6 rounded-xl"
+        >
+          <Heading level={3} className="mb-4 gradient-text">
             {section.title}
           </Heading>
-          <Text size="md" className="whitespace-pre-line">
+          <Text size="md" className="whitespace-pre-line text-text-secondary">
             {section.content}
           </Text>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

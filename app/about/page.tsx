@@ -1,9 +1,12 @@
+"use client";
+
 import { Metadata } from 'next';
 import { Section } from '../components/layout/Section';
 import { Container } from '../components/layout/Container';
 import { Heading } from '../components/typography/Heading';
 import { ProfileCard } from '../sections/ProfileCard';
 import { SummaryText } from '../sections/SummaryText';
+import { motion } from 'framer-motion';
 
 // Placeholder data from resume
 const quickFacts = [
@@ -26,19 +29,24 @@ const summarySections = [
   }
 ];
 
-export const metadata: Metadata = {
-  title: 'About | Kranthi Kumar Katta',
-  description: 'Learn more about Kranthi Kumar Katta, a Senior Software Engineer with expertise in React, Next.js, TypeScript, and cloud technologies.',
-};
-
 export default function AboutPage() {
   return (
     <main>
       <Section className="py-16 md:py-24">
         <Container>
-          <Heading level={1} className="mb-12 text-center">
-            About Me
-          </Heading>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <Heading level={1} className="mb-4 gradient-text">
+              About Me
+            </Heading>
+            <p className="text-body-lg max-w-2xl mx-auto text-text-secondary">
+              Professional journey and expertise
+            </p>
+          </motion.div>
           
           <div className="mb-16">
             <ProfileCard

@@ -1,12 +1,14 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 type TextProps = {
   children: React.ReactNode;
   className?: string;
   size?: 'lg' | 'md' | 'sm' | 'xs';
-  color?: 'primary' | 'secondary' | 'accent' | 'light' | 'dark';
+  color?: 'primary' | 'secondary' | 'accent' | 'light' | 'dark' | 'gradient';
   weight?: 'normal' | 'medium' | 'semibold' | 'bold';
   as?: 'p' | 'span' | 'div' | 'strong' | 'em';
+  animate?: boolean;
 } & React.HTMLAttributes<HTMLElement>;
 
 export const Text: React.FC<TextProps> = ({
@@ -16,20 +18,22 @@ export const Text: React.FC<TextProps> = ({
   color = 'primary',
   weight = 'normal',
   as: Tag = 'p',
+  animate = false,
 }) => {
   const sizeClasses = {
-    lg: 'text-body-lg',
-    md: 'text-body-md',
-    sm: 'text-sm',
-    xs: 'text-xs',
+    lg: 'text-2xl md:text-3xl lg:text-4xl',
+    md: 'text-lg md:text-xl lg:text-2xl',
+    sm: 'text-base md:text-lg',
+    xs: 'text-sm md:text-base',
   };
   
   const colorClasses = {
-    primary: 'text-text-primary-light dark:text-text-primary-dark',
-    secondary: 'text-text-secondary-light dark:text-text-secondary-dark',
-    accent: 'text-accent-500',
+    primary: 'text-gray-100',
+    secondary: 'text-gray-300',
+    accent: 'text-purple-400',
     light: 'text-white',
-    dark: 'text-black',
+    dark: 'text-gray-900 dark:text-gray-100',
+    gradient: 'bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent',
   };
   
   const weightClasses = {
@@ -40,7 +44,9 @@ export const Text: React.FC<TextProps> = ({
   };
 
   return (
-    <Tag className={`${sizeClasses[size]} ${colorClasses[color]} ${weightClasses[weight]} ${className}`}>
+    <Tag
+      className={`${sizeClasses[size]} ${colorClasses[color]} ${weightClasses[weight]} ${className}`}
+    >
       {children}
     </Tag>
   );

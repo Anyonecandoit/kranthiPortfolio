@@ -110,7 +110,7 @@ export default function RootLayout({
       className={`${inter.variable} ${firaCode.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800 text-white font-sans">
         {/* Header */}
         <Header />
         {/* Main Content with Transition */}
