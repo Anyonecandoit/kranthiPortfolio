@@ -1,0 +1,53 @@
+[
+  {
+    "id": "ecommerce-platform",
+    "title": "E-commerce Platform",
+    "description": "A full-featured e-commerce platform built with Next.js, TypeScript, and Stripe integration. Features include product management, shopping cart, checkout flow, and admin dashboard.",
+    "imageSrc": "/images/projects/ecommerce.jpg",
+    "technologies": ["Next.js", "TypeScript", "React", "Stripe", "PostgreSQL", "Tailwind CSS"],
+    "githubUrl": "https://github.com/kranthikatta/ecommerce-platform",
+    "demoUrl": "https://ecommerce-demo.kranthikatta.com"
+  },
+  {
+    "id": "dashboard-analytics",
+    "title": "Analytics Dashboard",
+    "description": "Real-time analytics dashboard for business intelligence. Features interactive charts, data visualization, and custom reporting tools built with D3.js and React.",
+    "imageSrc": "/images/projects/analytics.jpg",
+    "technologies": ["React", "TypeScript", "D3.js", "Node.js", "MongoDB", "Express"],
+    "githubUrl": "https://github.com/kranthikatta/analytics-dashboard",
+    "demoUrl": "https://analytics-demo.kranthikatta.com"
+  },
+  {
+    "id": "task-management",
+    "title": "Task Management System",
+    "description": "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features. Built with React, Redux, and Firebase.",
+    "imageSrc": "/images/projects/task-management.jpg",
+    "technologies": ["React", "Redux", "Firebase", "TypeScript", "Material UI", "Jest"],
+    "githubUrl": "https://github.com/kranthikatta/task-management",
+    "demoUrl": "https://tasks-demo.kranthikatta.com"
+  },
+  {
+    "id": "api-gateway",
+    "title": "API Gateway Service",
+    "description": "A scalable API gateway service that handles authentication, rate limiting, and request routing for microservices architecture. Built with Node.js, Express, and Redis.",
+    "imageSrc": "/images/projects/api-gateway.jpg",
+    "technologies": ["Node.js", "Express", "Redis", "TypeScript", "Docker", "Kubernetes"],
+    "githubUrl": "https://github.com/kranthikatta/api-gateway"
+  },
+  {
+    "id": "mobile-app-backend",
+    "title": "Mobile App Backend",
+    "description": "Backend services for a mobile application including user authentication, data storage, and real-time notifications. Built with NestJS, PostgreSQL, and AWS services.",
+    "imageSrc": "/images/projects/mobile-backend.jpg",
+    "technologies": ["NestJS", "PostgreSQL", "AWS", "TypeScript", "GraphQL", "JWT"],
+    "githubUrl": "https://github.com/kranthikatta/mobile-backend"
+  },
+  {
+    "id": "devops-pipeline",
+    "title": "CI/CD Pipeline System",
+    "description": "Automated CI/CD pipeline system for continuous integration and deployment. Features automated testing, code quality checks, and deployment to multiple environments.",
+    "imageSrc": "/images/projects/cicd.jpg",
+    "technologies": ["Docker", "Kubernetes", "Jenkins", "GitHub Actions", "Terraform", "AWS"],
+    "githubUrl": "https://github.com/kranthikatta/cicd-pipeline"
+  }
+]
