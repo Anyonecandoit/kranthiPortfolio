@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Button } from './Button';
 import { Icon } from './Icon';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -18,10 +17,17 @@ const navLinks = [
 export const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+      const totalScroll =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = totalScroll > 0 ? window.scrollY / totalScroll : 0;
+      setScrollProgress(progress);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -33,6 +39,12 @@ export const Header: React.FC = () => {
           : 'bg-transparent'
       }`}
     >
+      {/* Scroll progress bar */}
+      <motion.div
+        className="absolute top-0 left-0 h-0.5 bg-gradient-to-r from-primary-400 via-accent-400 to-secondary-400"
+        style={{ width: `${scrollProgress * 100}%` }}
+      />
+
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold flex items-center gap-2 group">
           <span className="gradient-text text-3xl">KK</span>

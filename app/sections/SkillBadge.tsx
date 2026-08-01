@@ -14,10 +14,8 @@ interface SkillBadgeProps {
 }
 
 export const SkillBadge: React.FC<SkillBadgeProps> = ({ name, proficiency, icon, delay = 0 }) => {
-  const gradient = `linear-gradient(90deg, #a78bfa 0%, #22d3ee ${proficiency}%, rgba(255,255,255,0.1) ${proficiency}%)`;
-
   return (
-    <Card className="p-5 flex flex-col items-center text-center hover:shadow-glow-primary transition-all">
+    <Card className="p-5 flex flex-col items-center text-center hover:shadow-glow-primary transition-all hover-tilt">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         whileInView={{ opacity: 1, scale: 1 }}

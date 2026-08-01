@@ -34,6 +34,26 @@ const summarySections = [
   },
 ];
 
+const education = [
+  {
+    degree: 'Master’s in Mechanical Engineering',
+    institution: 'Halmstad University, Sweden',
+    year: '2021',
+  },
+  {
+    degree: 'Bachelor’s in Mechanical Engineering',
+    institution: 'Mahaveer Institute of Science and Technology, Hyderabad',
+    year: '2013 – 2017',
+  },
+];
+
+const certifications = [
+  'DevOps Certification Training – Eureka (In Progress)',
+  'Continuous Integration & Continuous Deployment (CI/CD)',
+  'Docker, Jenkins, Kubernetes, Terraform & Configuration Management',
+  'Git & Build Automation in SDLC',
+];
+
 export default function AboutPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-background-dark">
@@ -41,12 +61,12 @@ export default function AboutPage() {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-background-dark via-background-dark-secondary to-background-dark-tertiary" />
         <motion.div
-          className="absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-purple-600/20 blur-3xl"
+          className="absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-purple-600/20 blur-3xl animation-aurora"
           animate={{ y: [0, 40, -10, 0], x: [0, -20, 20, 0] }}
           transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute top-1/3 -right-40 h-[450px] w-[450px] rounded-full bg-cyan-500/20 blur-3xl"
+          className="absolute top-1/3 -right-40 h-[450px] w-[450px] rounded-full bg-cyan-500/20 blur-3xl animation-aurora"
           animate={{ y: [0, -30, 10, 0], x: [0, 30, -20, 0] }}
           transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
         />
@@ -69,7 +89,7 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <Heading level={1} className="mb-4 gradient-text">
+            <Heading level={1} className="mb-4 gradient-text text-shine">
               About Me
             </Heading>
             <Text size="lg" className="max-w-2xl mx-auto text-gray-300">
@@ -83,7 +103,7 @@ export default function AboutPage() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="mb-16"
           >
-            <div className="glass rounded-3xl p-6 md:p-10">
+            <div className="glass rounded-3xl p-6 md:p-10 gradient-border">
               <ProfileCard
                 name="Kranthi Kumar Katta"
                 title="SDET 2 | QA Automation Engineer"
@@ -97,9 +117,51 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
+            className="mb-16"
           >
             <div className="glass rounded-3xl p-6 md:p-10">
               <SummaryText sections={summarySections} />
+            </div>
+          </motion.div>
+
+          {/* Education */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16"
+          >
+            <div className="glass rounded-3xl p-6 md:p-10 hover-tilt">
+              <Heading level={2} className="mb-6 gradient-text">Education</Heading>
+              <div className="space-y-6">
+                {education.map((edu, index) => (
+                  <div key={index} className="border-l-2 border-primary-400/40 pl-4">
+                    <Text size="md" className="font-semibold">{edu.degree}</Text>
+                    <Text size="sm" className="text-text-secondary">{edu.institution}</Text>
+                    <Text size="xs" className="text-text-muted">{edu.year}</Text>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="glass rounded-3xl p-6 md:p-10 hover-tilt">
+              <Heading level={2} className="mb-6 gradient-text">Certifications</Heading>
+              <ul className="space-y-3">
+                {certifications.map((cert, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.08 }}
+                    className="flex items-start gap-2"
+                  >
+                    <span className="mt-1 h-2 w-2 rounded-full bg-accent-400 shrink-0" />
+                    <Text size="sm">{cert}</Text>
+                  </motion.li>
+                ))}
+              </ul>
             </div>
           </motion.div>
         </Container>

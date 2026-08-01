@@ -86,16 +86,15 @@ const experiences = [
 export default function ExperiencePage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-background-dark">
-      {/* Animated Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-background-dark via-background-dark-secondary to-background-dark-tertiary" />
         <motion.div
-          className="absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-purple-600/20 blur-3xl"
+          className="absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-purple-600/20 blur-3xl animation-aurora"
           animate={{ y: [0, 40, -10, 0], x: [0, -20, 20, 0] }}
           transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute top-1/3 -right-40 h-[450px] w-[450px] rounded-full bg-cyan-500/20 blur-3xl"
+          className="absolute top-1/3 -right-40 h-[450px] w-[450px] rounded-full bg-cyan-500/20 blur-3xl animation-aurora"
           animate={{ y: [0, -30, 10, 0], x: [0, 30, -20, 0] }}
           transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
         />
@@ -118,7 +117,7 @@ export default function ExperiencePage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <Heading level={1} className="mb-4 gradient-text">
+            <Heading level={1} className="mb-4 gradient-text text-shine">
               Professional Experience
             </Heading>
             <Text size="lg" className="max-w-2xl mx-auto text-gray-300">
@@ -131,7 +130,7 @@ export default function ExperiencePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
           >
-            <div className="glass rounded-3xl p-6 md:p-10">
+            <div className="gradient-border glass rounded-3xl p-6 md:p-10">
               <Timeline experiences={experiences} />
             </div>
           </motion.div>

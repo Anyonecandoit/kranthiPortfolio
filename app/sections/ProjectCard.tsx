@@ -27,7 +27,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
   return (
     <>
-      <motion.div whileHover={{ y: -8 }} className="h-full">
+      <motion.div whileHover={{ y: -10, rotateX: 2, rotateY: -2 }} className="h-full perspective-tilt">
         <Card className="h-full flex flex-col overflow-hidden group hover:border-primary-500/50 hover:shadow-glow-primary transition-all">
           <div className="relative w-full h-48 overflow-hidden">
             <Image
@@ -52,7 +52,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             </Text>
             <div className="flex flex-wrap gap-2 mb-4">
               {project.technologies.slice(0, 4).map((tech, index) => (
-                <span key={index} className="px-3 py-1 text-xs rounded-full bg-white/10 border border-white/10 text-white/80">
+                <span key={index} className="px-3 py-1 text-xs rounded-full bg-white/10 border border-white/10 text-white/80 hover:bg-primary-500/20 transition-colors">
                   {tech}
                 </span>
               ))}
