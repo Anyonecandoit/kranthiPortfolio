@@ -5,7 +5,6 @@ import { Footer } from "./components/Footer";
 import { MainContent } from "./components/MainContent";
 import "./globals.css";
 
-// Load fonts
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -18,9 +17,9 @@ const firaCode = Fira_Code({
   display: "swap",
 });
 
-// SEO Metadata
 const siteName = "Kranthi Kumar Katta - Portfolio";
-const description = "Kranthi Kumar Katta - SDET and QA Automation Engineer with 5+ years of experience in test automation, CI/CD, and fintech systems.";
+const description =
+  "Kranthi Kumar Katta - SDET and QA Automation Engineer with 5+ years of experience in test automation, CI/CD, and fintech systems.";
 
 export const metadata: Metadata = {
   title: {
@@ -38,16 +37,16 @@ export const metadata: Metadata = {
     "FinTech",
     "Quality Assurance",
     "Software Development",
-    "Portfolio"
+    "Portfolio",
   ],
   openGraph: {
     title: siteName,
     description: description,
-    url: "https://kranthikumarkatta.com", // Update with actual URL
+    url: "https://kranthikumarkatta.com",
     siteName: siteName,
     images: [
       {
-        url: "/images/og-image.png", // Will create this later
+        url: "/images/og-image.png",
         width: 1200,
         height: 630,
         alt: siteName,
@@ -74,34 +73,30 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://kranthikumarkatta.com", // Update with actual URL
+    canonical: "https://kranthikumarkatta.com",
   },
 };
-
-
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Structured data for SEO
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Kranthi Kumar Katta",
     "url": "https://kranthikumarkatta.com",
-    "jobTitle": "Senior Software Engineer & SDET",
-    "description": "Kranthi Kumar Katta - SDET and QA Automation Engineer with 5+ years of experience in test automation, CI/CD, and fintech systems.",
+    "jobTitle": "SDET 2 | QA Automation Engineer",
+    "description": description,
     "sameAs": [
-      "https://github.com/kranthikatta",
-      "https://www.linkedin.com/in/kranthikatta",
-      "https://twitter.com/kranthikatta"
+      "https://linkedin.com/in/kranthi-kumar-katta-a40093318",
+      "mailto:kranthikumarkatta2006@gmail.com",
     ],
     "worksFor": {
       "@type": "Organization",
-      "name": "FinTech Industry"
-    }
+      "name": "FinTech Industry",
+    },
   };
 
   return (
@@ -111,20 +106,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800 text-white font-sans">
-        {/* Header */}
         <Header />
-        {/* Main Content with Transition */}
-        <MainContent>
-          {children}
-        </MainContent>
-        {/* Footer */}
+        <MainContent>{children}</MainContent>
         <Footer />
-        {/* Structured Data */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </body>
     </html>

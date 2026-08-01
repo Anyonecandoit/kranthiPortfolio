@@ -23,7 +23,6 @@ export const Header: React.FC = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
-    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -37,15 +36,23 @@ export const Header: React.FC = () => {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-black/80 backdrop-blur-xl shadow-2xl border-b border-gray-800' : 'bg-transparent'}`}>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? 'bg-black/70 backdrop-blur-xl border-b border-white/10 shadow-xl'
+          : 'bg-transparent'
+      }`}
+    >
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <Link
           href="/"
-          className="text-2xl font-bold text-white hover:text-purple-400 transition-all duration-300 flex items-center gap-2"
+          className="text-2xl font-bold text-white hover:text-purple-400 transition-colors duration-300 flex items-center gap-2"
         >
-          <span className="bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent">KK</span>
+          <span className="bg-gradient-to-r from-purple-500 to-cyan-400 bg-clip-text text-transparent">
+            KK
+          </span>
         </Link>
-        
+
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-1" aria-label="Main navigation">
           {navLinks.map((link) => (
@@ -61,10 +68,10 @@ export const Header: React.FC = () => {
             </motion.div>
           ))}
         </nav>
-        
+
         {/* Mobile Menu Button */}
         <motion.button
-          className="md:hidden p-2 rounded-full bg-gray-800/50 border border-gray-700 hover:bg-purple-500/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+          className="md:hidden p-2 rounded-full bg-white/5 border border-white/10 hover:bg-purple-500/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
           whileHover={{ scale: 1.1 }}
@@ -73,7 +80,7 @@ export const Header: React.FC = () => {
           <Icon name={isMobileMenuOpen ? 'close' : 'menu'} size={24} className="text-white" />
         </motion.button>
       </div>
-      
+
       {/* Mobile Navigation Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -81,7 +88,7 @@ export const Header: React.FC = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-black/90 backdrop-blur-xl border-t border-gray-800"
+            className="md:hidden bg-black/90 backdrop-blur-xl border-t border-white/10"
           >
             <div className="px-6 py-4 space-y-2" role="menu">
               {navLinks.map((link) => (
