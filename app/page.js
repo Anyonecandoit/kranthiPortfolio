@@ -10,8 +10,7 @@ export default function Home() {
             <ParticlesBackground />
 
             {/* Top Navigation Bar */}
-            <header className="relative z-10 w-full max-w-5xl mx-auto px-6 py-6 flex justify-between items-center text-xs tracking-widest uppercase font-medium text-neutral-400">
-                <span className="text-neutral-200 font-normal lowercase tracking-normal text-sm">kranthikumarkatta.dev</span>
+            <header className="relative z-10 w-full max-w-5xl mx-auto px-6 py-6 flex justify-end items-center text-xs tracking-widest uppercase font-medium text-neutral-400">
                 <nav className="flex items-center gap-8">
                     <a href="/" className="hover:text-white transition-colors">Home</a>
                     <a href="/impossible-list" className="hover:text-white transition-colors">Impossible List</a>
@@ -21,8 +20,12 @@ export default function Home() {
 
             {/* Splash / Hero Section */}
             <div className="splash">
-                <div className="w-24 h-24 mx-auto mb-2 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-2xl font-bold text-white shadow-2xl shrink-0 overflow-hidden">
-                    KK
+                <div className="w-24 h-24 mx-auto mb-2 rounded-full bg-neutral-900 border border-neutral-700 flex items-center justify-center text-2xl font-bold text-white shadow-2xl shrink-0 overflow-hidden">
+                    <img
+                        src="/kranthiimage.png"
+                        alt="Kranthi Kumar Katta"
+                        className="w-full h-full object-cover"
+                    />
                 </div>
 
                 <FlashingName />
@@ -71,11 +74,6 @@ export default function Home() {
                                     <h4 className="text-lg font-bold mb-2">{project.name}</h4>
                                     <div><p className="text-sm opacity-90">{project.description}</p></div>
                                 </div>
-                                <div className="card-actions mt-4">
-                                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="inline-block bg-black/10 hover:bg-black/20 text-current text-xs font-semibold uppercase tracking-wider py-2 px-4 rounded transition-colors">
-                                        {project.calltoaction}
-                                    </a>
-                                </div>
                             </div>
                         ))}
                     </div>
@@ -83,7 +81,6 @@ export default function Home() {
                     <h3>Timeline</h3>
                     <div className="timeline">
                         {portfolioData.timeline.map((entry, idx) => {
-                            // Rich, immersive flag-themed multi-stop gradients and borders
                             let cardStyle = {};
                             if (entry.flag === "🇸🇦") {
                                 cardStyle = {
@@ -111,12 +108,10 @@ export default function Home() {
                                         className="timeline-element-content relative overflow-hidden shadow-xl rounded-2xl p-6 text-neutral-900 border transition-all hover:shadow-2xl hover:scale-[1.01]"
                                         style={cardStyle}
                                     >
-                                        {/* Rich Flag Badge */}
                                         <div className="absolute top-4 right-4 text-4xl select-none z-0 drop-shadow-md">
                                             {entry.flag}
                                         </div>
 
-                                        {/* Foreground Content */}
                                         <div className="relative z-10 pr-8">
                                             <h4 className="font-bold text-lg text-neutral-900">{entry.title}</h4>
                                             {entry.subtitle && (

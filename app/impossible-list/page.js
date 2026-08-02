@@ -1,35 +1,14 @@
 import ParticlesBackground from '@/components/ParticlesBackground';
 import Link from 'next/link';
+import { impossibleListData } from '@/data/impossibleList';
 
 export default function ImpossibleList() {
-    const sections = [
-        {
-            category: 'Professional Milestones',
-            items: [
-                { text: 'Master Distributed Event-Driven Architecture (Kafka & Temporal)', done: true },
-                { text: 'Architect 100% automated CI/CD pipeline verification for high-volume fintech platforms', done: true },
-                { text: 'Lead global SDET teams across multi-region banking applications', done: false },
-            ]
-        },
-        {
-            category: 'Technical Mastery',
-            items: [
-                { text: 'Contribute to open-source test automation frameworks', done: false },
-                { text: 'Build advanced low-latency performance testing benchmarks', done: true },
-                { text: 'Publish whitepapers on PCI-DSS compliance automated testing', done: false },
-            ]
-        }
-    ];
-
     return (
         <main className="relative min-h-screen bg-transparent text-neutral-100 flex flex-col justify-between selection:bg-neutral-800 selection:text-white">
             <ParticlesBackground />
 
             {/* Top Navigation Bar */}
-            <header className="relative z-10 w-full max-w-5xl mx-auto px-6 py-6 flex justify-between items-center text-xs tracking-widest uppercase font-medium text-neutral-400">
-                <Link href="/" className="text-neutral-200 font-normal lowercase tracking-normal text-sm hover:text-white transition-colors">
-                    kranthikumarkatta.dev
-                </Link>
+            <header className="relative z-10 w-full max-w-5xl mx-auto px-6 py-6 flex justify-end items-center text-xs tracking-widest uppercase font-medium text-neutral-400">
                 <nav className="flex items-center gap-8">
                     <Link href="/" className="hover:text-white transition-colors">Home</Link>
                     <Link href="/impossible-list" className="text-white font-bold transition-colors">Impossible List</Link>
@@ -47,7 +26,7 @@ export default function ImpossibleList() {
                 </p>
 
                 <div className="space-y-10">
-                    {sections.map((sec, idx) => (
+                    {impossibleListData.map((sec, idx) => (
                         <div key={idx} className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 backdrop-blur-sm shadow-xl">
                             <h2 className="text-lg font-semibold text-sky-400 mb-4 tracking-tight">{sec.category}</h2>
                             <ul className="space-y-3">
