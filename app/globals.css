@@ -34,31 +34,33 @@
 
 body {
   @apply text-[var(--text)] antialiased;
-  background: #09090B;
+  background: #0a0a0f;
   font-feature-settings: "liga" 1, "calt" 1;
 }
 
-/* Animated gradient background — always visible */
+/* Multi-color animated gradient background — matches ui-ux-pro-max demo */
 @keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  25% { background-position: 50% 0%; }
+  50% { background-position: 100% 50%; }
+  75% { background-position: 50% 100%; }
+  100% { background-position: 0% 50%; }
 }
 
 .bg-animated-gradient {
   background: linear-gradient(
     135deg,
-    #09090B 0%,
-    #0f0a1a 25%,
-    #09090B 50%,
-    #120d1f 75%,
-    #09090B 100%
+    #0a0a0f 0%,
+    #0d1520 15%,
+    #1a0a2e 30%,
+    #0a0a0f 45%,
+    #1a0f0a 60%,
+    #0a0a0f 75%,
+    #0a1520 90%,
+    #0a0a0f 100%
   );
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background-size: 300% 300%;
+  animation: gradientShift 20s ease infinite;
 }
 
 a {

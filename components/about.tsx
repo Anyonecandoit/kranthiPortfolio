@@ -5,10 +5,10 @@ import { resumeData } from "@/data/resume";
 import { SectionHeader } from "./section-header";
 
 const metrics = [
-  { value: "5+", label: "Years Experience", sublabel: "Test Automation" },
-  { value: "4", label: "Major Projects", sublabel: "Enterprise Scale" },
-  { value: "4", label: "Certifications", sublabel: "AWS · ISTQB · Oracle · Azure" },
-  { value: "60%", label: "Efficiency Gain", sublabel: "Through Automation" },
+  { value: "5+", label: "Years Experience", sublabel: "Test Automation", color: "text-violet-400", icon: "⏱" },
+  { value: "4", label: "Major Projects", sublabel: "Enterprise Scale", color: "text-blue-400", icon: "📁" },
+  { value: "4", label: "Certifications", sublabel: "AWS · ISTQB · Oracle · Azure", color: "text-amber-400", icon: "🏆" },
+  { value: "60%", label: "Efficiency Gain", sublabel: "Through Automation", color: "text-emerald-400", icon: "🚀" },
 ];
 
 export function About() {
@@ -43,9 +43,10 @@ export function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 * i }}
               whileHover={{ y: -4 }}
-              className="p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] backdrop-blur-sm text-center group hover:border-violet-500/20 transition-all duration-300"
+              className="p-6 rounded-2xl bg-white/[0.04] border border-white/[0.06] backdrop-blur-sm text-center group hover:border-white/[0.12] transition-all duration-300"
             >
-              <div className="text-3xl md:text-4xl font-bold text-white mb-1 group-hover:text-violet-400 transition-colors">
+              <div className="text-2xl mb-2">{metric.icon}</div>
+              <div className={`text-3xl md:text-4xl font-bold mb-1 ${metric.color} transition-colors`}>
                 {metric.value}
               </div>
               <div className="text-sm font-medium text-gray-300 mb-0.5">

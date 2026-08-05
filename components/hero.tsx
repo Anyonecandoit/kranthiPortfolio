@@ -61,10 +61,10 @@ export function Hero() {
 
       {/* Main content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto w-full">
-        {/* Name — 3D letter reveal with rotation + blur */}
+        {/* Name — 3D letter reveal with gradient */}
         <div className="mb-5 overflow-hidden" style={{ perspective: "800px" }}>
           <LetterReveal
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white block"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold block bg-gradient-to-r from-violet-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent"
             delay={0.5}
             staggerDelay={0.04}
           >

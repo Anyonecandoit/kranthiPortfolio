@@ -54,7 +54,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body
-        className={`${inter.variable} antialiased bg-transparent text-white transition-colors duration-300`}
+        className={`${inter.variable} antialiased bg-[#0a0a0f] text-white transition-colors duration-300`}
       >
         {/* Skip‑to‑content link for screen‑reader users */}
         <a
