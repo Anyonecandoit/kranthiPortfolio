@@ -1,7 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import { Github, Linkedin } from "lucide-react";
+
+const navLinks = [
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Contact", href: "#contact" },
+];
+
+function scrollToSection(href: string) {
+  const el = document.querySelector(href);
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+}
 
 export function Footer() {
   return (
@@ -11,27 +24,17 @@ export function Footer() {
           © {new Date().getFullYear()} Kranthi Kumar Katta. All rights reserved.
         </p>
         <div className="flex justify-center space-x-4 mt-3">
-          <Link href="#home" className="hover:text-gray-300 transition-colors">
-            Home
-          </Link>
-          <Link href="#about" className="hover:text-gray-300 transition-colors">
-            About
-          </Link>
-          <Link href="#skills" className="hover:text-gray-300 transition-colors">
-            Skills
-          </Link>
-          <Link href="#projects" className="hover:text-gray-300 transition-colors">
-            Projects
-          </Link>
-          <Link href="#experience" className="hover:text-gray-300 transition-colors">
-            Experience
-          </Link>
-          <Link href="#contact" className="hover:text-gray-300 transition-colors">
-            Contact
-          </Link>
+          {navLinks.map((link) => (
+            <button
+              key={link.label}
+              onClick={() => scrollToSection(link.href)}
+              className="hover:text-gray-300 transition-colors"
+            >
+              {link.label}
+            </button>
+          ))}
         </div>
 
-        {/* Social icons */}
         <div className="flex justify-center space-x-6 mt-4">
           <a
             href="https://github.com/kranthi946"
@@ -43,7 +46,7 @@ export function Footer() {
             <Github size={20} />
           </a>
           <a
-            href="https://linkedin.com/in/kranthikumarkatta"
+            href="https://linkedin.com/in/kranthi-kumar-katta-a40093318"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center text-violet-400 hover:text-violet-200 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-400 rounded-full p-1"

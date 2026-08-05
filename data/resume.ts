@@ -41,9 +41,9 @@ export const resumeData = {
   name: "Kranthi Kumar Katta",
   title: "Senior SDET | Automation Expert",
   email: "kranthikumarkattatech@gmail.com",
-  phone: "+91 7013782652",
+  phone: "+91 8466952706",
   github: "https://github.com/kranthi946",
-  linkedin: "https://linkedin.com/in/kranthikumarkatta",
+  linkedin: "https://linkedin.com/in/kranthi-kumar-katta-a40093318",
   location: "Bangalore, India",
   summary: "Senior SDET with 5+ years of experience in designing, developing, and executing comprehensive test automation frameworks for enterprise-grade web, mobile, API, and microservices applications. Proven expertise in Selenium, Playwright, API testing (Postman, REST Assured), performance testing (JMeter), and building CI/CD-integrated test pipelines.",
 
@@ -173,8 +173,8 @@ export const resumeData = {
 
   contact: {
     email: "kranthikumarkattatech@gmail.com",
-    phone: "+91 7013782652",
+    phone: "+91 8466952706",
     github: "https://github.com/kranthi946",
-    linkedin: "https://linkedin.com/in/kranthikumarkatta",
+    linkedin: "https://linkedin.com/in/kranthi-kumar-katta-a40093318",
   },
 };

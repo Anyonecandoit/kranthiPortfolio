@@ -18,22 +18,17 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 /**
- * Reads the persisted theme from localStorage (if any) or falls back
- * to the user's OS preference.
+ * Read theme from localStorage only.
+ * Always defaults to dark — never uses prefers-color-scheme.
  */
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "dark";
-
   const persisted = window.localStorage.getItem("theme") as Theme | null;
-  if (persisted) return persisted;
-
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  return prefersDark ? "dark" : "light";
+  return persisted || "dark";
 }
 
 export function ThemeProvider({
   children,
-  attribute = "class",
   defaultTheme = "dark",
 }: {
   children: ReactNode;
@@ -42,17 +37,15 @@ export function ThemeProvider({
 }) {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
 
-  // On mount, initialise the theme from storage / system preference
   useEffect(() => {
+    // Read localStorage — always defaults to dark if nothing saved
     setTheme(getInitialTheme());
   }, []);
 
-  // Apply the theme class to <html> whenever it changes
   useEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
     root.classList.add(theme);
-    // Persist for future visits
     window.localStorage.setItem("theme", theme);
   }, [theme]);
 
@@ -70,7 +63,7 @@ export function ThemeProvider({
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    throw new Error("useTheme must be used within ThemeProvider");
   }
   return context;
 }

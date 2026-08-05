@@ -7,8 +7,8 @@ export const fullResume = `
 
 ## Contact
 - Email: kranthikumarkattatech@gmail.com
-- Phone: +91 7013782652
-- LinkedIn: linkedin.com/in/kranthikumarkatta
+- Phone: +91 8466952706
+- LinkedIn: linkedin.com/in/kranthi-kumar-katta-a40093318
 - GitHub: github.com/kranthi946
 - Location: Bangalore, India
 

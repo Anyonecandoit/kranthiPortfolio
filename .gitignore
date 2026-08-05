@@ -33,3 +33,4 @@ __pycache__/
 .aider*
 .idea/
 .env.local
+VERCEL_ENV_VARS.md

@@ -28,7 +28,7 @@ export function About() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-center text-lg text-gray-400 max-w-3xl mx-auto mb-16 leading-relaxed"
         >
-          Senior SDET with {resumeData.experience?.length || 0}+ years of experience designing test automation
+          Senior SDET with 5+ years of experience designing test automation
           frameworks for enterprise-grade web, mobile, API, and microservices applications.
           Passionate about building robust test frameworks that ensure software quality.
         </motion.p>
