@@ -8,6 +8,7 @@ import ParticlesBackground from "@/components/particles-background";
 import { FloatingChat } from "@/components/chat/floating-chat";
 import { ChatPageGuard } from "@/components/chat/chat-layout";
 import { ConditionalFooter } from "@/components/chat/chat-footer-wrapper";
+import { ChatProvider } from "@/lib/chat-context";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -63,17 +64,19 @@ export default function RootLayout({
           Skip to content
         </a>
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <ChatPageGuard />
-          {/* Particle canvas – hidden on mobile (handled inside component) */}
-          <ParticlesBackground />
-          {/* Sticky glass‑morphism navbar */}
-          <Navbar />
-          {/* Main content – wrapped with an id for the skip link */}
-          <main id="main-content" className="relative z-10">
-            {children}
-          </main>
-          <ConditionalFooter />
-          <FloatingChat />
+          <ChatProvider>
+            <ChatPageGuard />
+            {/* Particle canvas – hidden on mobile (handled inside component) */}
+            <ParticlesBackground />
+            {/* Sticky glass‑morphism navbar */}
+            <Navbar />
+            {/* Main content – wrapped with an id for the skip link */}
+            <main id="main-content" className="relative z-10">
+              {children}
+            </main>
+            <ConditionalFooter />
+            <FloatingChat />
+          </ChatProvider>
         </ThemeProvider>
       </body>
     </html>
