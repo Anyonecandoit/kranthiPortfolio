@@ -12,7 +12,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="py-12 bg-black rounded-xl p-6 shadow-glow focus:outline-none focus:ring-2 focus:ring-violet-400"
+      className="py-12 rounded-xl p-6 focus:outline-none focus:ring-2 focus:ring-violet-400"
     >
       <h2 className="text-3xl font-bold text-center mb-8 text-white">
         Contact

@@ -23,7 +23,7 @@ const nav = [
 
 export default function DashboardPage() {
   return (
-    <div className="min-h-screen bg-black text-white pt-20 px-4">
+    <div className="min-h-screen bg-transparent text-white pt-20 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div

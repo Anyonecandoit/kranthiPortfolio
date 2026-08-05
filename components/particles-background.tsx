@@ -3,15 +3,15 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Particle constellation — white dots with connecting lines.
- * Matches the live site's celestial animation.
- * Only renders on desktop (≥768px) to save mobile CPU.
+ * Premium particle constellation — large, bright, clearly visible.
+ * DNA-like connecting lines between nearby particles.
+ * Covers the full page behind all content.
  */
 export default function ParticlesBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined" || window.innerWidth < 768) return;
+    if (typeof window === "undefined") return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -19,56 +19,73 @@ export default function ParticlesBackground() {
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
     if (!ctx) return;
 
-    const resizeCanvas = () => {
-      canvas!.width = window.innerWidth;
-      canvas!.height = window.innerHeight;
+    // Full page coverage — not just viewport
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = Math.max(window.innerHeight, document.documentElement.scrollHeight);
     };
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    resize();
+    window.addEventListener("resize", resize);
 
-    class Particle {
+    // Create particles — large, bright, many
+    interface Particle {
       x: number;
       y: number;
       size: number;
       speedX: number;
       speedY: number;
       opacity: number;
-      constructor() {
-        this.x = Math.random() * canvas!.width;
-        this.y = Math.random() * canvas!.height;
-        this.size = Math.random() * 2.5 + 0.8;
-        this.speedX = (Math.random() - 0.5) * 0.8;
-        this.speedY = (Math.random() - 0.5) * 0.8;
-        this.opacity = Math.random() * 0.5 + 0.4; // bright: 0.4–0.9
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x > canvas!.width || this.x < 0) this.speedX *= -1;
-        if (this.y > canvas!.height || this.y < 0) this.speedY *= -1;
-      }
-      draw() {
-        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      pulse: number;
     }
 
+    const count = Math.min(200, Math.floor((canvas.width * canvas.height) / 8000));
     const particles: Particle[] = [];
-    for (let i = 0; i < 100; i++) particles.push(new Particle());
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 3 + 1.5, // 1.5–4.5px — much larger
+        speedX: (Math.random() - 0.5) * 0.6,
+        speedY: (Math.random() - 0.5) * 0.6,
+        opacity: Math.random() * 0.4 + 0.6, // 0.6–1.0 — bright
+        pulse: Math.random() * Math.PI * 2,
+      });
+    }
 
-    const connectParticles = () => {
-      const maxDist = 120;
+    const maxDist = 150; // larger connection distance
+
+    let animFrame: number;
+    let lastTime = performance.now();
+
+    const animate = (now: number) => {
+      const dt = Math.min((now - lastTime) / 16, 3); // cap delta
+      lastTime = now;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Update positions
+      for (const p of particles) {
+        p.x += p.speedX * dt;
+        p.y += p.speedY * dt;
+        p.pulse += 0.02 * dt;
+
+        // Bounce off edges
+        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+        p.x = Math.max(0, Math.min(canvas.width, p.x));
+        p.y = Math.max(0, Math.min(canvas.height, p.y));
+      }
+
+      // Draw constellation lines (DNA-like connections)
       for (let a = 0; a < particles.length; a++) {
         for (let b = a + 1; b < particles.length; b++) {
           const dx = particles[a].x - particles[b].x;
           const dy = particles[a].y - particles[b].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < maxDist) {
-            const alpha = (1 - dist / maxDist) * 0.25; // fade with distance
-            ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-            ctx.lineWidth = 0.5;
+            const alpha = (1 - dist / maxDist) * 0.4; // bright lines
+            ctx.strokeStyle = `rgba(139, 92, 246, ${alpha})`; // purple lines
+            ctx.lineWidth = 0.6;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);
             ctx.lineTo(particles[b].x, particles[b].y);
@@ -76,20 +93,44 @@ export default function ParticlesBackground() {
           }
         }
       }
+
+      // Draw particles
+      for (const p of particles) {
+        const glow = 0.3 + Math.sin(p.pulse) * 0.2;
+
+        // Glow halo
+        ctx.fillStyle = `rgba(139, 92, 246, ${glow * 0.3})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Bright core
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      animFrame = requestAnimationFrame(animate);
     };
 
-    let animationFrameId: number;
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas!.width, canvas!.height);
-      particles.forEach((p) => { p.update(); p.draw(); });
-      connectParticles();
-      animationFrameId = requestAnimationFrame(animate);
+    animFrame = requestAnimationFrame(animate);
+
+    // Pause when tab hidden
+    const onVis = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animFrame);
+      } else {
+        lastTime = performance.now();
+        animFrame = requestAnimationFrame(animate);
+      }
     };
-    animate();
+    document.addEventListener("visibilitychange", onVis);
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(animFrame);
+      window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVis);
     };
   }, []);
 

@@ -6,7 +6,7 @@ import { Skeleton, CardSkeleton } from "@/components/ui/skeleton";
  */
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-transparent text-white">
       {/* Hero skeleton */}
       <section className="min-h-screen flex flex-col justify-center items-center px-4">
         <Skeleton className="w-24 h-24 rounded-full mb-6" />

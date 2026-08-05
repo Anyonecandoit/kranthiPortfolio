@@ -18,7 +18,7 @@ function scrollToSection(href: string) {
 
 export function Footer() {
   return (
-    <footer className="bg-black text-white py-8 mt-12">
+    <footer className="text-white py-8 mt-12">
       <div className="container mx-auto text-center">
         <p className="text-sm">
           © {new Date().getFullYear()} Kranthi Kumar Katta. All rights reserved.

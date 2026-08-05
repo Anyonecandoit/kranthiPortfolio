@@ -26,11 +26,7 @@ export function Hero() {
       id="home"
       className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden"
     >
-      {/* Subtle gradient overlay */}
-      <div
-        className={`absolute inset-0 bg-gradient-to-br from-violet-950/20 via-transparent to-purple-950/15`}
-        aria-hidden="true"
-      />
+      {/* No gradient overlay — particles visible behind everything */}
 
       {/* Animated blobs — soft purple glow */}
       <motion.div

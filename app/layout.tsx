@@ -54,7 +54,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body
-        className={`${inter.variable} antialiased bg-black text-white transition-colors duration-300`}
+        className={`${inter.variable} antialiased bg-transparent text-white transition-colors duration-300`}
       >
         {/* Skip‑to‑content link for screen‑reader users */}
         <a
@@ -66,7 +66,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark">
           <ChatProvider>
             <ChatPageGuard />
-            {/* Particle canvas – hidden on mobile (handled inside component) */}
+            {/* Global particle constellation — visible on every page */}
             <ParticlesBackground />
             {/* Sticky glass‑morphism navbar */}
             <Navbar />

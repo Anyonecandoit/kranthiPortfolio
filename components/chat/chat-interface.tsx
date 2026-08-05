@@ -56,7 +56,7 @@ export function ChatInterface() {
   };
 
   return (
-    <div className="fixed inset-0 flex flex-col bg-black overflow-hidden" style={{ top: "64px" }}>
+    <div className="fixed inset-0 flex flex-col bg-[rgba(9,9,11,0.85)] backdrop-blur-sm overflow-hidden" style={{ top: "64px" }}>
       <div className="flex-1 flex justify-center px-4 py-4 min-h-0">
         <div className="w-full max-w-[1100px] flex gap-4 min-h-0">
 
