@@ -34,7 +34,7 @@ const config: Config = {
         "float": "float 6s ease-in-out infinite",
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "shimmer": "shimmer 2s linear infinite",
-        "glow": "glow 2s ease-in-out infinite alternate",
+        "glow-pulse": "glow 2s ease-in-out infinite alternate",
         "typing": "typing 2s steps(20) infinite",
         "blob": "blob 7s infinite",
         "spin-slow": "spin 10s linear infinite",
@@ -92,9 +92,11 @@ const config: Config = {
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       boxShadow: {
-        glow: "0 0 20px rgba(56, 189, 248, 0.3)",
-        "glow-lg": "0 0 40px rgba(56, 189, 248, 0.4)",
-        "glow-xl": "0 0 60px rgba(56, 189, 248, 0.5)",
+        glow: "0 0 20px rgba(139, 92, 246, 0.3)",
+        "glow-lg": "0 0 40px rgba(139, 92, 246, 0.4)",
+        "glow-xl": "0 0 60px rgba(139, 92, 246, 0.5)",
+        "card-hover": "0 8px 30px rgba(139, 92, 246, 0.12)",
+        "card-hover-lg": "0 12px 40px rgba(139, 92, 246, 0.18)",
       },
       borderRadius: {
         "4xl": "2rem",
