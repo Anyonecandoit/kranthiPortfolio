@@ -1,0 +1,35 @@
+# Dependency directories
+node_modules/
+.next/
+venv/
+.env/
+.env.*
+
+# Build output directories
+out/
+dist/
+build/
+.vercel/
+coverage/
+tsconfig.tsbuildinfo
+
+# Testing
+.playwright-mcp/
+test-results/
+playwright-report/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# System files
+.DS_Store
+*.log
+
+# Editor temporary files
+.aider*
+.idea/
+.env.local
