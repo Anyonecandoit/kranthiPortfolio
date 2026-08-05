@@ -2,19 +2,22 @@ import OpenAI from "openai";
 import { fullResume } from "@/data/resume-full";
 
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
-const API_KEY = process.env.OPENROUTER_API_KEY || "";
 
 /**
- * OpenRouter client — uses OpenAI-compatible SDK.
+ * OpenRouter client — lazily initialized (avoids build-time error).
  */
-export const openrouter = new OpenAI({
-  baseURL: OPENROUTER_BASE_URL,
-  apiKey: API_KEY,
-  defaultHeaders: {
-    "HTTP-Referer": process.env.OPENROUTER_APP_URL || "http://localhost:3000",
-    "X-Title": "Kranthi Portfolio AI",
-  },
-});
+function getOpenRouter() {
+  const API_KEY = process.env.OPENROUTER_API_KEY || "";
+  if (!API_KEY) throw new Error("OPENROUTER_API_KEY is not set");
+  return new OpenAI({
+    baseURL: OPENROUTER_BASE_URL,
+    apiKey: API_KEY,
+    defaultHeaders: {
+      "HTTP-Referer": process.env.OPENROUTER_APP_URL || "http://localhost:3000",
+      "X-Title": "Kranthi Portfolio AI",
+    },
+  });
+}
 
 export const SYSTEM_PROMPT = `You are Kranthi Kumar Katta's AI portfolio assistant. You answer questions about his experience, skills, projects, certifications, and how to contact him.
 
@@ -50,7 +53,7 @@ export async function getAvailableModel(): Promise<string> {
   // Try the preferred free model first
   for (const model of FREE_MODELS) {
     try {
-      await openrouter.chat.completions.create({
+      await getOpenRouter().chat.completions.create({
         model,
         messages: [{ role: "user", content: "hi" }],
         max_tokens: 5,
@@ -89,13 +92,13 @@ export async function getAvailableModel(): Promise<string> {
 export async function streamOpenRouterResponse(
   messages: Array<{ role: string; content: string }>
 ): Promise<{ stream: ReadableStream; model: string }> {
-  if (!API_KEY) {
+  if (!process.env.OPENROUTER_API_KEY) {
     throw new Error("OPENROUTER_API_KEY is not set. Add it to .env.local");
   }
 
   const model = await getAvailableModel();
 
-  const response = await openrouter.chat.completions.create({
+  const response = await getOpenRouter().chat.completions.create({
     model,
     stream: true,
     messages: [
