@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ReactNode } from "react";
-import { Mail, Linkedin, Github, FileText, ArrowDown } from "lucide-react";
+import { Mail, Linkedin, FileText, ArrowDown } from "lucide-react";
 import { useTheme } from "./theme-provider";
 import { TypeAnimation } from "./type-animation";
 import { LetterReveal, GradientWordReveal, ParagraphReveal } from "./text-reveal";
@@ -18,7 +18,7 @@ import { trackEvent } from "@/lib/analytics";
  */
 export function Hero() {
   const { theme } = useTheme();
-  const { name, title, email, github, linkedin, summary } = resumeData;
+  const { name, title, email, linkedin, summary } = resumeData;
 
   const gradientFrom = theme === "light" ? "from-violet-200" : "from-violet-900";
   const gradientTo = theme === "light" ? "to-purple-200" : "to-purple-900";
@@ -144,14 +144,6 @@ export function Hero() {
               className="flex items-center gap-2"
             >
               <Linkedin size={18} /> LinkedIn
-            </MagneticButton>
-            <MagneticButton
-              href={github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2"
-            >
-              <Github size={18} /> GitHub
             </MagneticButton>
             <MagneticButton
               href="/resume/kranthi-kumar-katta-resume.pdf"

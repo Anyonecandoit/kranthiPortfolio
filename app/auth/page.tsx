@@ -3,10 +3,10 @@
 import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
-import { LogIn, UserPlus, Mail, Lock, Github } from "lucide-react";
+import { LogIn, UserPlus, Mail, Lock } from "lucide-react";
 
 export default function AuthPage() {
-  const { signInWithGitHub, signInWithEmail, signUp, user, loading, signOut } = useAuth();
+  const { signInWithEmail, signUp, user, loading, signOut } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -69,23 +69,6 @@ export default function AuthPage() {
               ? "Sign in to save conversations and track activity."
               : "Join to get started with the AI-powered portfolio."}
           </p>
-        </div>
-
-        {/* GitHub OAuth button */}
-        <button
-          onClick={signInWithGitHub}
-          className="w-full flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.08] text-sm text-gray-300 hover:bg-white/[0.1] hover:text-white transition-colors mb-6"
-        >
-          <Github size={18} /> Continue with GitHub
-        </button>
-
-        <div className="relative mb-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/[0.06]" />
-          </div>
-          <div className="relative flex justify-center text-xs text-gray-500">
-            <span className="bg-[#0a0a0f] px-3">or</span>
-          </div>
         </div>
 
         {/* Email form */}

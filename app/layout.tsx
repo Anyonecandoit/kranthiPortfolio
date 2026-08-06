@@ -45,7 +45,7 @@ const structuredData = {
         addressLocality: resumeData.location.split(",")[0]?.trim() ?? "Bangalore",
         addressCountry: "IN",
       },
-      sameAs: [resumeData.contact.github, resumeData.contact.linkedin],
+      sameAs: [resumeData.contact.linkedin],
       worksFor: {
         "@type": "Organization",
         name: resumeData.experience[0]?.company ?? "Barraq Technology Lab India Private Limited",

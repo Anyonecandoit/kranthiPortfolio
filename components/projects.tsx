@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
-import { Github, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import { ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 import { resumeData } from "@/data/resume";
 import { SectionHeader } from "./section-header";
 import { Reveal } from "@/components/ui/reveal";
@@ -113,16 +113,6 @@ export function Projects() {
                           <div>
                             <h4 className="text-sm font-semibold text-gray-300 mb-2">Links</h4>
                             <div className="flex flex-wrap gap-3">
-                              {project.githubUrl && (
-                                <a
-                                  href={project.githubUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="flex items-center gap-1.5 text-xs text-violet-400 hover:text-violet-300 transition-colors"
-                                >
-                                  <Github size={14} /> Code
-                                </a>
-                              )}
                               {project.demoUrl && (
                                 <a
                                   href={project.demoUrl}

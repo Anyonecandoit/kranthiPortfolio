@@ -34,7 +34,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const { theme, toggleTheme } = useTheme();
-  const { user, signInWithGitHub, signOut } = useAuth();
+  const { user, signOut } = useAuth();
   const unreadContacts = useUnreadContactCount();
 
   const navRef = useRef<HTMLDivElement>(null);
