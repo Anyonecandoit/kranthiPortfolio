@@ -2,48 +2,48 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bot, User, Sparkles, X, MessageCircle, Maximize2, Send, Loader2 } from "lucide-react";
+import { Bot, X, MessageCircle, Maximize2, Send, Phone, Volume2, VolumeX } from "lucide-react";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import { useChat, Message } from "@/lib/chat-context";
-
-const INITIAL_SUGGESTIONS = [
-  "📁 What projects has Kranthi built?",
-  "💼 Tell me about his experience",
-  "🧪 What testing tools does he use?",
-  "🤖 Explain his AI experience",
-  "⚙️ What are his strongest skills?",
-  "🏆 What certifications does he have?",
-  "📞 How can I contact him?",
-  "🎓 Tell me about his education",
-  "🚀 Why should I hire Kranthi?",
-  "⭐ Summarize his profile",
-];
-
-function getFollowUpSuggestions(lastResponse: string): string[] {
-  const lower = lastResponse.toLowerCase();
-  if (lower.includes("project") || lower.includes("built"))
-    return ["Architecture", "Tech Stack", "GitHub", "Challenges", "Automation", "Outcomes"];
-  if (lower.includes("experience") || lower.includes("worked"))
-    return ["Current Role", "Previous Companies", "Achievements", "Technologies", "Timeline"];
-  if (lower.includes("skill") || lower.includes("tool") || lower.includes("testing"))
-    return ["Selenium", "Playwright", "API Testing", "Performance", "CI/CD", "Languages"];
-  if (lower.includes("contact") || lower.includes("email") || lower.includes("hire"))
-    return ["Resume", "Email", "LinkedIn", "Availability", "Consulting", "Collaboration"];
-  if (lower.includes("certif"))
-    return ["AWS", "ISTQB", "Oracle", "Azure", "Education", "Experience"];
-  if (lower.includes("ai") || lower.includes("machine"))
-    return ["Test Generation", "Self-Healing", "Reporting", "Prioritization", "Vision"];
-  return ["Projects", "Skills", "Experience", "Contact", "Certifications", "Education"];
-}
+import { getFollowUpChips, DEFAULT_FOLLOW_UP } from "@/lib/chat-suggestions";
+import { AgentSelector } from "./agent-selector";
+import { AgentIcon } from "./agent-icons";
+import { getAgent, ALL_AGENTS } from "@/lib/agents";
+import { VoiceInputButton } from "./voice-input-button";
+import { ReadAloudButton } from "./read-aloud-button";
+import { HandoffForm } from "./handoff-form";
+import { useSiteSettings } from "@/lib/settings";
+import { speakViaCloud, stopAllSpeech } from "@/lib/voice";
 
 export function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
-  const { messages, isTyping, sendChat } = useChat();
+  const [showHandoff, setShowHandoff] = useState(false);
+  const [voiceReplies, setVoiceReplies] = useState(false);
+  const { messages, isTyping, sendChat, agentId } = useChat();
+  const activeAgent = getAgent(agentId) ?? ALL_AGENTS[0];
+  const { settings } = useSiteSettings();
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [followUp, setFollowUp] = useState<string[]>(INITIAL_SUGGESTIONS);
+  const [followUp, setFollowUp] = useState<string[]>(DEFAULT_FOLLOW_UP);
+  // Speaks the newest assistant reply once streaming finishes.
+  const lastSpokenRef = useRef(-1);
+
+  useEffect(() => {
+    const lastIdx = messages.length - 1;
+    const last = messages[lastIdx];
+    if (!voiceReplies) {
+      stopAllSpeech();
+      lastSpokenRef.current = lastIdx;
+      return;
+    }
+    if (isTyping) return;
+    if (last && last.role === "assistant" && last.content && lastIdx > lastSpokenRef.current) {
+      lastSpokenRef.current = lastIdx;
+      speakViaCloud(last.content);
+    }
+  }, [messages, isTyping, voiceReplies]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -57,16 +57,18 @@ export function FloatingChat() {
     if (messages.length > 0 && !isTyping) {
       const last = messages[messages.length - 1];
       if (last.role === "assistant" && last.content) {
-        setFollowUp(getFollowUpSuggestions(last.content));
+        setFollowUp(getFollowUpChips(last.content));
       }
     }
-    if (messages.length === 0) setFollowUp(INITIAL_SUGGESTIONS);
+    if (messages.length === 0) setFollowUp(DEFAULT_FOLLOW_UP);
   }, [messages, isTyping]);
 
   const handleSend = async (text: string) => {
     await sendChat(text);
     setInput("");
   };
+
+  if (settings.show_ai_chat === "false") return null;
 
   return (
     <>
@@ -101,15 +103,29 @@ export function FloatingChat() {
             {/* Header */}
             <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-purple-600 flex items-center justify-center">
-                  <Sparkles size={15} className="text-white" />
+                <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${activeAgent.gradient} flex items-center justify-center`}>
+                  <AgentIcon name={activeAgent.icon} className="h-4 w-4 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white leading-none">AI Assistant</p>
+                  <p className="text-sm font-semibold text-white leading-none">{activeAgent.name}</p>
                   <p className="text-[10px] text-emerald-400 mt-0.5">● Online</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
+                <button
+                  onClick={() => setVoiceReplies((v) => !v)}
+                  className={`p-1.5 rounded-lg transition-colors ${voiceReplies ? "text-cyan-400 bg-white/10" : "text-gray-400 hover:text-white hover:bg-white/10"}`}
+                  title={voiceReplies ? "Voice replies on" : "Read replies aloud"}
+                >
+                  {voiceReplies ? <Volume2 size={14} /> : <VolumeX size={14} />}
+                </button>
+                <button
+                  onClick={() => setShowHandoff((v) => !v)}
+                  className={`p-1.5 rounded-lg transition-colors ${showHandoff ? "text-emerald-400 bg-white/10" : "text-gray-400 hover:text-white hover:bg-white/10"}`}
+                  title={showHandoff ? "Close contact form" : "Talk to a human"}
+                >
+                  <Phone size={14} />
+                </button>
                 <Link href="/chat" className="p-1.5 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors" title="Open full chat">
                   <Maximize2 size={14} />
                 </Link>
@@ -119,18 +135,30 @@ export function FloatingChat() {
               </div>
             </div>
 
+            {/* Agent selector */}
+            <div className="shrink-0 px-3 py-2 border-b border-white/[0.06] bg-white/[0.02]">
+              <AgentSelector compact />
+            </div>
+
+            {/* Human handoff */}
+            {showHandoff && (
+              <div className="shrink-0 px-3 py-2 border-b border-white/[0.06]">
+                <HandoffForm onCancel={() => setShowHandoff(false)} />
+              </div>
+            )}
+
             {/* Messages */}
             <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-3 space-y-3 min-h-0 chat-scrollbar">
               {messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600/20 to-purple-600/20 border border-violet-500/20 flex items-center justify-center mb-3">
-                    <Sparkles size={18} className="text-violet-400" />
+                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${activeAgent.gradient} opacity-90 flex items-center justify-center mb-3`}>
+                    <AgentIcon name={activeAgent.icon} className="h-5 w-5 text-white" />
                   </div>
-                  <p className="text-sm font-semibold text-white mb-1">Hi there!</p>
-                  <p className="text-xs text-gray-500 mb-4">I&apos;m Kranthi&apos;s AI assistant. Ask me anything about his skills, projects, or experience.</p>
+                  <p className="text-sm font-semibold text-white mb-1">{activeAgent.name}</p>
+                  <p className="text-xs text-gray-500 mb-4">{activeAgent.description}</p>
                   <div className="flex flex-wrap justify-center gap-1.5 max-w-[340px]">
-                    {INITIAL_SUGGESTIONS.slice(0, 6).map((s, i) => (
-                      <button key={i} onClick={() => handleSend(s.replace(/^.\s/, ""))} disabled={isTyping}
+                    {activeAgent.suggestions.slice(0, 4).map((s) => (
+                      <button key={s} onClick={() => handleSend(s)} disabled={isTyping}
                         className="px-2.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] text-[11px] text-gray-400 hover:text-violet-400 hover:border-violet-500/30 transition-all disabled:opacity-40">
                         {s}
                       </button>
@@ -164,6 +192,11 @@ export function FloatingChat() {
                             <div className="whitespace-pre-wrap">{msg.content}</div>
                           )}
                         </div>
+                        {msg.role === "assistant" && msg.content && (
+                          <div className="mt-1">
+                            <ReadAloudButton text={msg.content} />
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -194,6 +227,11 @@ export function FloatingChat() {
                   placeholder="Ask about Kranthi..."
                   className="flex-1 bg-transparent text-white placeholder-gray-600 outline-none text-sm h-9"
                   disabled={isTyping} />
+                <VoiceInputButton
+                  onTranscript={(t) => setInput((prev) => (prev.trim() ? `${prev} ${t}` : t))}
+                  disabled={isTyping}
+                  className="pr-0.5"
+                />
                 <button onClick={() => handleSend(input)} disabled={!input.trim() || isTyping}
                   className="w-8 h-8 rounded-lg bg-gradient-to-r from-violet-600 to-purple-600 disabled:opacity-30 flex items-center justify-center shrink-0 transition-all shadow-lg shadow-violet-600/20">
                   <Send size={14} className="text-white" />

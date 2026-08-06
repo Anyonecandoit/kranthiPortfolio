@@ -7,8 +7,10 @@ import { useTheme } from "./theme-provider";
 import { TypeAnimation } from "./type-animation";
 import { LetterReveal, GradientWordReveal, ParagraphReveal } from "./text-reveal";
 import { resumeData } from "@/data/resume";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { TechMarquee } from "@/components/ui/tech-marquee";
+import { OrbitingRings } from "@/components/ui/orbiting-ring";
+import { MagneticButton } from "@/components/ui/magnetic-button";
+import { trackEvent } from "@/lib/analytics";
 
 /**
  * Premium Hero — full-screen with 3D text reveals, blur-to-clear effects,
@@ -26,7 +28,11 @@ export function Hero() {
       id="home"
       className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden"
     >
-      {/* No gradient overlay — particles visible behind everything */}
+      {/* Aurora mesh + fine grid — the "edge" light show behind everything */}
+      <div className="absolute inset-0 hero-fade" aria-hidden="true">
+        <div className="aurora" />
+      </div>
+      <div className="absolute inset-0 grid-pattern" aria-hidden="true" />
 
       {/* Animated blobs — soft purple glow */}
       <motion.div
@@ -61,6 +67,20 @@ export function Hero() {
 
       {/* Main content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto w-full">
+        {/* Availability badge */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85, y: -8 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-emerald-500/25 bg-emerald-500/[0.08] px-4 py-1.5 text-xs sm:text-sm font-medium text-emerald-300 shadow-[0_0_24px_-6px_rgba(16,185,129,0.5)]"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+          </span>
+          Open to opportunities
+        </motion.div>
+
         {/* Name — 3D letter reveal with gradient */}
         <div className="mb-5 overflow-hidden" style={{ perspective: "800px" }}>
           <LetterReveal
@@ -110,30 +130,50 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Card className="inline-block bg-white/5 backdrop-blur-xl border-white/10">
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-              <MagneticButton>
-                <Button as="a" href={`mailto:${email}`} variant="primary" className="flex items-center gap-2">
-                  <Mail size={18} /> Email
-                </Button>
-              </MagneticButton>
-              <MagneticButton>
-                <Button as="a" href={linkedin} target="_blank" rel="noopener noreferrer" variant="primary" className="flex items-center gap-2">
-                  <Linkedin size={18} /> LinkedIn
-                </Button>
-              </MagneticButton>
-              <MagneticButton>
-                <Button as="a" href={github} target="_blank" rel="noopener noreferrer" variant="primary" className="flex items-center gap-2">
-                  <Github size={18} /> GitHub
-                </Button>
-              </MagneticButton>
-              <MagneticButton>
-                <Button as="a" href="/resume/kranthi-kumar-katta-resume.pdf" download variant="primary" className="flex items-center gap-2">
-                  <FileText size={18} /> Resume
-                </Button>
-              </MagneticButton>
-            </div>
-          </Card>
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+            <MagneticButton
+              href={`mailto:${email}`}
+              className="flex items-center gap-2"
+            >
+              <Mail size={18} /> Email
+            </MagneticButton>
+            <MagneticButton
+              href={linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2"
+            >
+              <Linkedin size={18} /> LinkedIn
+            </MagneticButton>
+            <MagneticButton
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2"
+            >
+              <Github size={18} /> GitHub
+            </MagneticButton>
+            <MagneticButton
+              href="/resume/kranthi-kumar-katta-resume.pdf"
+              download
+              className="flex items-center gap-2"
+            >
+              <FileText size={18} /> Resume
+            </MagneticButton>
+          </div>
+        </motion.div>
+
+        {/* Tech stack marquee — infinite scrolling */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3.4, duration: 0.8 }}
+          className="mt-12 w-full max-w-3xl mx-auto"
+        >
+          <TechMarquee
+            speed={26}
+            items={resumeData.skills?.map((s) => s.name) ?? []}
+          />
         </motion.div>
 
         {/* Scroll arrow — bouncing with glow */}
@@ -157,38 +197,5 @@ export function Hero() {
         </motion.div>
       </div>
     </section>
-  );
-}
-
-/**
- * Magnetic hover wrapper — button subtly follows the cursor.
- */
-function MagneticButton({ children }: { children: ReactNode }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 300, damping: 20 });
-  const springY = useSpring(y, { stiffness: 300, damping: 20 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    x.set((e.clientX - centerX) * 0.15);
-    y.set((e.clientY - centerY) * 0.15);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.div
-      style={{ x: springX, y: springY }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      {children}
-    </motion.div>
   );
 }

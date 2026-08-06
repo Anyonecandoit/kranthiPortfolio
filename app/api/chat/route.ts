@@ -1,5 +1,8 @@
 import { NextRequest } from "next/server";
-import { streamOpenRouterResponse } from "@/lib/openrouter";
+import { streamOpenRouterResponse, SYSTEM_PROMPT } from "@/lib/openrouter";
+import { getAgent } from "@/lib/agents";
+import { getServiceClient } from "@/lib/supabase-admin";
+import { countKnowledgeDocs, searchKnowledge, hitsToContext } from "@/lib/knowledge";
 
 /**
  * AI Chat API — OpenRouter powered.
@@ -7,13 +10,44 @@ import { streamOpenRouterResponse } from "@/lib/openrouter";
  */
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json();
+    const { messages, agentId } = await req.json();
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: "Messages array is required" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
+    }
+
+    // --- Input validation hardening ---
+    const MAX_MESSAGES = 60;
+    const MAX_CONTENT_LEN = 4000;
+    const VALID_ROLES = new Set(["user", "assistant"]);
+
+    if (messages.length > MAX_MESSAGES) {
+      return new Response(
+        JSON.stringify({ error: `Messages array too large (max ${MAX_MESSAGES})` }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
+    const sanitized: Array<{ role: string; content: string }> = [];
+    for (const m of messages) {
+      if (!m || typeof m !== "object") continue;
+      const role = typeof m.role === "string" ? m.role.toLowerCase() : "";
+      const content = typeof m.content === "string" ? m.content : "";
+      if (!VALID_ROLES.has(role)) continue; // drop invalid roles
+      sanitized.push({
+        role,
+        content: content.length > MAX_CONTENT_LEN ? content.slice(-MAX_CONTENT_LEN) : content,
+      });
+    }
+
+    if (sanitized.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "No valid user/assistant messages found" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
     }
 
     // Validate API key exists
@@ -27,7 +61,30 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { stream, model } = await streamOpenRouterResponse(messages);
+    // Optional agent persona — falls back to the default assistant prompt.
+    const agent = typeof agentId === "string" ? getAgent(agentId) : undefined;
+    let systemPrompt = agent ? agent.systemPrompt : undefined;
+
+    // RAG: augment with relevant knowledge-base content (best-effort).
+    try {
+      const client = getServiceClient();
+      const lastUser = [...sanitized].reverse().find((m) => m.role === "user");
+      if (lastUser && (await countKnowledgeDocs(client)) > 0) {
+        const hits = await searchKnowledge(client, lastUser.content, 3);
+        if (hits.length) {
+          systemPrompt = `${systemPrompt ?? SYSTEM_PROMPT}
+
+RELEVANT KNOWLEDGE BASE — use it only where it answers the question better than the resume. Do not mention it unless it is relevant:
+${hitsToContext(hits)}`;
+        }
+      }
+    } catch (err) {
+      console.warn("[chat] knowledge retrieval skipped:", err);
+    }
+
+    const { stream, model } = await streamOpenRouterResponse(sanitized, {
+      systemPrompt,
+    });
 
     return new Response(stream, {
       headers: {

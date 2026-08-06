@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
+import { RequireAuth } from "@/components/require-auth";
 
 const stats = [
   { label: "Conversations", value: "0", icon: MessageSquare, color: "text-violet-400" },
@@ -23,6 +24,7 @@ const nav = [
 
 export default function DashboardPage() {
   return (
+    <RequireAuth>
     <div className="min-h-screen bg-transparent text-white pt-20 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
@@ -113,5 +115,6 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
+    </RequireAuth>
   );
 }

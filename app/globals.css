@@ -283,3 +283,86 @@ a {
   background: rgba(139, 92, 246, 0.3);
   color: white;
 }
+
+/* ── Edge upgrade: aurora mesh + texture ── */
+
+/* Animated aurora — layered conic/radial gradients drifting slowly.
+   Use on any full-bleed section for the "cutting edge" light show. */
+.aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 55% at 18% 12%, rgba(139, 92, 246, 0.22), transparent 60%),
+    radial-gradient(45% 55% at 82% 8%, rgba(59, 130, 246, 0.18), transparent 60%),
+    radial-gradient(50% 60% at 70% 92%, rgba(236, 72, 153, 0.16), transparent 62%),
+    radial-gradient(42% 50% at 24% 88%, rgba(45, 212, 191, 0.12), transparent 58%);
+  filter: blur(60px) saturate(1.15);
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+@keyframes aurora-drift {
+  0%   { transform: translate3d(-2%, -1%, 0) rotate(0deg) scale(1); }
+  50%  { transform: translate3d(2%, 2%, 0) rotate(4deg) scale(1.06); }
+  100% { transform: translate3d(-1%, 1%, 0) rotate(-3deg) scale(1.02); }
+}
+
+/* Subtle fine grid — adds texture behind hero content */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 40%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+/* Radial mask so hero edges fade naturally */
+.hero-fade {
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, #000 55%, transparent 100%);
+}
+
+/* Fluid display type — scales with viewport */
+.text-display {
+  font-size: clamp(2.75rem, 8vw + 0.5rem, 6rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+/* Refined, consistent focus ring */
+:where(a, button, input, textarea, select, [role="button"]):focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.65);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Button shine sweep on hover */
+.btn-shine { position: relative; overflow: hidden; }
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.22) 50%, transparent 60%);
+  transform: translateX(-120%);
+  transition: transform 0.6s ease;
+}
+.btn-shine:hover::after { transform: translateX(120%); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .aurora { animation: none; }
+  .animate-float, .animate-glow, .animate-shimmer { animation-duration: 0.01ms !important; }
+}
+
+/* Infinite tech marquee */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x var(--marquee-speed, 28s) linear infinite;
+}
+.marquee-group:hover .marquee-track { animation-play-state: paused; }

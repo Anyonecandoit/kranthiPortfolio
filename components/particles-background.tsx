@@ -19,10 +19,21 @@ export default function ParticlesBackground() {
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
     if (!ctx) return;
 
+    // Honor reduced-motion: draw a single static frame, no animation loop.
+    const prefersReduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Cap devicePixelRatio at 2 — full-DPR canvases are expensive on phones.
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
     // Full page coverage — not just viewport
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = Math.max(window.innerHeight, document.documentElement.scrollHeight);
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = Math.max(window.innerHeight, document.documentElement.scrollHeight) * dpr;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${Math.max(window.innerHeight, document.documentElement.scrollHeight)}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
     window.addEventListener("resize", resize);
@@ -38,7 +49,7 @@ export default function ParticlesBackground() {
       pulse: number;
     }
 
-    const count = Math.min(200, Math.floor((canvas.width * canvas.height) / 8000));
+    const count = Math.min(140, Math.floor((window.innerWidth * window.innerHeight) / 9000));
     const particles: Particle[] = [];
     for (let i = 0; i < count; i++) {
       particles.push({
@@ -111,16 +122,21 @@ export default function ParticlesBackground() {
         ctx.fill();
       }
 
-      animFrame = requestAnimationFrame(animate);
+      if (!prefersReduced) animFrame = requestAnimationFrame(animate);
     };
 
-    animFrame = requestAnimationFrame(animate);
+    if (prefersReduced) {
+      // Draw a single static frame, then stop.
+      animate(performance.now());
+    } else {
+      animFrame = requestAnimationFrame(animate);
+    }
 
     // Pause when tab hidden
     const onVis = () => {
       if (document.hidden) {
         cancelAnimationFrame(animFrame);
-      } else {
+      } else if (!prefersReduced) {
         lastTime = performance.now();
         animFrame = requestAnimationFrame(animate);
       }

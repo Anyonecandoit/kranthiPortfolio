@@ -15,6 +15,7 @@ interface ButtonBase {
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   loading?: boolean;
+  disabled?: boolean;
   children: ReactNode;
   className?: string;
 }

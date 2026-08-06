@@ -15,6 +15,8 @@ export interface Project {
   demoUrl?: string;
   image?: string;
   period?: string;
+  /** Bullet points shown in the expanded "Key Contributions" section */
+  keyContributions?: string[];
 }
 
 export interface Skill {
@@ -97,24 +99,53 @@ export const resumeData = {
       description: "Built comprehensive end-to-end automation framework for high-throughput international remittance workflows. Automated ISO8583/SWIFT message validation, Kafka event-driven flows, and multi-vendor MTO integrations. Reduced manual testing by 60%.",
       technologies: ["Playwright", "Java", "REST Assured", "Docker", "Jenkins", "Kafka"],
       period: "Mar 2025 – Jun 2025",
+      keyContributions: [
+        "Architected a modular keyword-driven test framework using Playwright and Java for ISO8583 and SWIFT message validation.",
+        "Automated transaction lifecycle testing from initiation through settlement with Kafka event-driven validation.",
+        "Developed REST API test suites for switch-layer routing, ensuring compliance with PCI-DSS and SWIFT integration.",
+        "Integrated automated tests into Jenkins CI/CD pipeline for continuous validation on every build.",
+        "Created data-driven testing framework with parameterized test suites, reducing manual testing effort by 60%.",
+        "Collaborated with cross-functional teams across time zones in a SAFe Agile environment.",
+      ],
     },
     {
       title: "Microservices Test Automation Framework",
       description: "Designed contract testing frameworks with REST Assured for API validation. Automated end-to-end regression testing with Selenium across 1000+ test suites. Docker-based test environments reduced release cycle time by 40%.",
       technologies: ["Spring Boot", "REST Assured", "Java", "Docker", "Selenium", "JUnit"],
       period: "Oct 2022 – Feb 2025",
+      keyContributions: [
+        "Designed and implemented contract testing frameworks using REST Assured for API validation.",
+        "Automated end-to-end regression testing with Selenium across 1000+ test suites.",
+        "Developed Docker-based test environments ensuring consistent test execution across development, staging, and production.",
+        "Created data-driven test frameworks using JUnit and TestNG for parameterized testing.",
+        "Implemented CI/CD integration using Jenkins, reducing release cycle time by 40%.",
+      ],
     },
     {
       title: "Performance Engineering Framework",
       description: "Created performance engineering framework for payment gateway handling millions of daily transactions. JMeter scripts simulating 10,000+ concurrent users. Grafana dashboards for real-time monitoring. Reduced infrastructure costs by 30%.",
       technologies: ["JMeter", "Grafana", "k6", "SQL", "Jenkins"],
       period: "Mar 2022 – Jun 2025",
+      keyContributions: [
+        "Developed JMeter test scripts simulating 10,000+ concurrent users for payment processing load testing.",
+        "Automated performance regression testing integrated with CI/CD pipeline using Jenkins.",
+        "Created Grafana dashboards for real-time performance monitoring and alerting.",
+        "Implemented k6 scripts for cloud-native load testing of microservices.",
+        "Identified and resolved performance bottlenecks, reducing infrastructure costs by 30%.",
+      ],
     },
     {
       title: "API Test Automation Framework",
       description: "Built comprehensive API test automation for 200+ endpoints using REST Assured. Contract testing with Pact framework. Reduced production API defects by 35%.",
       technologies: ["REST Assured", "Postman", "Java", "SQL", "Jenkins"],
       period: "Jun 2023 – Jun 2025",
+      keyContributions: [
+        "Developed REST Assured-based test suites covering 200+ API endpoints.",
+        "Created Postman collections for API validation and documentation.",
+        "Implemented contract testing between microservices using Pact framework.",
+        "Automated API performance testing with JMeter for critical payment flows.",
+        "Reduced production API defects by 35% through systematic test automation.",
+      ],
     },
   ] as Project[],
 
@@ -171,6 +202,15 @@ export const resumeData = {
     },
   ] as Certification[],
 
+  achievements: [
+    "Scaled test suites from 150 to 1000+ scripts with 95% pass rate.",
+    "Reduced manual testing effort by 60% through end-to-end automation frameworks.",
+    "Automated 25 critical business flows, accelerating release cycles by 40%.",
+    "Designed frameworks handling 10,000+ concurrent virtual users for load testing.",
+    "Reduced production defect leakage by 35% through proactive API test automation.",
+    "Improved system efficiency by 40% through performance engineering at PayU.",
+  ],
+
   contact: {
     email: "kranthikumarkattatech@gmail.com",
     phone: "+91 8466952706",
@@ -178,3 +218,95 @@ export const resumeData = {
     linkedin: "https://linkedin.com/in/kranthi-kumar-katta-a40093318",
   },
 };
+
+/**
+ * Serialize the typed resume data into markdown for the AI assistant's system
+ * prompt. Single source of truth — the UI and the AI can no longer diverge.
+ */
+export function resumeToMarkdown(): string {
+  const {
+    name,
+    title,
+    summary,
+    skills,
+    experience,
+    projects,
+    certifications,
+    education,
+    achievements,
+    contact,
+  } = resumeData;
+
+  const lines: string[] = [];
+
+  lines.push(`# ${name} — ${title}`);
+  lines.push("");
+  lines.push("## Contact");
+  lines.push(`- Email: ${contact.email}`);
+  lines.push(`- Phone: ${contact.phone}`);
+  lines.push(`- LinkedIn: ${contact.linkedin}`);
+  lines.push(`- GitHub: ${contact.github}`);
+  lines.push(`- Location: ${resumeData.location}`);
+  lines.push("");
+  lines.push("## Summary");
+  lines.push(summary);
+  lines.push("");
+  lines.push("## Technical Skills");
+  const byCategory = new Map<string, string[]>();
+  for (const skill of skills ?? []) {
+    const cat = byCategory.get(skill.category) ?? [];
+    cat.push(`${skill.name}${skill.level ? ` (${skill.level}%)` : ""}`);
+    byCategory.set(skill.category, cat);
+  }
+  for (const [category, skillNames] of byCategory) {
+    lines.push(`- **${category}:** ${skillNames.join(", ")}`);
+  }
+  lines.push("");
+  lines.push("## Experience");
+  for (const exp of experience ?? []) {
+    lines.push(`### ${exp.role} — ${exp.company}`);
+    lines.push(`**${exp.period}${exp.location ? `, ${exp.location}` : ""}**`);
+    lines.push("");
+    for (const bullet of exp.description) {
+      lines.push(`- ${bullet}`);
+    }
+    lines.push("");
+  }
+  lines.push("## Projects");
+  (projects ?? []).forEach((project, i) => {
+    lines.push(`### ${i + 1}. ${project.title}`);
+    lines.push(`**${project.period ?? "N/A"}**`);
+    lines.push(`- Tech Stack: ${project.technologies.join(", ")}`);
+    lines.push("");
+    lines.push(project.description);
+    if (project.keyContributions?.length) {
+      lines.push("");
+      lines.push("Key Contributions:");
+      for (const detail of project.keyContributions) {
+        lines.push(`- ${detail}`);
+      }
+    }
+    lines.push("");
+  });
+  lines.push("## Certifications");
+  for (const cert of certifications ?? []) {
+    lines.push(`- ${cert.title} – ${cert.issuer} (${cert.date})`);
+  }
+  lines.push("");
+  lines.push("## Education");
+  for (const edu of education ?? []) {
+    lines.push(`**${edu.degree}**`);
+    lines.push(`${edu.institution}`);
+    lines.push(`Graduated: ${edu.period}${edu.description?.length ? ` | ${edu.description.join(" | ")}` : ""}`);
+  }
+  lines.push("");
+  if (achievements?.length) {
+    lines.push("## Key Achievements");
+    for (const a of achievements) {
+      lines.push(`- ${a}`);
+    }
+    lines.push("");
+  }
+
+  return lines.join("\n").trim() + "\n";
+}

@@ -72,12 +72,44 @@ create table public.analytics_events (
   created_at timestamptz not null default now()
 );
 
+-- Contact / human-handoff requests (from chat, recruiter, contact forms)
+create table public.contact_requests (
+  id uuid primary key default uuid_generate_v4(),
+  name text not null default 'Anonymous',
+  email text,
+  subject text,
+  message text not null,
+  source text,
+  status text not null default 'new',
+  created_at timestamptz not null default now()
+);
+
+-- Site settings / feature flags (key-value, admin-managed)
+create table public.site_settings (
+  key text primary key,
+  value text,
+  updated_at timestamptz not null default now()
+);
+
+-- User notes (AI Notes notepad, synced when signed in)
+create table public.notes (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  title text not null default 'Untitled note',
+  content text not null default '',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 -- Row Level Security
 alter table public.profiles enable row level security;
 alter table public.conversations enable row level security;
 alter table public.messages enable row level security;
 alter table public.knowledge_documents enable row level security;
 alter table public.analytics_events enable row level security;
+alter table public.contact_requests enable row level security;
+alter table public.site_settings enable row level security;
+alter table public.notes enable row level security;
 
 -- Profiles: users can read all, update own
 create policy "Public profiles" on public.profiles for select using (true);
@@ -112,9 +144,33 @@ create policy "Admin analytics" on public.analytics_events for select
   ));
 create policy "Anyone can log events" on public.analytics_events for insert with check (true);
 
+-- Contact requests: anyone can submit, only admins can read/update
+create policy "Anyone can submit contact request" on public.contact_requests for insert with check (true);
+create policy "Admin read contact requests" on public.contact_requests for select
+  using (exists (
+    select 1 from public.profiles where id = auth.uid() and role = 'admin'
+  ));
+create policy "Admin update contact requests" on public.contact_requests for update
+  using (exists (
+    select 1 from public.profiles where id = auth.uid() and role = 'admin'
+  ));
+
+-- Site settings: public read, admin manage
+create policy "Public read site settings" on public.site_settings for select using (true);
+create policy "Admin manage site settings" on public.site_settings for all
+  using (exists (
+    select 1 from public.profiles where id = auth.uid() and role = 'admin'
+  ));
+
+-- Notes: users manage their own
+create policy "Own notes" on public.notes for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
 -- Indexes
 create index idx_conversations_user on public.conversations(user_id);
 create index idx_messages_conversation on public.messages(conversation_id);
 create index idx_knowledge_embedding on public.knowledge_documents using ivfflat (embedding vector_cosine_ops) with (lists = 100);
 create index idx_analytics_type on public.analytics_events(event_type);
 create index idx_analytics_created on public.analytics_events(created_at);
+create index idx_contact_requests_created on public.contact_requests(created_at desc);

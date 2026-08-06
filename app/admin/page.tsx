@@ -1,115 +1,120 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   BarChart3, Users, MessageSquare, Brain, Database,
-  Settings, Shield, FileText, Eye, TrendingUp,
+  Settings, Shield, Mail,
+  type LucideIcon,
 } from "lucide-react";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { EmptyState } from "@/components/ui/empty-state";
+import { RequireAuth } from "@/components/require-auth";
+import { AnalyticsOverview } from "@/components/admin/analytics-overview";
+import { ContactInbox } from "@/components/admin/contact-inbox";
+import { KnowledgeBase } from "@/components/admin/knowledge-base";
+import { VisitorActivity } from "@/components/admin/visitor-activity";
+import { ConversationsView } from "@/components/admin/conversations-view";
+import { AIUsage } from "@/components/admin/ai-usage";
+import { FeatureFlags } from "@/components/admin/feature-flags";
+import { SecurityView } from "@/components/admin/security-view";
+import { cn } from "@/lib/utils";
 
-const nav = [
-  { label: "Analytics", icon: BarChart3, active: true },
-  { label: "Visitors", icon: Users },
-  { label: "Conversations", icon: MessageSquare },
-  { label: "AI Usage", icon: Brain },
-  { label: "Knowledge Base", icon: Database },
-  { label: "Feature Flags", icon: Settings },
-  { label: "Security", icon: Shield },
+type SectionId = "analytics" | "visitors" | "conversations" | "ai" | "inbox" | "knowledge" | "flags" | "security";
+
+const nav: Array<{ id: SectionId; label: string; icon: LucideIcon }> = [
+  { id: "analytics", label: "Analytics", icon: BarChart3 },
+  { id: "visitors", label: "Visitors", icon: Users },
+  { id: "conversations", label: "Conversations", icon: MessageSquare },
+  { id: "ai", label: "AI Usage", icon: Brain },
+  { id: "inbox", label: "Inbox", icon: Mail },
+  { id: "knowledge", label: "Knowledge Base", icon: Database },
+  { id: "flags", label: "Feature Flags", icon: Settings },
+  { id: "security", label: "Security", icon: Shield },
 ];
 
-const stats = [
-  { label: "Total Visitors", value: "—", change: "", icon: Users, color: "text-violet-400" },
-  { label: "AI Queries", value: "—", change: "", icon: Brain, color: "text-emerald-400" },
-  { label: "Avg. Session", value: "—", change: "", icon: Clock, color: "text-amber-400" },
-  { label: "Bounce Rate", value: "—", change: "", icon: TrendingUp, color: "text-rose-400" },
-];
-
-function Clock(props: React.SVGProps<SVGSVGElement> & { size?: number }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={props.size || 24} height={props.size || 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-    </svg>
-  );
-}
+const SECTION_META: Record<SectionId, { title: string; desc: string }> = {
+  analytics: { title: "Analytics", desc: "Live counters and visitor analytics." },
+  visitors: { title: "Visitors", desc: "Recent site activity." },
+  conversations: { title: "Conversations", desc: "AI chat conversations and message counts." },
+  ai: { title: "AI Usage", desc: "How visitors are using agents and tools." },
+  inbox: { title: "Inbox", desc: "Contact & human-handoff requests." },
+  knowledge: { title: "Knowledge Base", desc: "Manage RAG documents that power the chat." },
+  flags: { title: "Feature Flags", desc: "Toggle platform features site-wide." },
+  security: { title: "Security & Config", desc: "Environment configuration and RLS status." },
+};
 
 export default function AdminPage() {
-  return (
-    <div className="min-h-screen bg-transparent text-white pt-20 px-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-            <Badge variant="accent">Admin</Badge>
-          </div>
-          <p className="text-gray-400">Monitor analytics, manage AI, and control your platform.</p>
-        </motion.div>
+  const [section, setSection] = useState<SectionId>("analytics");
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Sidebar */}
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
-            <Card>
-              <nav className="space-y-1">
-                {nav.map((item) => (
-                  <button
-                    key={item.label}
-                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                      item.active ? "bg-violet-600/20 text-violet-400" : "text-gray-400 hover:bg-white/5 hover:text-white"
-                    }`}
-                  >
-                    <item.icon size={16} />
-                    {item.label}
-                  </button>
-                ))}
-              </nav>
-            </Card>
+  return (
+    <RequireAuth requiredRole="admin">
+      <div className="min-h-screen bg-transparent text-white pt-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+              <Badge variant="accent">Admin</Badge>
+            </div>
+            <p className="text-gray-400">Monitor analytics, manage AI, and control your platform.</p>
           </motion.div>
 
-          {/* Main content */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {stats.map((stat, i) => (
-                <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + i * 0.1 }}>
-                  <Card>
-                    <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg bg-white/5 ${stat.color}`}>
-                        <stat.icon size={20} />
-                      </div>
-                      <div>
-                        <p className="text-2xl font-bold text-white">{stat.value}</p>
-                        <p className="text-xs text-gray-400">{stat.label}</p>
-                      </div>
-                    </div>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Analytics placeholder */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Sidebar */}
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
               <Card>
-                <CardHeader>
-                  <CardTitle>Analytics Overview</CardTitle>
-                </CardHeader>
-                <EmptyState
-                  icon={<Eye size={32} />}
-                  title="Analytics will appear here"
-                  description="Once connected to Supabase, visitor analytics and AI usage metrics will populate automatically."
-                  action={<Button variant="secondary" size="sm">Connect Database</Button>}
-                />
+                <nav className="space-y-1">
+                  {nav.map((item) => {
+                    const Icon = item.icon;
+                    const active = section === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => setSection(item.id)}
+                        className={cn(
+                          "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors",
+                          active
+                            ? "bg-violet-600/20 text-white border border-violet-500/30"
+                            : "text-gray-400 hover:text-white hover:bg-white/[0.04] border border-transparent"
+                        )}
+                      >
+                        <Icon size={16} className={active ? "text-violet-300" : ""} />
+                        {item.label}
+                      </button>
+                    );
+                  })}
+                </nav>
               </Card>
             </motion.div>
+
+            {/* Main content */}
+            <div className="lg:col-span-3 space-y-6">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={section}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.18 }}
+                >
+                  <div className="mb-4">
+                    <h2 className="text-lg font-semibold text-white">{SECTION_META[section].title}</h2>
+                    <p className="text-sm text-gray-500">{SECTION_META[section].desc}</p>
+                  </div>
+                  {section === "analytics" && <AnalyticsOverview />}
+                  {section === "visitors" && <VisitorActivity />}
+                  {section === "conversations" && <ConversationsView />}
+                  {section === "ai" && <AIUsage />}
+                  {section === "inbox" && <ContactInbox />}
+                  {section === "knowledge" && <KnowledgeBase />}
+                  {section === "flags" && <FeatureFlags />}
+                  {section === "security" && <SecurityView />}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </RequireAuth>
   );
 }

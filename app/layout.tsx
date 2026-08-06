@@ -4,13 +4,62 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import ParticlesBackground from "@/components/particles-background";
+import { WebGLBackground } from "@/components/ui/webgl-background";
 import { FloatingChat } from "@/components/chat/floating-chat";
+import { FloatingVoice } from "@/components/voice/floating-voice";
+import { AnalyticsTracker } from "@/components/analytics-tracker";
 import { ChatPageGuard } from "@/components/chat/chat-layout";
 import { ConditionalFooter } from "@/components/chat/chat-footer-wrapper";
+import dynamic from "next/dynamic";
+
+// Lazy-load the command palette so the tools catalog + resume index only
+// load on first open (keeps every page's initial JS bundle lean).
+const GlobalSearch = dynamic(
+  () => import("@/components/search-modal").then((m) => m.GlobalSearch),
+  { ssr: false, loading: () => null }
+);
 import { ChatProvider } from "@/lib/chat-context";
+import { AuthProvider } from "@/lib/auth-context";
+import { SiteSettingsProvider } from "@/lib/settings";
+import { resumeData } from "@/data/resume";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+
+const siteUrl = "https://www.kranthikumarkatta.in";
+
+/** JSON-LD structured data — single source of truth is resumeData */
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      name: resumeData.name,
+      url: `${siteUrl}/`,
+      image: `${siteUrl}/og-image.png`,
+      jobTitle: resumeData.title,
+      email: `mailto:${resumeData.contact.email}`,
+      telephone: resumeData.contact.phone.replace(/\s+/g, ""),
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: resumeData.location.split(",")[0]?.trim() ?? "Bangalore",
+        addressCountry: "IN",
+      },
+      sameAs: [resumeData.contact.github, resumeData.contact.linkedin],
+      worksFor: {
+        "@type": "Organization",
+        name: resumeData.experience[0]?.company ?? "Barraq Technology Lab India Private Limited",
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: `${siteUrl}/`,
+      name: "Kranthi Kumar Katta | AI-Powered Portfolio",
+      publisher: { "@id": `${siteUrl}/#person` },
+    },
+  ],
+};
 
 export const metadata: Metadata = {
   title: "Kranthi Kumar Katta | AI-Powered Portfolio",
@@ -52,6 +101,10 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </head>
       <body
         className={`${inter.variable} antialiased bg-[#0a0a0f] text-white transition-colors duration-300`}
@@ -64,19 +117,28 @@ export default function RootLayout({
           Skip to content
         </a>
         <ThemeProvider attribute="class" defaultTheme="dark">
+          <AuthProvider>
+          <SiteSettingsProvider>
           <ChatProvider>
             <ChatPageGuard />
-            {/* Global particle constellation — visible on every page */}
-            <ParticlesBackground />
+            {/* Global 3D aurora + particle field — visible on every page */}
+            <WebGLBackground />
+            {/* Fires page_view analytics on every route change */}
+            <AnalyticsTracker />
             {/* Sticky glass‑morphism navbar */}
             <Navbar />
+            {/* Command palette — opens with ⌘K / Ctrl+K or the navbar search icon */}
+            <GlobalSearch />
             {/* Main content – wrapped with an id for the skip link */}
             <main id="main-content" className="relative z-10">
               {children}
             </main>
             <ConditionalFooter />
             <FloatingChat />
+            <FloatingVoice />
           </ChatProvider>
+          </SiteSettingsProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

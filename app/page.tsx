@@ -14,7 +14,7 @@ import { Contact } from "@/components/contact";
  */
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <main className="min-h-screen bg-transparent">
       {/* Home / Hero Section */}
       <section id="home" className="scroll-mt-20">
         <Hero />

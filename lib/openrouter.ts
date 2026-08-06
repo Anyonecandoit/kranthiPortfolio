@@ -1,12 +1,12 @@
 import OpenAI from "openai";
-import { fullResume } from "@/data/resume-full";
+import { resumeToMarkdown } from "@/data/resume";
 
 const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 /**
  * OpenRouter client — lazily initialized (avoids build-time error).
  */
-function getOpenRouter() {
+export function getOpenRouter() {
   const API_KEY = process.env.OPENROUTER_API_KEY || "";
   if (!API_KEY) throw new Error("OPENROUTER_API_KEY is not set");
   return new OpenAI({
@@ -23,7 +23,7 @@ export const SYSTEM_PROMPT = `You are Kranthi Kumar Katta's AI portfolio assista
 
 Use the following RESUME DATA as your source of truth. Answer ONLY based on this data — never fabricate information.
 
-${fullResume}
+${resumeToMarkdown()}
 
 RULES:
 - Always be helpful, professional, and concise
@@ -38,7 +38,8 @@ RULES:
 
 /**
  * Get the best available free model from OpenRouter.
- * Tries known free models in priority order.
+ * Resolves once per server process and caches the result, so the per-request
+ * probing overhead (up to 6 blocking completions) only happens once.
  */
 const FREE_MODELS = [
   "google/gemini-2.5-flash",
@@ -49,23 +50,13 @@ const FREE_MODELS = [
   "meta-llama/llama-4-maverick:free",
 ];
 
-export async function getAvailableModel(): Promise<string> {
-  // Try the preferred free model first
-  for (const model of FREE_MODELS) {
-    try {
-      await getOpenRouter().chat.completions.create({
-        model,
-        messages: [{ role: "user", content: "hi" }],
-        max_tokens: 5,
-      });
-      console.log(`Using model: ${model}`);
-      return model;
-    } catch {
-      // Model not available, try next
-    }
-  }
+let _cachedModel: string | null = null;
+let _resolving: Promise<string> | null = null;
 
-  // Fallback: list all available models and pick the first free one
+async function resolveModel(): Promise<string> {
+  if (_cachedModel) return _cachedModel;
+
+  // Prefer the cheap /models listing (one call) over 6 blocking probes.
   try {
     const response = await fetch(`${OPENROUTER_BASE_URL}/models`, {
       headers: { Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}` },
@@ -75,14 +66,50 @@ export async function getAvailableModel(): Promise<string> {
       (m: { pricing?: { prompt?: string | number } }) =>
         m.pricing?.prompt === "0" || m.pricing?.prompt === 0 || m.pricing?.prompt === "0.00"
     );
-    if (freeModel) {
-      console.log(`Using auto-detected model: ${freeModel.id}`);
-      return freeModel.id;
+    if (freeModel?.id) {
+      _cachedModel = freeModel.id;
+      console.log(`[model-cache] resolved via /models: ${_cachedModel}`);
+      return _cachedModel!;
     }
   } catch {}
 
-  // Last resort
-  return "google/gemini-2.5-flash";
+  // Fallback: probe known free models with a cheap completion.
+  for (const model of FREE_MODELS) {
+    try {
+      await getOpenRouter().chat.completions.create({
+        model,
+        messages: [{ role: "user", content: "hi" }],
+        max_tokens: 5,
+      });
+      _cachedModel = model;
+      console.log(`[model-cache] resolved via probe: ${_cachedModel}`);
+      return _cachedModel!;
+    } catch {
+      // Model not available, try next
+    }
+  }
+
+  _cachedModel = "google/gemini-2.5-flash";
+  console.log(`[model-cache] using default: ${_cachedModel}`);
+  return _cachedModel;
+}
+
+export async function getAvailableModel(): Promise<string> {
+  if (_cachedModel) return _cachedModel;
+  // Deduplicate concurrent resolution attempts (e.g. two requests land before cache is set).
+  _resolving = _resolving ?? resolveModel();
+  try {
+    return await _resolving;
+  } finally {
+    _resolving = null;
+  }
+}
+
+export interface StreamOpenRouterOptions {
+  /** System prompt — defaults to the portfolio-assistant prompt. */
+  systemPrompt?: string;
+  temperature?: number;
+  maxTokens?: number;
 }
 
 /**
@@ -90,26 +117,28 @@ export async function getAvailableModel(): Promise<string> {
  * Throws with full error details on failure.
  */
 export async function streamOpenRouterResponse(
-  messages: Array<{ role: string; content: string }>
+  messages: Array<{ role: string; content: string }>,
+  options: StreamOpenRouterOptions = {}
 ): Promise<{ stream: ReadableStream; model: string }> {
   if (!process.env.OPENROUTER_API_KEY) {
     throw new Error("OPENROUTER_API_KEY is not set. Add it to .env.local");
   }
 
+  const { systemPrompt = SYSTEM_PROMPT, temperature = 0.7, maxTokens = 1024 } = options;
   const model = await getAvailableModel();
 
   const response = await getOpenRouter().chat.completions.create({
     model,
     stream: true,
     messages: [
-      { role: "system", content: SYSTEM_PROMPT },
+      { role: "system", content: systemPrompt },
       ...messages.map((m) => ({
         role: m.role === "assistant" ? ("assistant" as const) : ("user" as const),
         content: m.content,
       })),
     ],
-    temperature: 0.7,
-    max_tokens: 1024,
+    temperature,
+    max_tokens: maxTokens,
   });
 
   // Convert OpenAI stream to Web ReadableStream
@@ -132,4 +161,42 @@ export async function streamOpenRouterResponse(
   });
 
   return { stream, model };
+}
+
+export interface CompleteOpenRouterOptions {
+  systemPrompt?: string;
+  temperature?: number;
+  maxTokens?: number;
+}
+
+/**
+ * Non-streaming completion (used by structured tools like the JD matcher).
+ * Returns the raw text content; callers are responsible for parsing.
+ */
+export async function completeOpenRouter(
+  messages: Array<{ role: string; content: string }>,
+  options: CompleteOpenRouterOptions = {}
+): Promise<string> {
+  if (!process.env.OPENROUTER_API_KEY) {
+    throw new Error("OPENROUTER_API_KEY is not set. Add it to .env.local");
+  }
+  const { systemPrompt, temperature = 0.3, maxTokens = 2048 } = options;
+  const model = await getAvailableModel();
+
+  const response = await getOpenRouter().chat.completions.create({
+    model,
+    messages: [
+      ...(systemPrompt
+        ? [{ role: "system" as const, content: systemPrompt }]
+        : []),
+      ...messages.map((m) => ({
+        role: m.role === "assistant" ? ("assistant" as const) : ("user" as const),
+        content: m.content,
+      })),
+    ],
+    temperature,
+    max_tokens: maxTokens,
+  });
+
+  return response.choices?.[0]?.message?.content ?? "";
 }

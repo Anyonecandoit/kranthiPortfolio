@@ -1,17 +1,33 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 import { resumeData } from "@/data/resume";
 import { SectionHeader } from "./section-header";
-
-const metrics = [
-  { value: "5+", label: "Years Experience", sublabel: "Test Automation", color: "text-violet-400", icon: "⏱" },
-  { value: "4", label: "Major Projects", sublabel: "Enterprise Scale", color: "text-blue-400", icon: "📁" },
-  { value: "4", label: "Certifications", sublabel: "AWS · ISTQB · Oracle · Azure", color: "text-amber-400", icon: "🏆" },
-  { value: "60%", label: "Efficiency Gain", sublabel: "Through Automation", color: "text-emerald-400", icon: "🚀" },
-];
+import { Reveal } from "@/components/ui/reveal";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
 
 export function About() {
+  // Derive metric values from the resume data so they can't drift from the source of truth.
+  const metrics = useMemo(() => {
+    const startYears = (resumeData.experience ?? [])
+      .map((e) => Number(e.period?.match(/\d{4}/)?.[0]))
+      .filter((y): y is number => Number.isFinite(y));
+    const yearsExp = startYears.length
+      ? `${Math.max(new Date().getFullYear() - Math.min(...startYears), 1)}+`
+      : "5+";
+
+    const efficiencyMatch = (resumeData.achievements ?? [])
+      .join(" ")
+      .match(/(\d+)%\s*(?:manual testing effort|efficiency)/i);
+
+    return [
+      { value: yearsExp, label: "Years Experience", sublabel: "Test Automation", color: "text-violet-400", icon: "⏱" },
+      { value: String(resumeData.projects?.length ?? 0), label: "Major Projects", sublabel: "Enterprise Scale", color: "text-blue-400", icon: "📁" },
+      { value: String(resumeData.certifications?.length ?? 0), label: "Certifications", sublabel: "AWS · ISTQB · Oracle · Azure", color: "text-amber-400", icon: "🏆" },
+      { value: efficiencyMatch ? `${efficiencyMatch[1]}%` : "60%", label: "Efficiency Gain", sublabel: "Through Automation", color: "text-emerald-400", icon: "🚀" },
+    ];
+  }, []);
   return (
     <section id="about" className="py-24 px-4">
       <div className="max-w-5xl mx-auto">
@@ -21,43 +37,35 @@ export function About() {
         />
 
         {/* Statement */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center text-lg text-gray-400 max-w-3xl mx-auto mb-16 leading-relaxed"
-        >
-          Senior SDET with 5+ years of experience designing test automation
-          frameworks for enterprise-grade web, mobile, API, and microservices applications.
-          Passionate about building robust test frameworks that ensure software quality.
-        </motion.p>
+        <Reveal delay={0.2} y={24}>
+          <p className="text-center text-lg text-gray-400 max-w-3xl mx-auto mb-16 leading-relaxed">
+            Senior SDET with 5+ years of experience designing test automation
+            frameworks for enterprise-grade web, mobile, API, and microservices applications.
+            Passionate about building robust test frameworks that ensure software quality.
+          </p>
+        </Reveal>
 
         {/* Metric Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {metrics.map((metric, i) => (
-            <motion.div
-              key={metric.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 * i }}
-              whileHover={{ y: -4 }}
-              className="p-6 rounded-2xl bg-white/[0.04] border border-white/[0.06] backdrop-blur-sm text-center group hover:border-white/[0.12] transition-all duration-300"
-            >
-              <div className="text-2xl mb-2">{metric.icon}</div>
-              <div className={`text-3xl md:text-4xl font-bold mb-1 ${metric.color} transition-colors`}>
-                {metric.value}
-              </div>
-              <div className="text-sm font-medium text-gray-300 mb-0.5">
-                {metric.label}
-              </div>
-              <div className="text-xs text-gray-500">
-                {metric.sublabel}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <Reveal delay={0.3} y={24}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {metrics.map((metric, i) => (
+              <Reveal key={metric.label} delay={i * 0.08} y={20}>
+                <SpotlightCard className="p-6 text-center">
+                  <div className="text-2xl mb-2">{metric.icon}</div>
+                  <div className={`text-3xl md:text-4xl font-bold mb-1 ${metric.color} transition-colors`}>
+                    {metric.value}
+                  </div>
+                  <div className="text-sm font-medium text-gray-300 mb-0.5">
+                    {metric.label}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {metric.sublabel}
+                  </div>
+                </SpotlightCard>
+              </Reveal>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );

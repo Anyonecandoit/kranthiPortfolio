@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { fullResume } from "@/data/resume-full";
+import { resumeToMarkdown } from "@/data/resume";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
@@ -7,7 +7,7 @@ const SYSTEM_PROMPT = `You are Kranthi Kumar Katta's AI portfolio assistant. You
 
 Use the following RESUME DATA as your source of truth. Answer ONLY based on this data — never fabricate information.
 
-${fullResume}
+${resumeToMarkdown()}
 
 RULES:
 - Always be helpful, professional, and concise
