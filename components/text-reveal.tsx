@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
 
 /**
- * 3D letter reveal — each character rotates in from the side with blur.
- * Premium effect used on Vercel/Linear landing pages.
+ * Letter-by-letter fade-in reveal — clean, no blur.
+ * Used for hero headline.
  */
 interface LetterRevealProps {
   children: string;
@@ -23,22 +22,14 @@ export function LetterReveal({
   const chars = children.split("");
 
   return (
-    <span className={className} aria-label={children} style={{ perspective: "600px" }}>
+    <span className={className} aria-label={children}>
       {chars.map((char, i) => (
-        <span
-          key={i}
-          className="inline-block overflow-hidden"
-          style={{ verticalAlign: "bottom" }}
-        >
+        <span key={i} className="inline-block overflow-hidden" style={{ verticalAlign: "bottom" }}>
           <motion.span
             className="inline-block"
-            initial={{ rotateX: -90, opacity: 0, filter: "blur(10px)" }}
-            animate={{ rotateX: 0, opacity: 1, filter: "blur(0px)" }}
-            transition={{
-              duration: 0.6,
-              ease: [0.22, 1, 0.36, 1],
-              delay: delay + i * staggerDelay,
-            }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut", delay: delay + i * staggerDelay }}
           >
             {char === " " ? " " : char}
           </motion.span>
@@ -49,8 +40,7 @@ export function LetterReveal({
 }
 
 /**
- * Blur-to-clear word reveal — each word starts blurred and slides up.
- * Premium effect for subtitles.
+ * Word-by-word slide-up reveal — clean fade, no blur.
  */
 interface WordRevealProps {
   children: string;
@@ -73,13 +63,9 @@ export function WordReveal({
         <span key={i} className="inline-block overflow-hidden mr-[0.3em]">
           <motion.span
             className="inline-block"
-            initial={{ y: 120, opacity: 0, filter: "blur(8px)" }}
-            animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-            transition={{
-              duration: 0.7,
-              ease: [0.22, 1, 0.36, 1],
-              delay: delay + i * staggerDelay,
-            }}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.45, ease: "easeOut", delay: delay + i * staggerDelay }}
           >
             {word}
           </motion.span>
@@ -90,7 +76,7 @@ export function WordReveal({
 }
 
 /**
- * Gradient word reveal with blur — premium gradient text animation.
+ * Gradient word reveal — clean slide-up, no blur.
  */
 interface GradientWordRevealProps {
   children: string;
@@ -108,18 +94,17 @@ export function GradientWordReveal({
   const words = children.split(" ");
 
   return (
-    <span className={`bg-gradient-to-r from-violet-400 via-purple-400 to-violet-400 bg-clip-text text-transparent ${className}`} aria-label={children}>
+    <span
+      className={`bg-gradient-to-r from-violet-400 via-purple-400 to-violet-400 bg-clip-text text-transparent ${className}`}
+      aria-label={children}
+    >
       {words.map((word, i) => (
         <span key={i} className="inline-block overflow-hidden mr-[0.3em]">
           <motion.span
             className="inline-block"
-            initial={{ y: 120, opacity: 0, filter: "blur(10px)" }}
-            animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-            transition={{
-              duration: 0.8,
-              ease: [0.22, 1, 0.36, 1],
-              delay: delay + i * staggerDelay,
-            }}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.45, ease: "easeOut", delay: delay + i * staggerDelay }}
           >
             {word}
           </motion.span>
@@ -130,7 +115,7 @@ export function GradientWordReveal({
 }
 
 /**
- * Paragraph reveal — line-by-line with blur clear.
+ * Paragraph reveal — word-by-word fade-up, no blur.
  */
 interface ParagraphRevealProps {
   children: string;
@@ -153,13 +138,9 @@ export function ParagraphReveal({
         <span key={i} className="inline-block overflow-hidden mr-[0.25em]">
           <motion.span
             className="inline-block"
-            initial={{ y: 40, opacity: 0, filter: "blur(4px)" }}
-            animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-            transition={{
-              duration: 0.5,
-              ease: [0.22, 1, 0.36, 1],
-              delay: delay + i * staggerDelay,
-            }}
+            initial={{ y: 15, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.4, ease: "easeOut", delay: delay + i * staggerDelay }}
           >
             {word}
           </motion.span>
