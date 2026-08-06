@@ -5,7 +5,7 @@ import { resumeData } from "@/data/resume";
 import { SectionHeader } from "./section-header";
 import { Reveal } from "@/components/ui/reveal";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
-import { Mail, Linkedin, Github, ExternalLink } from "lucide-react";
+import { Mail, Linkedin, ExternalLink } from "lucide-react";
 
 export function Contact() {
   const { contact } = resumeData;
@@ -21,7 +21,7 @@ export function Contact() {
 
         <Reveal delay={0.2} y={24}>
           <SpotlightCard className="p-8 md:p-12 text-center">
-            <div className="flex items-center justify-center gap-8 md:gap-124 mb-10">
+            <div className="flex items-center justify-center gap-8 md:gap-12 mb-10">
               <motion.a
                 href={`mailto:${contact.email}`}
                 whileHover={{ scale: 1.1 }}
@@ -50,21 +50,6 @@ export function Contact() {
                 <span className="text-lg font-semibold text-white truncate max-w-xs">
                   {contact.linkedin.replace(/^https?:\/\/(www\.)?/, "")}
                 </span>
-              </motion.a>
-
-              <motion.a
-                href="https://github.com/kranthi946"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex flex-col items-center gap-3 text-gray-300 hover:text-white transition-colors"
-              >
-                <div className="w-16 h-16 rounded-2xl bg-gray-500/15 border border-gray-500/25 flex items-center justify-center">
-                  <Github size={28} className="text-gray-400" />
-                </div>
-                <span className="text-sm font-medium text-gray-400">GitHub</span>
-                <span className="text-lg font-semibold text-white">github.com/kranthi946</span>
               </motion.a>
             </div>
 
