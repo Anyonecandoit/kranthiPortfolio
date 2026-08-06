@@ -47,7 +47,7 @@ export function About() {
 
         {/* Metric Cards */}
         <Reveal delay={0.3} y={24}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {metrics.map((metric, i) => (
               <Reveal key={metric.label} delay={i * 0.08} y={20}>
                 <SpotlightCard className="p-6 text-center">

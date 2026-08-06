@@ -43,7 +43,7 @@ export function Skills() {
           description="Technologies I use to build reliable, scalable test automation frameworks."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category, catIdx) => (
             <Reveal key={category} delay={catIdx * 0.08} y={24}>
               <SpotlightCard className="p-6">

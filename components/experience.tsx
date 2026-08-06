@@ -54,7 +54,7 @@ export function Experience() {
                 </div>
 
                 {/* Content card */}
-                <div className={`flex-1 ml-12 md:ml-0 md:w-[calc(50%-30px)] ${
+                <div className={`flex-1 w-full md:ml-0 md:w-[calc(50%-30px)] ${
                   i % 2 === 0 ? "md:pr-8" : "md:pl-8"
                 }`}>
                   <SpotlightCard className="p-5">

@@ -20,8 +20,8 @@ export function Contact() {
         />
 
         <Reveal delay={0.2} y={24}>
-          <SpotlightCard className="p-8 md:p-12 text-center">
-            <div className="flex items-center justify-center gap-8 md:gap-12 mb-10">
+          <SpotlightCard className="p-6 md:p-12 text-center">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 mb-10">
               <motion.a
                 href={`mailto:${contact.email}`}
                 whileHover={{ scale: 1.1 }}
