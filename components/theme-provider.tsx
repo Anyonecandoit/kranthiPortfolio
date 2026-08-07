@@ -22,9 +22,9 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
  * Always defaults to dark — never uses prefers-color-scheme.
  */
 function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "dark";
+  if (typeof window === "undefined") return "light";
   const persisted = window.localStorage.getItem("theme") as Theme | null;
-  return persisted || "dark";
+  return persisted || "light";
 }
 
 export function ThemeProvider({

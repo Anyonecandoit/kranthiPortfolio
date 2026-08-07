@@ -119,7 +119,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased transition-colors duration-300`}
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased transition-colors duration-300 bg-[var(--bg-primary)]`}
       >
         {/* Skip‑to‑content link for screen‑reader users */}
         <a
