@@ -3,41 +3,47 @@
 import { motion } from "framer-motion";
 
 interface SectionHeaderProps {
+  number?: string;
   label: string;
   title: string;
   description?: string;
+  light?: boolean;
 }
 
-export function SectionHeader({ label, title, description }: SectionHeaderProps) {
+export function SectionHeader({ number, label, title, description, light = true }: SectionHeaderProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className="text-center mb-16"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="mb-16"
     >
-      <div className="inline-flex items-center gap-3 mb-4">
-        <span className="h-px w-8 bg-gradient-to-r from-transparent to-violet-500/60" />
-        <span className="text-xs font-semibold uppercase tracking-[0.3em] bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
-          {label}
-        </span>
-        <span className="h-px w-8 bg-gradient-to-l from-transparent to-violet-500/60" />
-      </div>
+      {/* Section number + label (Oberon-style) */}
+      {number && (
+        <div className="flex items-center gap-3 mb-6">
+          <span className="inline-flex items-center justify-center w-7 h-7 bg-accent text-white text-xs font-bold">
+            {number}
+          </span>
+          <span
+            className={`label-mono ${light ? "text-[var(--text-secondary)]" : "text-[var(--text-light-muted)]"}`}
+          >
+            {label}
+          </span>
+        </div>
+      )}
 
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 text-balance">
+      {/* Large heading */}
+      <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.05]">
         {title}
       </h2>
 
+      {/* Optional description */}
       {description && (
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto text-pretty">
+        <p className={`mt-4 text-lg max-w-2xl leading-relaxed ${light ? "text-[var(--text-secondary)]" : "text-[var(--text-light-muted)]"}`}>
           {description}
         </p>
       )}
-
-      <div className="mt-6 flex justify-center">
-        <div className="h-1 w-16 rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-violet-500 bg-[length:200%_100%] animate-shimmer" />
-      </div>
     </motion.div>
   );
 }

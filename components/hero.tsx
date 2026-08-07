@@ -1,193 +1,219 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { ReactNode } from "react";
-import { Mail, Linkedin, FileText, ArrowDown } from "lucide-react";
-import { useTheme } from "./theme-provider";
-import { TypeAnimation } from "./type-animation";
-import { LetterReveal, GradientWordReveal, ParagraphReveal } from "./text-reveal";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Mail, Linkedin, FileText, ArrowDown, Code, Database, Cloud, Shield } from "lucide-react";
 import { resumeData } from "@/data/resume";
-import { TechMarquee } from "@/components/ui/tech-marquee";
-import { OrbitingRings } from "@/components/ui/orbiting-ring";
-import { MagneticButton } from "@/components/ui/magnetic-button";
-import { trackEvent } from "@/lib/analytics";
+import { SectionLabel } from "@/components/ui/section-label";
+import { DotMatrixBottom } from "@/components/ui/dot-pattern";
 
 /**
- * Premium Hero — full-screen with 3D text reveals, blur-to-clear effects,
- * magnetic hover CTAs, and particle constellation.
+ * Oberon-inspired Hero — bold typography, numbered section,
+ * floating tech icons, dot-matrix background, minimal CTAs.
  */
 export function Hero() {
-  const { theme } = useTheme();
   const { name, title, email, linkedin, summary } = resumeData;
 
-  const gradientFrom = theme === "light" ? "from-violet-200" : "from-violet-900";
-  const gradientTo = theme === "light" ? "to-purple-200" : "to-purple-900";
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, -60]);
+  const y2 = useTransform(scrollY, [0, 500], [0, -30]);
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   return (
     <section
       id="home"
-      className="min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[var(--bg-primary)]"
     >
-      {/* Aurora mesh + fine grid — the "edge" light show behind everything */}
-      <div className="absolute inset-0 hero-fade" aria-hidden="true">
-        <div className="aurora" />
-      </div>
-      <div className="absolute inset-0 grid-pattern" aria-hidden="true" />
+      {/* Subtle dot matrix at the bottom (Oberon-style) */}
+      <DotMatrixBottom className="text-[var(--text-primary)]" />
 
-      {/* Animated blobs — soft purple glow */}
-      <motion.div
-        className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px]"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.15, 0.35, 0.15],
-          x: [0, 20, 0],
-          y: [0, -15, 0],
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        aria-hidden="true"
-      />
-      <motion.div
-        className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-violet-600/8 rounded-full blur-[120px]"
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.1, 0.3, 0.1],
-          x: [0, -20, 0],
-          y: [0, 15, 0],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        aria-hidden="true"
-      />
-      {/* Center glow — very subtle */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[100px]"
-        animate={{ scale: [1, 1.4, 1], opacity: [0.1, 0.25, 0.1] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        aria-hidden="true"
-      />
+      {/* Floating tech icons — orbital arrangement */}
+      <motion.div style={{ y: y1 }} className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {/* Left side icons */}
+        <motion.div
+          animate={{ y: [0, -12, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[25%] left-[15%] w-12 h-12 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] flex items-center justify-center"
+        >
+          <Code size={20} className="text-accent" />
+        </motion.div>
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute top-[45%] left-[8%] w-10 h-10 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] flex items-center justify-center"
+        >
+          <Database size={16} className="text-accent" />
+        </motion.div>
+
+        {/* Right side icons */}
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+          className="absolute top-[30%] right-[12%] w-14 h-14 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] flex items-center justify-center shadow-card"
+        >
+          <Cloud size={22} className="text-accent" />
+        </motion.div>
+        <motion.div
+          animate={{ y: [0, -14, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute top-[50%] right-[18%] w-10 h-10 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] flex items-center justify-center"
+        >
+          <Shield size={16} className="text-accent" />
+        </motion.div>
+      </motion.div>
 
       {/* Main content */}
-      <div className="relative z-10 text-center max-w-4xl mx-auto w-full">
-        {/* Availability badge */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85, y: -8 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-emerald-500/25 bg-emerald-500/[0.08] px-4 py-1.5 text-xs sm:text-sm font-medium text-emerald-300 shadow-[0_0_24px_-6px_rgba(16,185,129,0.5)]"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-          </span>
-          Open to opportunities
-        </motion.div>
+      <motion.div style={{ opacity }} className="relative z-10 max-w-7xl mx-auto w-full px-6 pt-32 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left column — section label + text */}
+          <div className="lg:col-span-8">
+            <SectionLabel number="01" title="INTRO" />
 
-        {/* Name — 3D letter reveal with gradient */}
-        <div className="mb-5 overflow-hidden" style={{ perspective: "800px" }}>
-          <LetterReveal
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold block bg-gradient-to-r from-violet-300 via-purple-300 to-fuchsia-300 bg-clip-text text-transparent"
-            delay={0.5}
-            staggerDelay={0.04}
-          >
-            {name || "Kranthi Kumar Katta"}
-          </LetterReveal>
+            {/* Main heading — huge bold (Oberon-style) */}
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              className="text-display font-bold tracking-tight leading-[1.05] mb-6"
+            >
+              Building AI systems
+              <br />
+              that work for you
+            </motion.h1>
+
+            {/* Monospace tagline */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+              className="label-mono text-[var(--text-secondary)] mb-8 max-w-lg"
+            >
+              {title || "SENIOR SDET | AUTOMATION EXPERT"}
+            </motion.p>
+
+            {/* Summary */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+              className="text-lg text-[var(--text-secondary)] leading-relaxed mb-10 max-w-xl"
+            >
+              {summary || "Senior SDET with 5+ years of experience in automation, performance testing, and API testing."}
+            </motion.p>
+
+            {/* CTA buttons — outline + solid (Oberon-style) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
+              className="flex flex-wrap gap-3"
+            >
+              <a
+                href="#projects"
+                className="btn-outline inline-flex items-center gap-2"
+                style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: "0.8rem", letterSpacing: "0.1em" }}
+              >
+                VIEW MY WORK
+              </a>
+              <a
+                href={`mailto:${email}`}
+                className="btn-solid inline-flex items-center gap-2"
+                style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: "0.8rem", letterSpacing: "0.1em" }}
+              >
+                <Mail size={14} />
+                LET&apos;S TALK
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Right column — accent element (Oberon-style central icon) */}
+          <div className="lg:col-span-4 flex justify-center lg:justify-end">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+              className="relative"
+            >
+              {/* Central accent square */}
+              <div className="w-32 h-32 border-2 border-accent bg-[var(--bg-primary)] flex items-center justify-center relative">
+                <span className="text-xs font-bold text-accent font-mono text-center leading-tight">KRANTHI<br/>KUMAR<br/>KATTA</span>
+                {/* Corner accents */}
+                <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-accent" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-accent" />
+                <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-accent" />
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-accent" />
+              </div>
+
+              {/* Floating mini icons around the center */}
+              <motion.div
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-8 -right-8 w-8 h-8 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] flex items-center justify-center"
+              >
+                <span className="text-xs text-accent">✦</span>
+              </motion.div>
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="absolute -bottom-6 -left-10 w-8 h-8 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] flex items-center justify-center"
+              >
+                <span className="text-xs text-accent">◆</span>
+              </motion.div>
+              <motion.div
+                animate={{ y: [0, -5, 0] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute top-1/2 -right-14 w-7 h-7 rounded-md border border-[var(--border-color)] bg-[var(--bg-card)] flex items-center justify-center"
+              >
+                <span className="text-xs text-accent">●</span>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
 
-        {/* Title — gradient blur-to-clear reveal */}
-        <div className="mb-3 overflow-hidden">
-          <GradientWordReveal
-            className="text-2xl sm:text-3xl md:text-4xl font-semibold"
-            delay={1.2}
-            staggerDelay={0.12}
-          >
-            {title || "Senior SDET | Automation Expert"}
-          </GradientWordReveal>
-        </div>
-
-        {/* Typewriter — letter-by-letter cycling roles */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.6, duration: 0.5 }}
-          className="text-2xl sm:text-3xl md:text-4xl font-medium text-violet-400 mb-8 h-12"
-        >
-          <TypeAnimation />
-        </motion.div>
-
-        {/* Summary — word-by-word blur reveal */}
-        <div className="mb-10 max-w-2xl mx-auto">
-          <ParagraphReveal
-            className="text-lg sm:text-xl text-gray-300 leading-relaxed"
-            delay={2.0}
-            staggerDelay={0.04}
-          >
-            {summary || "Senior SDET with 5+ years of experience in automation, performance testing, and API testing. Passionate about building robust test frameworks and ensuring software quality."}
-          </ParagraphReveal>
-        </div>
-
-        {/* CTA buttons — staggered with magnetic hover */}
+        {/* Stats row — Oberon-style bottom metrics */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
+          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-[var(--border-color)] pt-8"
         >
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-            <MagneticButton
-              href={`mailto:${email}`}
-              className="flex items-center gap-2"
+          {[
+            { number: "5+", label: "YEARS EXPERIENCE" },
+            { number: "4", label: "PROJECTS SHIPPED" },
+            { number: "1000+", label: "TEST SCRIPTS" },
+            { number: "60%", label: "EFFICIENCY GAIN" },
+          ].map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9 + i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <Mail size={18} /> Email
-            </MagneticButton>
-            <MagneticButton
-              href={linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2"
-            >
-              <Linkedin size={18} /> LinkedIn
-            </MagneticButton>
-            <MagneticButton
-              href="/resume/kranthi-kumar-katta-resume.pdf"
-              download
-              className="flex items-center gap-2"
-            >
-              <FileText size={18} /> Resume
-            </MagneticButton>
-          </div>
+              <div className="text-3xl md:text-4xl font-bold mb-1">{stat.number}</div>
+              <div className="label-mono text-[var(--text-secondary)] text-[0.65rem]">{stat.label}</div>
+            </motion.div>
+          ))}
         </motion.div>
 
-        {/* Tech stack marquee — infinite scrolling */}
+        {/* Scroll arrow */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 3.4, duration: 0.8 }}
-          className="mt-12 w-full max-w-3xl mx-auto"
-        >
-          <TechMarquee
-            speed={26}
-            items={resumeData.skills?.map((s) => s.name) ?? []}
-          />
-        </motion.div>
-
-        {/* Scroll arrow — bouncing with glow */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 3.2, duration: 0.6 }}
-          className="mt-10 flex justify-center"
+          transition={{ delay: 1.2, duration: 0.6 }}
+          className="mt-16 flex justify-start"
         >
           <motion.a
             href="#about"
             aria-label="Scroll to About section"
-            animate={{ y: [0, 10, 0] }}
+            animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            whileHover={{ scale: 1.15, boxShadow: "0 0 20px rgba(99,102,241,0.4)" }}
-            whileTap={{ scale: 0.95 }}
-            className="p-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+            className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+            style={{ fontFamily: "var(--font-jetbrains-mono)" }}
           >
-            <ArrowDown size={20} className="text-white/70" />
+            <ArrowDown size={14} />
+            SCROLL
           </motion.a>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }

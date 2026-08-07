@@ -10,21 +10,33 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "rgb(9, 9, 11)",
-        secondary: "rgb(18, 18, 22)",
-        accent: "rgb(139, 92, 246)",
-        "accent-2": "rgb(124, 58, 237)",
-        highlight: "rgb(168, 85, 247)",
-        success: "rgb(34, 197, 94)",
-        text: "rgb(250, 250, 250)",
-        muted: "rgb(161, 161, 170)",
-        card: "rgb(22, 22, 28)",
-        border: "rgba(255, 255, 255, 0.06)",
-        glass: "rgba(255, 255, 255, 0.03)",
+        // Oberon-inspired light palette
+        background: "var(--bg-primary)",
+        secondary: "var(--bg-secondary)",
+        accent: "var(--accent)",
+        "accent-2": "var(--accent-2)",
+        highlight: "var(--highlight)",
+        success: "var(--success)",
+        text: "var(--text-primary)",
+        muted: "var(--text-secondary)",
+        card: "var(--bg-card)",
+        border: "var(--border-color)",
+        glass: "var(--glass-bg)",
+        // Semantic light/dark
+        "bg-primary": "var(--bg-primary)",
+        "bg-dark": "var(--bg-dark)",
+        "bg-darker": "var(--bg-darker)",
+        "text-primary": "var(--text-primary)",
+        "text-secondary": "var(--text-secondary)",
+        "text-light": "var(--text-light)",
+        "text-muted-light": "var(--text-light-muted)",
+        "border-subtle": "var(--border-subtle)",
+        "border-dark": "var(--border-dark-val)",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["Fira Code", "monospace"],
+        sans: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
+        mono: ["var(--font-jetbrains-mono)", "monospace"],
+        display: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
       },
       animation: {
         "fade-in": "fadeIn 0.8s ease-out",
@@ -34,10 +46,11 @@ const config: Config = {
         "float": "float 6s ease-in-out infinite",
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "shimmer": "shimmer 2s linear infinite",
-        "glow-pulse": "glow 2s ease-in-out infinite alternate",
-        "typing": "typing 2s steps(20) infinite",
-        "blob": "blob 7s infinite",
+        "marquee": "marquee-x var(--marquee-speed, 28s) linear infinite",
         "spin-slow": "spin 10s linear infinite",
+        "reveal-up": "revealUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "reveal-scale": "revealScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "counter-up": "counterUp 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
       },
       keyframes: {
         fadeIn: {
@@ -68,35 +81,30 @@ const config: Config = {
           "0%": { backgroundPosition: "200% 0" },
           "100%": { backgroundPosition: "-200% 0" },
         },
-        glow: {
-          "0%": { boxShadow: "0 0 20px rgba(56, 189, 248, 0.3)" },
-          "100%": { boxShadow: "0 0 40px rgba(56, 189, 248, 0.5)" },
+        "marquee-x": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
         },
-        typing: {
-          "0%": { width: "0%" },
-          "100%": { width: "100%" },
+        revealUp: {
+          "0%": { transform: "translateY(40px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
         },
-        blob: {
-          "0%": { transform: "translate(0px, 0px) scale(1)" },
-          "33%": { transform: "translate(30px, -50px) scale(1.1)" },
-          "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
-          "100%": { transform: "translate(0px, 0px) scale(1)" },
+        revealScale: {
+          "0%": { transform: "scale(0.9)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
         },
-        spin: {
-          "0%": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(360deg)" },
+        counterUp: {
+          "0%": { transform: "translateY(20px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
         },
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       boxShadow: {
-        glow: "0 0 20px rgba(139, 92, 246, 0.3)",
-        "glow-lg": "0 0 40px rgba(139, 92, 246, 0.4)",
-        "glow-xl": "0 0 60px rgba(139, 92, 246, 0.5)",
-        "card-hover": "0 8px 30px rgba(139, 92, 246, 0.12)",
-        "card-hover-lg": "0 12px 40px rgba(139, 92, 246, 0.18)",
+        "card": "0 1px 3px rgba(0,0,0,0.04)",
+        "card-hover": "0 8px 30px rgba(0,0,0,0.08)",
+        "card-hover-lg": "0 12px 40px rgba(0,0,0,0.12)",
       },
       borderRadius: {
         "4xl": "2rem",

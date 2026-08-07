@@ -57,7 +57,7 @@ export default function EstimatorPage() {
     "w-full rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-2 text-sm text-white placeholder-gray-600 outline-none focus:border-violet-500/40";
 
   return (
-    <main className="min-h-screen bg-transparent text-white pt-24 px-4 pb-16">
+    <main className="min-h-screen bg-[var(--bg-primary)] pt-24 px-6 pb-16">
       <div className="max-w-6xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-3 mb-2">

@@ -3,66 +3,98 @@
 import { motion } from "framer-motion";
 import { resumeData } from "@/data/resume";
 import { SectionHeader } from "./section-header";
-import { Reveal } from "@/components/ui/reveal";
-import { SpotlightCard } from "@/components/ui/spotlight-card";
-import { Mail, Linkedin, ExternalLink } from "lucide-react";
+import { DotMatrixBottom } from "@/components/ui/dot-pattern";
 
 export function Contact() {
   const { contact } = resumeData;
 
   return (
-    <section id="contact" className="py-24 px-4">
-      <div className="max-w-4xl mx-auto">
+    <section id="contact" className="py-32 px-6 bg-[var(--bg-dark)] text-[var(--text-light)] relative overflow-hidden">
+      <DotMatrixBottom className="text-[var(--text-light)]" />
+      <div className="max-w-7xl mx-auto relative z-10">
         <SectionHeader
-          label="Contact"
-          title="Let's work together"
+          number="12"
+          label="CONTACTS"
+          title="Let's Build Something"
           description="Open to opportunities and interesting conversations about test automation."
+          light={false}
         />
 
-        <Reveal delay={0.2} y={24}>
-          <SpotlightCard className="p-6 md:p-12 text-center">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 mb-10">
-              <motion.a
-                href={`mailto:${contact.email}`}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex flex-col items-center gap-3 text-gray-300 hover:text-white transition-colors"
-              >
-                <div className="w-16 h-16 rounded-2xl bg-violet-500/15 border border-violet-500/25 flex items-center justify-center">
-                  <Mail size={28} className="text-violet-400" />
-                </div>
-                <span className="text-sm font-medium text-gray-400">Email</span>
-                <span className="text-lg font-semibold text-white truncate max-w-xs">{contact.email}</span>
-              </motion.a>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+          {/* Left — links */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="space-y-8">
+              <div>
+                <div className="label-mono text-[var(--text-light-muted)] text-[0.6rem] mb-2">EMAIL</div>
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="text-lg font-semibold hover:text-accent transition-colors"
+                >
+                  {contact.email}
+                </a>
+              </div>
+              <div>
+                <div className="label-mono text-[var(--text-light-muted)] text-[0.6rem] mb-2">PHONE</div>
+                <a
+                  href={`tel:${contact.phone.replace(/\s/g, "")}`}
+                  className="text-lg font-semibold hover:text-accent transition-colors"
+                >
+                  {contact.phone}
+                </a>
+              </div>
+              <div>
+                <div className="label-mono text-[var(--text-light-muted)] text-[0.6rem] mb-2">LINKEDIN</div>
+                <a
+                  href={contact.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lg font-semibold hover:text-accent transition-colors"
+                >
+                  linkedin.com/in/kranthi-kumar-katta
+                </a>
+              </div>
+            </div>
+          </motion.div>
 
-              <motion.a
+          {/* Right — CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col justify-center"
+          >
+            <h3 className="text-2xl md:text-3xl font-bold mb-6">
+              Got something in mind?
+            </h3>
+            <p className="text-[var(--text-light-muted)] mb-8 leading-relaxed">
+              Whether it&apos;s about test automation, performance engineering, or just a quick chat — I&apos;m always happy to connect.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={`mailto:${contact.email}`}
+                className="btn-solid inline-flex items-center gap-2"
+                style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: "0.8rem", letterSpacing: "0.1em" }}
+              >
+                SEND MESSAGE
+              </a>
+              <a
                 href={contact.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex flex-col items-center gap-3 text-gray-300 hover:text-white transition-colors"
+                className="btn-outline inline-flex items-center gap-2 border-[var(--border-dark)] text-[var(--text-light)] hover:bg-[var(--text-light)] hover:text-[var(--bg-dark)]"
+                style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: "0.8rem", letterSpacing: "0.1em" }}
               >
-                <div className="w-16 h-16 rounded-2xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center">
-                  <Linkedin size={28} className="text-blue-400" />
-                </div>
-                <span className="text-sm font-medium text-gray-400">LinkedIn</span>
-                <span className="text-lg font-semibold text-white truncate max-w-xs">
-                  {contact.linkedin.replace(/^https?:\/\/(www\.)?/, "")}
-                </span>
-              </motion.a>
+                LINKEDIN
+              </a>
             </div>
-
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="text-gray-500 text-sm"
-            >
-              Usually replies within 24 hours · Available for remote & hybrid roles
-            </motion.p>
-          </SpotlightCard>
-        </Reveal>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -2,15 +2,14 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, Moon, Sun, MessageCircle, Briefcase, Bell, Search, Sparkles, Calculator, NotebookPen, ChevronDown } from "lucide-react";
+import { Menu, X, Moon, Sun, MessageCircle, Briefcase, Search, Sparkles, Calculator, NotebookPen, ChevronDown } from "lucide-react";
 import { useTheme } from "./theme-provider";
 import { useAuth } from "@/lib/auth-context";
 import { useUnreadContactCount } from "@/lib/contact";
 import Link from "next/link";
 
-/* Navigation items — section links on the homepage, apps in the dropdown */
+/* Navigation items — section links on the homepage */
 const sectionItems = [
-  { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
@@ -26,8 +25,6 @@ const appItems = [
   { name: "Notes", href: "/notes", icon: NotebookPen },
 ];
 
-const navItems = [...sectionItems, ...appItems];
-
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [appsOpen, setAppsOpen] = useState(false);
@@ -37,12 +34,6 @@ export function Navbar() {
   const { user, signOut } = useAuth();
   const unreadContacts = useUnreadContactCount();
 
-  const navRef = useRef<HTMLDivElement>(null);
-
-  /* -------------------------------------------------
-   * Scroll handling – adds subtle background after
-   * the user scrolls and tracks the current section.
-   * ------------------------------------------------- */
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll("section[id]");
@@ -60,7 +51,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* Close mobile menu on Escape */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) setIsOpen(false);
@@ -72,92 +62,81 @@ export function Navbar() {
 
   const scrollToSection = (href: string) => {
     if (href.startsWith("/")) {
-      // Page link — full navigation
       window.location.href = href;
       return;
     }
-    // Hash link — try to scroll to section
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     } else {
-      // Section not found on this page (e.g., on /chat) — navigate to home with hash
       window.location.href = "/" + href;
     }
   };
 
   return (
     <motion.nav
-      initial={{ opacity: 0, y: -20 }}
+      initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className={`
-        fixed inset-x-0 top-0 z-50 transition-all duration-500
+        fixed inset-x-0 top-0 z-50 transition-all duration-300
         ${scrolled
-          ? "bg-white/[0.06] dark:bg-[rgba(8,8,12,0.78)] backdrop-blur-2xl border-b border-white/[0.06] shadow-[0_12px_40px_-12px_rgba(0,0,0,0.6)]"
-          : "bg-transparent border-b border-transparent"}
+          ? "bg-[var(--bg-primary)]/90 backdrop-blur-lg border-b border-[var(--border-color)]"
+          : "bg-transparent border-b border-transparent"
+        }
       `}
       aria-label="Main navigation"
     >
-      <div className="container mx-auto flex items-center justify-between px-4 h-16">
-        {/* Logo */}
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-16">
+        {/* Logo — monospace brand name (Oberon-style) */}
         <Link href="#home" onClick={() => scrollToSection("#home")}>
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-3 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="flex items-center gap-2.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
           >
-            <motion.div
-              className="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center shadow-glow"
-              whileHover={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="text-white font-bold text-lg">KK</span>
-            </motion.div>
-            <div className="hidden sm:flex flex-col">
-              <span className="text-xl font-bold text-white">Kranthi Kumar</span>
-              <div className="flex items-center gap-1.5 text-sm text-gray-300">
-                <span className="w-2 h-2 rounded-full bg-green-500" />
-                <span>Available for work</span>
-              </div>
+            <div className="w-8 h-8 bg-accent flex items-center justify-center">
+              <span className="text-white font-bold text-[10px] font-mono">KK</span>
             </div>
+            <span className="text-lg font-bold tracking-tight hidden sm:block" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+              Kranthi Kumar Katta
+            </span>
           </motion.div>
         </Link>
 
-        {/* Desktop navigation */}
+        {/* Desktop navigation — clean center links */}
         <div className="hidden md:flex items-center gap-1">
           {sectionItems.map((item) => (
-            <motion.button
+            <button
               key={item.name}
               onClick={() => scrollToSection(item.href)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               className={`
-                px-3.5 py-2 rounded-xl transition-colors duration-200
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400
+                px-3 py-1.5 text-sm transition-colors duration-200
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500
                 ${activeSection === item.href.substring(1)
-                  ? "bg-violet-600 text-white"
-                  : "text-gray-300 hover:text-white hover:bg-gray-800"}
+                  ? "text-accent font-medium"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                }
               `}
+              style={{ fontFamily: "var(--font-jetbrains-mono)" }}
             >
               {item.name}
-            </motion.button>
+            </button>
           ))}
 
           {/* Apps dropdown */}
           <div className="relative">
-            <motion.button
+            <button
               onClick={() => setAppsOpen((v) => !v)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               aria-expanded={appsOpen}
-              className={`inline-flex items-center gap-1 px-3.5 py-2 rounded-xl transition-colors duration-200 ${
-                appsOpen ? "bg-violet-600/20 text-white" : "text-gray-300 hover:text-white hover:bg-gray-800"
+              className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm transition-colors duration-200 ${
+                appsOpen ? "text-accent" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               }`}
+              style={{ fontFamily: "var(--font-jetbrains-mono)" }}
             >
               Apps
-              <ChevronDown size={14} className={`transition-transform duration-200 ${appsOpen ? "rotate-180" : ""}`} />
-            </motion.button>
+              <ChevronDown size={12} className={`transition-transform duration-200 ${appsOpen ? "rotate-180" : ""}`} />
+            </button>
             <AnimatePresence>
               {appsOpen && (
                 <motion.div
@@ -165,7 +144,7 @@ export function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 6 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 top-full mt-2 w-52 rounded-2xl border border-white/[0.08] bg-[rgba(16,16,20,0.98)] backdrop-blur-lg shadow-2xl shadow-black/50 p-1.5"
+                  className="absolute right-0 top-full mt-2 w-48 rounded-lg border border-[var(--border-color)] bg-[var(--bg-primary)] shadow-lg p-1"
                 >
                   {appItems.map((item) => {
                     const Icon = item.icon!;
@@ -176,9 +155,9 @@ export function Navbar() {
                           scrollToSection(item.href);
                           setAppsOpen(false);
                         }}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-300 hover:text-white hover:bg-white/[0.06] transition-colors"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
                       >
-                        <Icon size={15} className="text-violet-400" />
+                        <Icon size={14} className="text-accent" />
                         {item.name}
                       </button>
                     );
@@ -192,49 +171,48 @@ export function Navbar() {
           {unreadContacts > 0 && (
             <Link
               href="/admin"
-              className="relative p-2.5 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+              className="relative p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
               title={`${unreadContacts} new contact request${unreadContacts === 1 ? "" : "s"}`}
             >
-              <Bell size={18} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M4 5a4 4 0 018 0c0 3 1 5 2 6H2c1-1 2-3 2-6z" />
+                <path d="M6 10v1a2 2 0 004 0v-1" />
+              </svg>
+              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-accent animate-pulse" />
             </Link>
           )}
 
           {/* Search */}
-          <motion.button
+          <button
             onClick={() => window.dispatchEvent(new Event("open-search"))}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
             aria-label="Search (⌘K)"
-            className="p-2.5 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+            className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
           >
-            <Search size={18} />
-          </motion.button>
+            <Search size={16} />
+          </button>
 
           {/* Theme toggle */}
-          <motion.button
+          <button
             onClick={toggleTheme}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
             aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-            className="p-2.5 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
+            className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
           >
-            {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
-          </motion.button>
+            {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+          </button>
 
-          {/* Auth button */}
+          {/* CTA button */}
           {user ? (
-            <div className="flex items-center gap-2 ml-1">
+            <div className="flex items-center gap-2 ml-2">
               <Link
                 href="/dashboard"
-                className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white hover:opacity-90 transition-opacity"
+                className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-xs font-bold text-white hover:opacity-90 transition-opacity"
                 title="Dashboard"
               >
                 {(user.email ?? "U")[0]?.toUpperCase()}
               </Link>
               <button
                 onClick={signOut}
-                className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
+                className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
               >
                 Sign Out
               </button>
@@ -242,23 +220,22 @@ export function Navbar() {
           ) : (
             <Link
               href="/auth"
-              className="ml-1 px-3.5 py-1.5 rounded-xl bg-violet-600/90 hover:bg-violet-500 text-white text-xs font-medium transition-colors"
+              className="ml-2 px-4 py-1.5 bg-[var(--text-primary)] text-[var(--bg-primary)] text-xs font-medium hover:opacity-90 transition-opacity"
+              style={{ fontFamily: "var(--font-jetbrains-mono)" }}
             >
-              Sign In
+              SIGN IN
             </Link>
           )}
         </div>
 
         {/* Mobile menu toggle */}
-        <motion.button
+        <button
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Close menu" : "Open menu"}
-          className="md:hidden p-2.5 rounded-xl text-gray-300 hover:text-white hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          className="md:hidden p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
         >
           {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </motion.button>
+        </button>
       </div>
 
       {/* Mobile drawer */}
@@ -269,59 +246,74 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-white/10 dark:bg-gray-900/60 backdrop-blur-lg"
+            className="md:hidden bg-[var(--bg-primary)] border-t border-[var(--border-color)]"
           >
-            <div className="px-4 py-4 space-y-2">
-              {navItems.map((item, i) => (
-                <motion.button
+            <div className="px-6 py-4 space-y-1">
+              {sectionItems.map((item) => (
+                <button
                   key={item.name}
                   onClick={() => {
                     scrollToSection(item.href);
                     setIsOpen(false);
                   }}
                   className={`
-                    flex w-full items-center px-4 py-3 rounded-xl text-left transition-colors duration-200
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400
+                    block w-full text-left px-3 py-2.5 rounded-md text-sm transition-colors
                     ${activeSection === item.href.substring(1)
-                      ? "bg-violet-600 text-white"
-                      : "text-gray-300 hover:text-white hover:bg-gray-800"}
+                      ? "text-accent font-medium"
+                      : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    }
                   `}
+                  style={{ fontFamily: "var(--font-jetbrains-mono)" }}
                 >
                   {item.name}
-                </motion.button>
+                </button>
               ))}
 
-              {/* Mobile theme toggle */}
-              <motion.button
-                onClick={() => {
-                  toggleTheme();
-                  setIsOpen(false);
-                }}
-                className={`
-                  flex w-full items-center px-4 py-3 rounded-xl text-left transition-colors duration-200
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400
-                  text-gray-300 hover:text-white hover:bg-gray-800
-                `}
-              >
-                {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
-                <span className="ml-2">{theme === "light" ? "Dark" : "Light"} mode</span>
-              </motion.button>
+              <div className="pt-2 border-t border-[var(--border-color)]">
+                <p className="px-3 py-1.5 text-xs text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>APPS</p>
+                {appItems.map((item) => {
+                  const Icon = item.icon!;
+                  return (
+                    <button
+                      key={item.name}
+                      onClick={() => {
+                        scrollToSection(item.href);
+                        setIsOpen(false);
+                      }}
+                      className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-md text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
+                    >
+                      <Icon size={14} className="text-accent" />
+                      {item.name}
+                    </button>
+                  );
+                })}
+              </div>
 
-              {/* Mobile auth */}
+              <div className="pt-2 border-t border-[var(--border-color)] flex items-center gap-3">
+                <button
+                  onClick={() => { toggleTheme(); setIsOpen(false); }}
+                  className="flex items-center gap-2 px-3 py-2.5 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                >
+                  {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
+                  {theme === "light" ? "Dark mode" : "Light mode"}
+                </button>
+              </div>
+
               {user ? (
-                <div className="flex items-center gap-3 px-4 py-3">
+                <div className="flex items-center gap-3 px-3 py-3 border-t border-[var(--border-color)]">
                   <Link href="/dashboard" onClick={() => setIsOpen(false)}
-                    className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white">
+                    className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-xs font-bold text-white">
                     {(user.email ?? "U")[0]?.toUpperCase()}
                   </Link>
-                  <span className="text-sm text-gray-300 flex-1 truncate">{user.email}</span>
+                  <span className="text-sm text-[var(--text-secondary)] flex-1 truncate">{user.email}</span>
                   <button onClick={() => { signOut(); setIsOpen(false); }}
-                    className="text-xs text-gray-500 hover:text-gray-300">Sign Out</button>
+                    className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]">Sign Out</button>
                 </div>
               ) : (
                 <Link href="/auth" onClick={() => setIsOpen(false)}
-                  className="flex w-full items-center justify-center px-4 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors">
-                  Sign In
+                  className="block w-full text-center px-4 py-2.5 bg-[var(--text-primary)] text-[var(--bg-primary)] text-xs font-medium"
+                  style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
+                  SIGN IN
                 </Link>
               )}
             </div>

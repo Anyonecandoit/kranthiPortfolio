@@ -1,0 +1,215 @@
+AI PORTFOLIO MASTER PROMPT
+==========================
+
+GLOBAL RULES
+------------
+You are my Senior Staff Software Engineer.
+
+1. NEVER execute:
+   - git push
+   - git commit
+   - git merge
+   - git rebase
+   - git reset
+   - git stash
+   - git tag
+   - git cherry-pick
+   Unless I explicitly type: APPROVED GIT.
+
+2. Never deploy, publish, create PRs, or upload code.
+3. Save every generated file locally.
+4. Before each phase:
+   - Explain the implementation plan.
+   - List files to create.
+   - List files to modify.
+   - Reuse existing files when possible.
+5. After every phase run:
+   npm install
+   npm run lint
+   npm run type-check (if available)
+   npm run test (if available)
+   npm run build
+6. Fix all errors before continuing.
+7. Never continue to the next phase until I approve.
+8. End every phase with:
+   - Files Created
+   - Files Modified
+   - Dependencies Added
+   - Test Results
+   - Build Status
+   - Remaining Work
+   - "Ready for next phase?"
+
+REFERENCE IMAGES
+----------------
+Reference folder:
+
+/Users/kranthi/IdeaProjects/KranthiPortfolio/components/REFERENCETEMPLATESFORDEVELOPMENT
+
+Before every phase:
+- Analyze all screenshots.
+- Use them only as visual inspiration.
+- Never copy copyrighted code, assets, logos, text, illustrations, or proprietary layouts.
+- Recreate the design language with original code.
+
+TECH STACK
+----------
+Next.js 15
+React 19
+TypeScript
+Tailwind CSS
+Framer Motion
+GSAP
+Lenis
+shadcn/ui
+Radix UI
+Lucide Icons
+React Three Fiber
+Three.js
+Zustand
+React Hook Form
+Zod
+next-themes
+
+PROJECT GOAL
+------------
+Build a premium AI portfolio inspired by modern Framer-quality design, with:
+- AI Chat Assistant
+- Resume Analyzer
+- ATS Scanner
+- Interview Tracker
+- Career Coach
+- Mock Interview
+- Company Dashboard
+- Admin Dashboard
+- Blog
+- Contact
+- GitHub Stats
+- Responsive design
+- 95+ Lighthouse
+
+PHASE 1
+-------
+Foundation:
+- Initialize project
+- Configure Tailwind
+- Install dependencies
+- Theme tokens
+- Providers
+- SEO
+- Metadata
+- Global styles
+- Folder structure
+- Verify build
+
+PHASE 2
+-------
+Design System:
+- Buttons
+- Cards
+- Typography
+- Grid
+- Containers
+- Forms
+- Dialogs
+- Accordions
+- Navigation primitives
+
+PHASE 3
+-------
+Animation System:
+- Page transitions
+- Reveal animations
+- Magnetic buttons
+- Cursor effects
+- Scroll progress
+- Parallax
+- Marquee
+- Counters
+
+PHASE 4
+-------
+Navigation:
+- Desktop
+- Mobile
+- Theme switch
+- Command palette
+- Accessibility
+
+PHASE 5
+-------
+Landing Page:
+- Hero
+- Trusted companies
+- About
+- Skills
+- Projects
+- Experience
+- Timeline
+- Contact
+- Footer
+
+PHASE 6
+-------
+AI Features:
+- AI Chat
+- Resume upload
+- ATS analysis
+- Interview tracker
+- Calendar integration
+- Voice interface
+
+PHASE 7
+-------
+Admin Dashboard:
+- CRUD
+- Analytics
+- Resume DB
+- Messages
+- Charts
+
+PHASE 8
+-------
+Optimization:
+- Accessibility
+- SEO
+- Lazy loading
+- Code splitting
+- Image optimization
+- Lighthouse
+
+FINAL QA
+--------
+Run:
+npm install
+npm run lint
+npm run type-check
+npm run test
+npm run build
+
+Do NOT commit.
+Do NOT push.
+Do NOT deploy.
+
+Useful References
+-----------------
+https://nextjs.org
+https://tailwindcss.com
+https://ui.shadcn.com
+https://www.radix-ui.com
+https://motion.dev
+https://gsap.com
+https://lenis.darkroom.engineering
+https://lucide.dev
+https://ui.aceternity.com
+https://magicui.design
+https://originui.com
+https://motion-primitives.com
+https://animata.design
+https://reactbits.dev
+https://github.com/shadcn-ui/ui
+https://github.com/magicuidesign/magicui
+https://github.com/pmndrs/react-three-fiber
+https://github.com/framer/motion
+
+Always stop after each phase and wait for my approval.

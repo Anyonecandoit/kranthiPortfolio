@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { WebGLBackground } from "@/components/ui/webgl-background";
 import { FloatingChat } from "@/components/chat/floating-chat";
 import { FloatingVoice } from "@/components/voice/floating-voice";
 import { AnalyticsTracker } from "@/components/analytics-tracker";
 import { ChatPageGuard } from "@/components/chat/chat-layout";
 import { ConditionalFooter } from "@/components/chat/chat-footer-wrapper";
+import { NoiseTexture } from "@/components/ui/noise-texture";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { CursorGlow } from "@/components/ui/cursor-glow";
 import dynamic from "next/dynamic";
 
 // Lazy-load the command palette so the tools catalog + resume index only
@@ -23,7 +25,17 @@ import { AuthProvider } from "@/lib/auth-context";
 import { SiteSettingsProvider } from "@/lib/settings";
 import { resumeData } from "@/data/resume";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
 
 const siteUrl = "https://www.kranthikumarkatta.in";
 
@@ -98,7 +110,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" className="light" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <script
@@ -107,7 +119,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} antialiased bg-[#0a0a0f] text-white transition-colors duration-300`}
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased transition-colors duration-300`}
       >
         {/* Skip‑to‑content link for screen‑reader users */}
         <a
@@ -116,16 +128,20 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <ThemeProvider attribute="class" defaultTheme="dark">
+        <ThemeProvider attribute="class" defaultTheme="light">
           <AuthProvider>
           <SiteSettingsProvider>
           <ChatProvider>
             <ChatPageGuard />
-            {/* Global 3D aurora + particle field — visible on every page */}
-            <WebGLBackground />
+            {/* Subtle noise texture overlay */}
+            <NoiseTexture opacity={0.025} />
+            {/* Scroll progress bar */}
+            <ScrollProgress />
+            {/* Cursor glow effect */}
+            <CursorGlow />
             {/* Fires page_view analytics on every route change */}
             <AnalyticsTracker />
-            {/* Sticky glass‑morphism navbar */}
+            {/* Sticky nav */}
             <Navbar />
             {/* Command palette — opens with ⌘K / Ctrl+K or the navbar search icon */}
             <GlobalSearch />

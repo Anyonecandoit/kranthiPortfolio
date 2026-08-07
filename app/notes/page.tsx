@@ -205,7 +205,7 @@ export default function NotesPage() {
   };
 
   return (
-    <main className="min-h-screen bg-transparent text-white pt-24 px-4 pb-12">
+    <main className="min-h-screen bg-[var(--bg-primary)] pt-24 px-6 pb-12">
       <div className="max-w-6xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
           <div className="flex items-center gap-3 mb-2">
