@@ -26,7 +26,7 @@ export function AIOrb() {
       <motion.div
         className="absolute inset-2 rounded-full overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, #7C3AED 0%, #8B5CF6 40%, #A855F7 70%, #C084FC 100%)",
+          background: "linear-gradient(135deg, #E65800 0%, #E68C55 40%, #F0A877 70%, #F5C0A0 100%)",
         }}
         animate={{
           rotate: [0, 360],
@@ -51,7 +51,7 @@ export function AIOrb() {
       {[0, 1, 2, 3, 4, 5].map((i) => (
         <motion.div
           key={i}
-          className="absolute w-1 h-1 rounded-full bg-violet-400"
+          className="absolute w-1 h-1 rounded-full bg-[var(--highlight)]"
           style={{
             top: `${20 + Math.sin(i * 1.047) * 40}%`,
             left: `${50 + Math.cos(i * 1.047) * 50}%`,

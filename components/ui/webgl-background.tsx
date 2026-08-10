@@ -57,7 +57,7 @@ export function WebGLBackground({
     // ── Aurora mesh layers ──
     const auroraGeometry = new THREE.PlaneGeometry(200, 200, 64, 64);
     const auroraColors = [
-      new THREE.Color(0x8b5cf6), // violet
+      new THREE.Color(0xe65800), // accent
       new THREE.Color(0x3b82f6), // blue
       new THREE.Color(0xec4899), // pink
       new THREE.Color(0x2dd4bf), // teal

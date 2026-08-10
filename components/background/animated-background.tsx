@@ -52,7 +52,7 @@ export function AnimatedBackground() {
       const by = H * (0.3 + i * 0.2) + Math.cos(t * (0.03 + i * 0.008)) * H * 0.15;
       const r = W * (0.08 + i * 0.02);
       const g = ctx.createRadialGradient(bx, by, 0, bx, by, r);
-      g.addColorStop(0, `rgba(139, 92, 246, ${0.04 + i * 0.01})`);
+      g.addColorStop(0, `rgba(230, 88, 0, ${0.04 + i * 0.01})`);
       g.addColorStop(1, "transparent");
       ctx.fillStyle = g;
       ctx.beginPath();
@@ -94,7 +94,7 @@ export function AnimatedBackground() {
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < maxDist) {
           const alpha = (1 - dist / maxDist) * 0.2;
-          ctx.strokeStyle = `rgba(139, 92, 246, ${alpha})`;
+          ctx.strokeStyle = `rgba(230, 88, 0, ${alpha})`;
           ctx.beginPath();
           ctx.moveTo(particles[a].x, particles[a].y);
           ctx.lineTo(particles[b].x, particles[b].y);
@@ -119,14 +119,14 @@ export function AnimatedBackground() {
       const ny = ((Math.cos(seed * 1.1) * 12345.6789) % 1 + 1) % 1 * H;
       const pulse = 0.3 + Math.sin(t * 0.8 + seed) * 0.15;
 
-      ctx.fillStyle = `rgba(139, 92, 246, ${pulse})`;
+      ctx.fillStyle = `rgba(230, 88, 0, ${pulse})`;
       ctx.beginPath();
       ctx.arc(nx, ny, 2.5, 0, Math.PI * 2);
       ctx.fill();
 
       // Glow
       const ng = ctx.createRadialGradient(nx, ny, 0, nx, ny, 15);
-      ng.addColorStop(0, `rgba(139, 92, 246, ${pulse * 0.3})`);
+      ng.addColorStop(0, `rgba(230, 88, 0, ${pulse * 0.3})`);
       ng.addColorStop(1, "transparent");
       ctx.fillStyle = ng;
       ctx.beginPath();
@@ -141,7 +141,7 @@ export function AnimatedBackground() {
         const d = Math.sqrt((nx - nx2) ** 2 + (ny - ny2) ** 2);
         if (d < 250) {
           const alpha = (1 - d / 250) * 0.06;
-          ctx.strokeStyle = `rgba(139, 92, 246, ${alpha})`;
+          ctx.strokeStyle = `rgba(230, 88, 0, ${alpha})`;
           ctx.lineWidth = 0.3;
           ctx.beginPath();
           ctx.moveTo(nx, ny);

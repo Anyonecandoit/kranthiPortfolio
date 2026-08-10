@@ -95,7 +95,7 @@ export default function ParticlesBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < maxDist) {
             const alpha = (1 - dist / maxDist) * 0.4; // bright lines
-            ctx.strokeStyle = `rgba(139, 92, 246, ${alpha})`; // purple lines
+            ctx.strokeStyle = `rgba(230, 88, 0, ${alpha})`; // accent lines
             ctx.lineWidth = 0.6;
             ctx.beginPath();
             ctx.moveTo(particles[a].x, particles[a].y);
@@ -110,7 +110,7 @@ export default function ParticlesBackground() {
         const glow = 0.3 + Math.sin(p.pulse) * 0.2;
 
         // Glow halo
-        ctx.fillStyle = `rgba(139, 92, 246, ${glow * 0.3})`;
+        ctx.fillStyle = `rgba(230, 88, 0, ${glow * 0.3})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
         ctx.fill();

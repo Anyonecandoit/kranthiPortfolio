@@ -192,7 +192,7 @@ export function VisitorWidget() {
                 value={stats?.total ?? null}
               />
               <StatRow
-                icon={<CalendarDays size={13} className="text-violet-500" />}
+                icon={<CalendarDays size={13} className="text-[var(--accent)]" />}
                 label="Today"
                 value={stats?.today ?? null}
               />

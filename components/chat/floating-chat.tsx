@@ -82,7 +82,7 @@ export function FloatingChat() {
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.92 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-violet-600 to-purple-600 shadow-lg shadow-violet-600/30 hover:shadow-violet-500/40 flex items-center justify-center transition-shadow"
+            className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent-2)] shadow-lg shadow-black/25 hover:shadow-black/35 flex items-center justify-center transition-shadow"
             aria-label="Open AI chat"
           >
             <MessageCircle size={24} className="text-white" />
@@ -159,7 +159,7 @@ export function FloatingChat() {
                   <div className="flex flex-wrap justify-center gap-1.5 max-w-[340px]">
                     {activeAgent.suggestions.slice(0, 4).map((s) => (
                       <button key={s} onClick={() => handleSend(s)} disabled={isTyping}
-                        className="px-2.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] text-[11px] text-gray-400 hover:text-violet-400 hover:border-violet-500/30 transition-all disabled:opacity-40">
+                        className="px-2.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] text-[11px] text-gray-400 hover:text-[var(--highlight)] hover:border-[rgba(230,88,0,0.35)] transition-all disabled:opacity-40">
                         {s}
                       </button>
                     ))}
@@ -170,22 +170,22 @@ export function FloatingChat() {
                   {messages.map((msg) => (
                     <div key={msg.id} className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                       {msg.role === "assistant" && (
-                        <div className="w-6 h-6 rounded-md bg-gradient-to-br from-violet-600 to-purple-600 flex items-center justify-center shrink-0 mt-0.5">
+                        <div className="w-6 h-6 rounded-md bg-gradient-to-br from-[var(--accent)] to-[var(--accent-2)] flex items-center justify-center shrink-0 mt-0.5">
                           <Bot size={12} className="text-white" />
                         </div>
                       )}
                       <div className={`max-w-[85%] ${msg.role === "user" ? "order-first" : ""}`}>
                         <div className={`rounded-xl px-3 py-2 text-[13px] leading-relaxed ${
-                          msg.role === "user" ? "bg-violet-600 text-white rounded-br-sm" : "bg-white/[0.05] border border-white/[0.06] text-gray-200 rounded-bl-sm"
+                          msg.role === "user" ? "bg-[var(--accent)] text-white rounded-br-sm" : "bg-white/[0.05] border border-white/[0.06] text-gray-200 rounded-bl-sm"
                         }`}>
                           {msg.role === "assistant" && !msg.content && isTyping ? (
                             <div className="flex items-center gap-1 py-0.5">
-                              <span className="w-1 h-1 rounded-full bg-violet-400 animate-bounce" style={{ animationDelay: "0ms" }} />
-                              <span className="w-1 h-1 rounded-full bg-violet-400 animate-bounce" style={{ animationDelay: "150ms" }} />
-                              <span className="w-1 h-1 rounded-full bg-violet-400 animate-bounce" style={{ animationDelay: "300ms" }} />
+                              <span className="w-1 h-1 rounded-full bg-[var(--highlight)] animate-bounce" style={{ animationDelay: "0ms" }} />
+                              <span className="w-1 h-1 rounded-full bg-[var(--highlight)] animate-bounce" style={{ animationDelay: "150ms" }} />
+                              <span className="w-1 h-1 rounded-full bg-[var(--highlight)] animate-bounce" style={{ animationDelay: "300ms" }} />
                             </div>
                           ) : msg.role === "assistant" ? (
-                            <div className="prose prose-invert prose-xs max-w-none prose-p:my-1 prose-headings:text-white prose-p:text-gray-200 prose-strong:text-white prose-a:text-violet-400">
+                            <div className="prose prose-invert prose-xs max-w-none prose-p:my-1 prose-headings:text-white prose-p:text-gray-200 prose-strong:text-white prose-a:text-[var(--highlight)]">
                               <Markdown>{msg.content}</Markdown>
                             </div>
                           ) : (
@@ -206,7 +206,7 @@ export function FloatingChat() {
                     <div className="flex flex-wrap gap-1.5 pt-1">
                       {followUp.map((s, i) => (
                         <button key={i} onClick={() => handleSend(s)} disabled={isTyping}
-                          className="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.06] text-[11px] text-gray-400 hover:text-violet-400 hover:border-violet-500/30 transition-all disabled:opacity-40">
+                          className="px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.06] text-[11px] text-gray-400 hover:text-[var(--highlight)] hover:border-[rgba(230,88,0,0.35)] transition-all disabled:opacity-40">
                           {s}
                         </button>
                       ))}
@@ -220,7 +220,7 @@ export function FloatingChat() {
 
             {/* Input */}
             <div className="shrink-0 px-3 pb-3">
-              <div className="flex items-center gap-2 bg-white/[0.04] border border-white/[0.08] rounded-xl px-3 py-1 focus-within:border-violet-500/30 transition-colors">
+              <div className="flex items-center gap-2 bg-white/[0.04] border border-white/[0.08] rounded-xl px-3 py-1 focus-within:border-[rgba(230,88,0,0.4)] transition-colors">
                 <input ref={inputRef} type="text" value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend(input)}
@@ -233,7 +233,7 @@ export function FloatingChat() {
                   className="pr-0.5"
                 />
                 <button onClick={() => handleSend(input)} disabled={!input.trim() || isTyping}
-                  className="w-8 h-8 rounded-lg bg-gradient-to-r from-violet-600 to-purple-600 disabled:opacity-30 flex items-center justify-center shrink-0 transition-all shadow-lg shadow-violet-600/20">
+                  className="w-8 h-8 rounded-lg bg-gradient-to-r from-[var(--accent)] to-[var(--accent-2)] disabled:opacity-30 flex items-center justify-center shrink-0 transition-all shadow-lg shadow-black/20">
                   <Send size={14} className="text-white" />
                 </button>
               </div>

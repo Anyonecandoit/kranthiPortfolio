@@ -159,7 +159,7 @@ export function FloatingVoice() {
           "fixed bottom-[6.5rem] right-6 z-[60] w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-110 active:scale-95",
           open
             ? "bg-gradient-to-br from-cyan-500 to-blue-600 shadow-cyan-500/30"
-            : "bg-gradient-to-br from-violet-600 to-purple-600 shadow-violet-600/30 hover:shadow-violet-500/40"
+            : "bg-gradient-to-br from-[var(--accent)] to-[var(--accent-2)] shadow-black/25 hover:shadow-black/35"
         )}
       >
         {active ? (
@@ -205,7 +205,7 @@ export function FloatingVoice() {
                     status === "listening"
                       ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30"
                       : status === "thinking"
-                      ? "bg-violet-500/15 text-violet-300 border border-violet-500/30"
+                      ? "bg-[rgba(230,88,0,0.15)] text-[#f0a877] border border-[rgba(230,88,0,0.3)]"
                       : status === "speaking"
                       ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
                       : "bg-white/[0.06] text-gray-400 border border-white/10"
@@ -234,7 +234,7 @@ export function FloatingVoice() {
                     className={cn(
                       "max-w-[85%] rounded-2xl px-3 py-2 text-[13px] leading-relaxed",
                       m.role === "user"
-                        ? "bg-violet-600/25 border border-violet-500/30 text-violet-100"
+                        ? "bg-[rgba(230,88,0,0.22)] border border-[rgba(230,88,0,0.3)] text-[#ffe3d0]"
                         : "bg-white/[0.06] border border-white/[0.08] text-gray-200"
                     )}
                   >

@@ -130,7 +130,7 @@ export default function RootLayout({
         {/* Skip‑to‑content link for screen‑reader users */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-violet-600 text-white py-2 px-4 rounded-md z-50"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-[var(--accent)] text-white py-2 px-4 rounded-md z-50"
         >
           Skip to content
         </a>

@@ -93,7 +93,7 @@ export function Navbar() {
           <motion.div
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-2.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+            className="flex items-center gap-2.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             <div className="w-8 h-8 bg-accent flex items-center justify-center">
               <span className="text-white font-bold text-[10px] font-mono">KK</span>
@@ -112,7 +112,7 @@ export function Navbar() {
               onClick={() => scrollToSection(item.href)}
               className={`
                 px-3 py-1.5 text-sm transition-colors duration-200
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]
                 ${activeSection === item.href.substring(1)
                   ? "text-accent font-medium"
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
@@ -171,7 +171,7 @@ export function Navbar() {
           {unreadContacts > 0 && (
             <Link
               href="/admin"
-              className="relative p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+              className="relative p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
               title={`${unreadContacts} new contact request${unreadContacts === 1 ? "" : "s"}`}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -186,7 +186,7 @@ export function Navbar() {
           <button
             onClick={() => window.dispatchEvent(new Event("open-search"))}
             aria-label="Search (⌘K)"
-            className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+            className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             <Search size={16} />
           </button>
@@ -195,7 +195,7 @@ export function Navbar() {
           <button
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-            className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+            className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
           </button>

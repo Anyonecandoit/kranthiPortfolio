@@ -49,10 +49,6 @@ export function Experience() {
               <div className="text-4xl md:text-5xl font-bold text-[var(--text-light)]/10 mb-4 font-mono">
                 {step.num}
               </div>
-              {/* Dotted connector line (between steps, except last) */}
-              {i < processSteps.length - 1 && (
-                <div className="hidden md:block absolute top-6 left-full w-full h-px border-t border-dashed border-[var(--border-dark)]" />
-              )}
               <h3 className="text-sm font-semibold uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
                 {step.title}
               </h3>
