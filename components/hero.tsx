@@ -1,10 +1,11 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Mail, Linkedin, FileText, ArrowDown, Code, Database, Cloud, Shield } from "lucide-react";
+import { Mail, ArrowDown, Code, Database, Cloud, Shield } from "lucide-react";
 import { resumeData } from "@/data/resume";
 import { SectionLabel } from "@/components/ui/section-label";
 import { DotMatrixBottom } from "@/components/ui/dot-pattern";
+import { IntegrationsBlock } from "@/components/tech-stack";
 
 /**
  * Oberon-inspired Hero — bold typography, numbered section,
@@ -63,9 +64,9 @@ export function Hero() {
 
       {/* Main content */}
       <motion.div style={{ opacity }} className="relative z-10 max-w-7xl mx-auto w-full px-6 pt-32 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left column — section label + text */}
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-7">
             <SectionLabel number="01" title="INTRO" />
 
             {/* Main heading — huge bold (Oberon-style) */}
@@ -125,47 +126,17 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Right column — accent element (Oberon-style central icon) */}
-          <div className="lg:col-span-4 flex justify-center lg:justify-end">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-              className="relative"
+          {/* Right column — 07 STACK / Integrations block (first page, right side, under SIGN IN) */}
+          <div className="lg:col-span-5 flex flex-col items-center lg:items-start gap-4">
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
+              className="label-mono text-[var(--text-secondary)] text-[0.65rem] tracking-[0.2em]"
             >
-              {/* Central accent square */}
-              <div className="w-32 h-32 border-2 border-accent bg-[var(--bg-primary)] flex items-center justify-center relative">
-                <span className="text-xs font-bold text-accent font-mono text-center leading-tight">KRANTHI<br/>KUMAR<br/>KATTA</span>
-                {/* Corner accents */}
-                <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-accent" />
-                <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-accent" />
-                <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-accent" />
-                <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-accent" />
-              </div>
-
-              {/* Floating mini icons around the center */}
-              <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-8 -right-8 w-8 h-8 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] flex items-center justify-center"
-              >
-                <span className="text-xs text-accent">✦</span>
-              </motion.div>
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -bottom-6 -left-10 w-8 h-8 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] flex items-center justify-center"
-              >
-                <span className="text-xs text-accent">◆</span>
-              </motion.div>
-              <motion.div
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute top-1/2 -right-14 w-7 h-7 rounded-md border border-[var(--border-color)] bg-[var(--bg-card)] flex items-center justify-center"
-              >
-                <span className="text-xs text-accent">●</span>
-              </motion.div>
-            </motion.div>
+              07 — STACK
+            </motion.span>
+            <IntegrationsBlock variant="column" />
           </div>
         </div>
 

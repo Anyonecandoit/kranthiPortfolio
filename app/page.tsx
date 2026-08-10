@@ -2,7 +2,6 @@ import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
 import { Skills } from "@/components/skills";
 import { Projects } from "@/components/projects";
-import { TechStack } from "@/components/tech-stack";
 import { Testimonials } from "@/components/testimonials";
 import { Experience } from "@/components/experience";
 import { Pricing } from "@/components/pricing";
@@ -18,7 +17,7 @@ import { Contact } from "@/components/contact";
  *   02 ABOUT
  *   03 EXPERTISE (Skills)
  *   05 PROJECTS (Case Studies — carousel)
- *   07 STACK (Integrations — orbital diagram)
+ *   07 STACK (Integrations — rendered in the hero, right of SIGN IN)
  *   09 TESTIMONIALS
  *   08 PROCESS (Experience — timeline)
  *   10 PRICING
@@ -46,11 +45,6 @@ export default function Home() {
       {/* 05 PROJECTS — Case Studies carousel */}
       <section id="projects" className="scroll-mt-20">
         <Projects />
-      </section>
-
-      {/* 07 STACK — Integrations / orbital diagram */}
-      <section id="stack" className="scroll-mt-20">
-        <TechStack />
       </section>
 
       {/* 09 TESTIMONIALS */}

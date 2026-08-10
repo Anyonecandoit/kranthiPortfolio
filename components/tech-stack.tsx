@@ -10,7 +10,7 @@ const ring2 = ["Java", "Python", "PostgreSQL", "AWS", "Docker", "Redis"];
 const ring3 = ["GraphQL", "Tailwind", "Jenkins", "Supabase", "Prisma"];
 
 /* ─── revolving orbital diagram ────────────────────────────────────── */
-function OrbitalDiagram() {
+export function OrbitalDiagram() {
   const size = 520;
   const cx = size / 2;
   const cy = size / 2;
@@ -216,7 +216,124 @@ function OrbitalDiagram() {
   );
 }
 
-/* ─── main component ───────────────────────────────────────────────── */
+/* ─── shared copy for the Integrations block ───────────────────────── */
+const STACK_DESCRIPTION =
+  "I CONNECT TOOLS INTO ONE SYSTEM, ELIMINATING MANUAL WORK AND SAVING TIME.";
+
+const stackStats = [
+  { num: "17+", label: "TECHNOLOGIES" },
+  { num: "5+", label: "CLOUD PLATFORMS" },
+  { num: "10+", label: "FRAMEWORKS" },
+  { num: "3+", label: "CI/CD TOOLS" },
+];
+
+function StackStats() {
+  return (
+    <div className="grid grid-cols-2 gap-6">
+      {stackStats.map((stat, i) => (
+        <motion.div
+          key={stat.label}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+        >
+          <div className="text-2xl font-bold">{stat.num}</div>
+          <div className="label-mono text-[var(--text-secondary)] text-[0.55rem] mt-1">
+            {stat.label}
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+function StackDescription() {
+  return (
+    <p
+      className="text-[var(--text-secondary)] text-base leading-relaxed max-w-md"
+      style={{ fontFamily: "var(--font-jetbrains-mono)", letterSpacing: "0.02em" }}
+    >
+      {STACK_DESCRIPTION}
+    </p>
+  );
+}
+
+/* ─── reusable Integrations block (heading + orbital + copy + stats) ──
+ *
+ * variant="row"    — side-by-side layout used by the standalone section
+ * variant="column" — stacked layout used in the hero (right of SIGN IN)
+ */
+export function IntegrationsBlock({
+  variant = "row",
+  className = "",
+}: {
+  variant?: "row" | "column";
+  className?: string;
+}) {
+  if (variant === "column") {
+    return (
+      <div className={`flex flex-col items-center lg:items-start gap-6 ${className}`}>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="text-2xl md:text-3xl font-bold tracking-tight"
+        >
+          Integrations
+        </motion.h2>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full max-w-[420px]"
+        >
+          <OrbitalDiagram />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <StackDescription />
+        </motion.div>
+        <StackStats />
+      </div>
+    );
+  }
+
+  return (
+    <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${className}`}>
+      {/* Revolving orbital diagram */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <OrbitalDiagram />
+      </motion.div>
+
+      {/* Description + stats */}
+      <motion.div
+        initial={{ opacity: 0, x: 30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <StackDescription />
+        <div className="mt-8">
+          <StackStats />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+/* ─── standalone 07 STACK section ──────────────────────────────────── */
 export function TechStack() {
   return (
     <section className="py-32 px-6 bg-[var(--bg-primary)] relative overflow-hidden">
@@ -234,54 +351,7 @@ export function TechStack() {
           Integrations
         </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Revolving orbital diagram */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <OrbitalDiagram />
-          </motion.div>
-
-          {/* Description */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <p
-              className="text-[var(--text-secondary)] text-base leading-relaxed max-w-md"
-              style={{ fontFamily: "var(--font-jetbrains-mono)", letterSpacing: "0.02em" }}
-            >
-              I CONNECT TOOLS INTO ONE SYSTEM, ELIMINATING
-              MANUAL WORK AND SAVING TIME.
-            </p>
-            <div className="mt-8 grid grid-cols-2 gap-6">
-              {[
-                { num: "17+", label: "TECHNOLOGIES" },
-                { num: "5+", label: "CLOUD PLATFORMS" },
-                { num: "10+", label: "FRAMEWORKS" },
-                { num: "3+", label: "CI/CD TOOLS" },
-              ].map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
-                >
-                  <div className="text-2xl font-bold">{stat.num}</div>
-                  <div className="label-mono text-[var(--text-secondary)] text-[0.55rem] mt-1">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
+        <IntegrationsBlock />
       </div>
     </section>
   );
