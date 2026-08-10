@@ -39,6 +39,36 @@ export interface Certification {
   credentialUrl?: string;
 }
 
+export interface Testimonial {
+  name: string;
+  role: string;
+  text: string;
+  rating: number;
+}
+
+export interface TechStack {
+  ring1: string[];
+  ring2: string[];
+  ring3: string[];
+  stats: { num: string; label: string }[];
+  description: string;
+}
+
+export interface PricingTier {
+  name: string;
+  description: string;
+  monthlyPrice: number;
+  annualPrice: number;
+  features: string[];
+  cta: string;
+  popular: boolean;
+}
+
+export interface FAQ {
+  q: string;
+  a: string;
+}
+
 export const resumeData = {
   name: "Kranthi Kumar Katta",
   title: "Senior SDET | Automation Expert",
@@ -215,6 +245,124 @@ export const resumeData = {
     phone: "+91 8466952706",
     linkedin: "https://linkedin.com/in/kranthi-kumar-katta-a40093318",
   },
+
+  testimonials: [
+    {
+      name: "Priya Sharma",
+      role: "Engineering Manager, PayU",
+      text: "Kranthi completely transformed our QA pipeline. The automation framework he built reduced our regression cycle from 3 days to under 4 hours. His technical depth and communication are outstanding.",
+      rating: 5,
+    },
+    {
+      name: "Rajesh Varma",
+      role: "CTO, Barraq Technology Lab",
+      text: "One of the most disciplined engineers I have worked with. Kranthi built a cross-border remittance test suite from scratch that caught critical bugs before production. His attention to edge cases is remarkable.",
+      rating: 5,
+    },
+    {
+      name: "Ananya Patel",
+      role: "Product Lead, Impelsys",
+      text: "Kranthi's performance engineering work on our healthcare platform was game-changing. Load test results directly informed architecture decisions that improved throughput by 60%.",
+      rating: 5,
+    },
+    {
+      name: "Suresh Reddy",
+      role: "VP Engineering, Wibmo",
+      text: "Kranthi brings a rare combination of automation expertise and genuine curiosity. He does not just write tests — he understands the product deeply and finds issues nobody else catches.",
+      rating: 5,
+    },
+    {
+      name: "Deepa Nair",
+      role: "QA Director, GlobalEdge",
+      text: "Kranthi mentored our junior QA team with patience and clarity. Within three months, the team was writing production-grade automation independently. His documentation is also exemplary.",
+      rating: 5,
+    },
+  ] as Testimonial[],
+
+  techStack: {
+    ring1: ["Next.js", "React", "TypeScript", "Selenium", "Playwright", "Cypress"],
+    ring2: ["Java", "Python", "PostgreSQL", "AWS", "Docker", "Redis"],
+    ring3: ["GraphQL", "Tailwind", "Jenkins", "Supabase", "Prisma"],
+    stats: [
+      { num: "17+", label: "TECHNOLOGIES" },
+      { num: "5+", label: "CLOUD PLATFORMS" },
+      { num: "10+", label: "FRAMEWORKS" },
+      { num: "3+", label: "CI/CD TOOLS" },
+    ],
+    description: "I CONNECT TOOLS INTO ONE SYSTEM, ELIMINATING MANUAL WORK AND SAVING TIME.",
+  } as TechStack,
+
+  pricing: [
+    {
+      name: "CONSULTATION",
+      description: "FOR TEAMS NEEDING\nQUICK EXPERT ADVICE",
+      monthlyPrice: 1500,
+      annualPrice: 1200,
+      features: [
+        "1-on-1 strategy session",
+        "QA audit & recommendations",
+        "Framework selection guidance",
+        "Email support",
+      ],
+      cta: "BOOK A SESSION",
+      popular: false,
+    },
+    {
+      name: "PROJECT",
+      description: "FOR COMPANIES\nREADY FOR AUTOMATION",
+      monthlyPrice: 8500,
+      annualPrice: 7200,
+      features: [
+        "End-to-end test automation",
+        "CI/CD pipeline setup",
+        "Custom framework build",
+        "Priority support",
+      ],
+      cta: "START A PROJECT",
+      popular: true,
+    },
+    {
+      name: "RETAINER",
+      description: "FOR ORGANIZATIONS\nWITH ONGOING NEEDS",
+      monthlyPrice: 15000,
+      annualPrice: 12500,
+      features: [
+        "Dedicated QA engineering",
+        "Continuous test maintenance",
+        "Performance monitoring",
+        "Enterprise integrations",
+      ],
+      cta: "GET THE PLAN",
+      popular: false,
+    },
+  ] as PricingTier[],
+
+  faqs: [
+    {
+      q: "What types of projects do you take on?",
+      a: "I specialize in test automation frameworks, performance engineering, full-stack web applications, and AI/LLM integrations. I work best on projects that need reliable, scalable quality infrastructure — from greenfield builds to legacy modernization.",
+    },
+    {
+      q: "Do clients need technical knowledge to get started?",
+      a: "Not at all. I translate business requirements into technical solutions. You describe what you need — faster releases, better test coverage, a new feature — and I handle the architecture, implementation, and documentation.",
+    },
+    {
+      q: "Which tools and platforms do you work with?",
+      a: "My core stack includes Java, Python, TypeScript, Selenium, Playwright, Cypress, Next.js, React, AWS, Docker, PostgreSQL, and Redis. I adapt to whatever your team already uses and recommend additions where they add real value.",
+    },
+    {
+      q: "How long does a typical project take?",
+      a: "A focused test automation framework: 2-4 weeks. A full-stack web application: 6-12 weeks. Performance engineering engagement: 2-6 weeks. Every project starts with a clear scope and milestone plan so there are no surprises.",
+    },
+    {
+      q: "Can you work with our existing software and workflows?",
+      a: "Yes — that is actually where I add the most value. I integrate into your existing CI/CD pipelines, extend current test suites, and improve what is already there rather than forcing a rewrite. The goal is to enhance, not replace.",
+    },
+    {
+      q: "What is your approach to documentation?",
+      a: "Every framework I build ships with comprehensive documentation: architecture diagrams, setup guides, contribution guidelines, and runbooks. I believe code that cannot be understood by your team in 6 months is code that will eventually be replaced.",
+    },
+  ] as FAQ[],
 };
 
 /**

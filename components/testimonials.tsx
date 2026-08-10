@@ -2,44 +2,11 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { resumeData, Testimonial } from "@/data/resume";
 import { SectionLabel } from "@/components/ui/section-label";
 import { GridBackground } from "@/components/ui/grid-background";
 import { DotMatrixBottom } from "@/components/ui/dot-pattern";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
-
-/* ─── testimonial data (original content) ─────────────────────────── */
-const testimonials = [
-  {
-    name: "Priya Sharma",
-    role: "Engineering Manager, PayU",
-    text: "Kranthi completely transformed our QA pipeline. The automation framework he built reduced our regression cycle from 3 days to under 4 hours. His technical depth and communication are outstanding.",
-    rating: 5,
-  },
-  {
-    name: "Rajesh Varma",
-    role: "CTO, Barraq Technology Lab",
-    text: "One of the most disciplined engineers I have worked with. Kranthi built a cross-border remittance test suite from scratch that caught critical bugs before production. His attention to edge cases is remarkable.",
-    rating: 5,
-  },
-  {
-    name: "Ananya Patel",
-    role: "Product Lead, Impelsys",
-    text: "Kranthi's performance engineering work on our healthcare platform was game-changing. Load test results directly informed architecture decisions that improved throughput by 60%.",
-    rating: 5,
-  },
-  {
-    name: "Suresh Reddy",
-    role: "VP Engineering, Wibmo",
-    text: "Kranthi brings a rare combination of automation expertise and genuine curiosity. He does not just write tests — he understands the product deeply and finds issues nobody else catches.",
-    rating: 5,
-  },
-  {
-    name: "Deepa Nair",
-    role: "QA Director, GlobalEdge",
-    text: "Kranthi mentored our junior QA team with patience and clarity. Within three months, the team was writing production-grade automation independently. His documentation is also exemplary.",
-    rating: 5,
-  },
-];
 
 /* ─── halftone portrait placeholder (CSS-driven, no external images) ─ */
 function HalftonePortrait({ index }: { index: number }) {
@@ -79,12 +46,13 @@ export function Testimonials() {
   const [current, setCurrent] = useState(0);
   const visibleCount = 4; // how many portraits shown in the row
 
-  const next = () => setCurrent((c) => (c + 1) % testimonials.length);
-  const prev = () => setCurrent((c) => (c - 1 + testimonials.length) % testimonials.length);
+  const total = resumeData.testimonials.length;
+  const next = () => setCurrent((c) => (c + 1) % total);
+  const prev = () => setCurrent((c) => (c - 1 + total) % total);
 
   // Get visible testimonials for the row
   const visible = Array.from({ length: visibleCount }, (_, i) =>
-    testimonials[(current + i) % testimonials.length]
+    resumeData.testimonials[(current + i) % total]
   );
 
   return (
@@ -162,14 +130,14 @@ export function Testimonials() {
               >
                 <Quote size={32} className="text-accent mb-4" />
                 <blockquote className="text-lg md:text-xl leading-relaxed text-[var(--text-primary)] mb-6">
-                  &ldquo;{testimonials[current].text}&rdquo;
+                  &ldquo;{resumeData.testimonials[current].text}&rdquo;
                 </blockquote>
                 <div>
                   <p className="font-semibold text-[var(--text-primary)]">
-                    {testimonials[current].name}
+                    {resumeData.testimonials[current].name}
                   </p>
                   <p className="label-mono text-[var(--text-secondary)] text-[0.6rem] mt-1">
-                    {testimonials[current].role}
+                    {resumeData.testimonials[current].role}
                   </p>
                 </div>
               </motion.div>
