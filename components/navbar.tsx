@@ -6,6 +6,7 @@ import { Menu, X, Moon, Sun, MessageCircle, Briefcase, Search, Sparkles, Calcula
 import { useTheme } from "./theme-provider";
 import { useAuth } from "@/lib/auth-context";
 import { useUnreadContactCount } from "@/lib/contact";
+import { NavVisitorCount } from "./nav-visitor-count";
 import Link from "next/link";
 
 /* Navigation items — section links on the homepage */
@@ -226,6 +227,9 @@ export function Navbar() {
               SIGN IN
             </Link>
           )}
+
+          {/* Live visitor count — right of SIGN IN */}
+          <NavVisitorCount />
         </div>
 
         {/* Mobile menu toggle */}
