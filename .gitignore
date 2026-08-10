@@ -34,3 +34,5 @@ __pycache__/
 .idea/
 .env.local
 VERCEL_ENV_VARS.md
+.freebuff/
+.freebuff/
