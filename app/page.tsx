@@ -15,11 +15,11 @@ import { Contact } from "@/components/contact";
  * following the Oberon-inspired editorial layout:
  *   01 INTRO (Hero)
  *   02 ABOUT
- *   03 EXPERTISE (Skills)
- *   05 PROJECTS (Case Studies — carousel)
+ *   08 PROCESS (Experience — timeline, page 3)
+ *   03 EXPERTISE (Skills, page 4)
+ *   05 PROJECTS (Case Studies — carousel, page 5)
  *   07 STACK (Integrations — rendered in the hero, right of SIGN IN)
  *   09 TESTIMONIALS
- *   08 PROCESS (Experience — timeline)
  *   10 PRICING
  *   11 HELP (FAQ)
  *   12 CONTACTS
@@ -37,12 +37,17 @@ export default function Home() {
         <About />
       </section>
 
-      {/* 03 EXPERTISE — Skills */}
+      {/* 08 PROCESS — Experience timeline (page 3) */}
+      <section id="experience" className="scroll-mt-20">
+        <Experience />
+      </section>
+
+      {/* 03 EXPERTISE — Skills (page 4) */}
       <section id="skills" className="scroll-mt-20">
         <Skills />
       </section>
 
-      {/* 05 PROJECTS — Case Studies carousel */}
+      {/* 05 PROJECTS — Case Studies carousel (page 5) */}
       <section id="projects" className="scroll-mt-20">
         <Projects />
       </section>
@@ -50,11 +55,6 @@ export default function Home() {
       {/* 09 TESTIMONIALS */}
       <section id="testimonials" className="scroll-mt-20">
         <Testimonials />
-      </section>
-
-      {/* 08 PROCESS — Experience timeline */}
-      <section id="experience" className="scroll-mt-20">
-        <Experience />
       </section>
 
       {/* 10 PRICING */}
