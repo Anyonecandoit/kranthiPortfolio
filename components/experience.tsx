@@ -46,7 +46,7 @@ export function Experience() {
               className="relative"
             >
               {/* Step number */}
-              <div className="text-4xl md:text-5xl font-bold text-[var(--text-light)]/10 mb-4 font-mono">
+              <div className="text-4xl md:text-5xl font-medium text-[var(--text-light)]/10 mb-4 font-mono">
                 {step.num}
               </div>
               <h3 className="text-sm font-semibold uppercase tracking-wider mb-2" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>

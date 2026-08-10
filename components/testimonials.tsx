@@ -67,7 +67,7 @@ export function Testimonials() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
+            className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-[-0.05em]"
           >
             What clients say
           </motion.h2>
@@ -153,7 +153,7 @@ export function Testimonials() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="flex items-end gap-3"
             >
-              <span className="text-6xl md:text-7xl font-bold tracking-tight">4.9</span>
+              <span className="text-6xl md:text-7xl font-medium tracking-tight">4.9</span>
               <span className="text-lg text-[var(--text-secondary)] mb-2">/5</span>
             </motion.div>
             <motion.p

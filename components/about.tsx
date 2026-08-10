@@ -93,7 +93,7 @@ export function About() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="text-3xl md:text-4xl font-bold mb-1">
+              <div className="text-3xl md:text-4xl font-medium tracking-tight mb-1">
                 <AnimatedCounter value={stat.value} suffix={stat.suffix} />
               </div>
               <div className="label-mono text-[var(--text-secondary)] text-[0.6rem]">{stat.label}</div>

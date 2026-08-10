@@ -59,7 +59,7 @@ export default function RecruiterPage() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-purple-600 flex items-center justify-center">
               <Briefcase size={20} className="text-white" />
             </div>
-            <h1 className="text-3xl font-bold">Recruiter Mode</h1>
+            <h1 className="text-3xl font-medium tracking-tight">Recruiter Mode</h1>
             <Badge variant="accent">JD Matcher</Badge>
           </div>
           <p className="text-gray-400 max-w-2xl">

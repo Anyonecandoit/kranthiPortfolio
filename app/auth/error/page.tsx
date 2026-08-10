@@ -5,7 +5,7 @@ export default function AuthErrorPage() {
     <div className="min-h-[70vh] flex items-center justify-center px-4">
       <div className="text-center max-w-md mx-auto">
         <div className="text-5xl mb-4">⚠️</div>
-        <h1 className="text-2xl font-bold text-white mb-3">Authentication failed</h1>
+        <h1 className="text-2xl font-medium text-white mb-3">Authentication failed</h1>
         <p className="text-sm text-gray-400 mb-6 leading-relaxed">
           Something went wrong during sign-in. This can happen if the
           authorization was cancelled, expired, or the provider is not configured

@@ -34,9 +34,9 @@ const config: Config = {
         "border-dark": "var(--border-dark-val)",
       },
       fontFamily: {
-        sans: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "monospace"],
-        display: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
+        display: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       animation: {
         "fade-in": "fadeIn 0.8s ease-out",

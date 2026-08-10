@@ -68,7 +68,7 @@ export function Pricing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
+              className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-[-0.05em]"
             >
               Pricing
             </motion.h2>
@@ -151,7 +151,7 @@ export function Pricing() {
                     )}
                   </div>
                   <div className="flex items-end gap-1">
-                    <span className="text-4xl md:text-5xl font-bold tracking-tight">
+                    <span className="text-4xl md:text-5xl font-medium tracking-tight">
                       ${annual ? tier.annualPrice.toLocaleString() : tier.monthlyPrice.toLocaleString()}
                     </span>
                     <span className="text-sm text-[var(--text-light-muted)] mb-2">/mo</span>

@@ -74,7 +74,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-              className="text-display font-bold tracking-tight leading-[1.05] mb-6"
+              className="text-display font-medium tracking-[-0.05em] leading-[1.05] mb-6"
             >
               Building AI systems
               <br />
@@ -159,7 +159,7 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9 + i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="text-3xl md:text-4xl font-bold mb-1">{stat.number}</div>
+              <div className="text-3xl md:text-4xl font-medium tracking-tight mb-1">{stat.number}</div>
               <div className="label-mono text-[var(--text-secondary)] text-[0.65rem]">{stat.label}</div>
             </motion.div>
           ))}

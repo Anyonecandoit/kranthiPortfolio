@@ -238,7 +238,7 @@ function StackStats() {
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
         >
-          <div className="text-2xl font-bold">{stat.num}</div>
+          <div className="text-2xl font-medium tracking-tight">{stat.num}</div>
           <div className="label-mono text-[var(--text-secondary)] text-[0.55rem] mt-1">
             {stat.label}
           </div>
@@ -279,7 +279,7 @@ export function IntegrationsBlock({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-2xl md:text-3xl font-bold tracking-tight"
+          className="text-2xl md:text-3xl font-medium tracking-[-0.04em]"
         >
           Integrations
         </motion.h2>
@@ -346,7 +346,7 @@ export function TechStack() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-16"
+          className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-[-0.05em] mb-16"
         >
           Integrations
         </motion.h2>

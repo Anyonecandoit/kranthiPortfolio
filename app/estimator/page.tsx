@@ -64,7 +64,7 @@ export default function EstimatorPage() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center">
               <Calculator size={20} className="text-white" />
             </div>
-            <h1 className="text-3xl font-bold">Project Estimator</h1>
+            <h1 className="text-3xl font-medium tracking-tight">Project Estimator</h1>
             <Badge variant="accent">For clients</Badge>
           </div>
           <p className="text-gray-400 max-w-2xl">

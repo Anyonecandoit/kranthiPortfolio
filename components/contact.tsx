@@ -69,7 +69,7 @@ export function Contact() {
             transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col justify-center"
           >
-            <h3 className="text-2xl md:text-3xl font-bold mb-6">
+            <h3 className="text-2xl md:text-3xl font-medium tracking-[-0.04em] mb-6">
               Got something in mind?
             </h3>
             <p className="text-[var(--text-light-muted)] mb-8 leading-relaxed">

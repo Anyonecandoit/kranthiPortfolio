@@ -111,7 +111,7 @@ export default function ToolsPage() {
           className="mb-8"
         >
           <SectionLabel number="AI" title="TOOLS" />
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-2">AI Tools Library</h1>
+          <h1 className="text-4xl sm:text-5xl font-medium tracking-[-0.05em] mb-2">AI Tools Library</h1>
           <p className="text-[var(--text-secondary)] text-lg">
             <Badge variant="accent" className="mr-2">{TOOLS.length} tools</Badge>
             across {TOOL_CATEGORIES.length} categories
@@ -220,7 +220,7 @@ export default function ToolsPage() {
                     <ToolIcon name={selected.icon} size={32} />
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <h2 className="text-2xl font-bold text-[var(--text-primary)]">{selected.name}</h2>
+                        <h2 className="text-2xl font-medium tracking-[-0.04em] text-[var(--text-primary)]">{selected.name}</h2>
                         <Badge variant="accent">{selected.category}</Badge>
                       </div>
                       <p className="text-[var(--text-secondary)]">{selected.description}</p>

@@ -34,7 +34,7 @@ export function SectionHeader({ number, label, title, description, light = true 
       )}
 
       {/* Large heading */}
-      <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-[1.05]">
+      <h2 className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-[-0.05em] leading-[1.05]">
         {title}
       </h2>
 

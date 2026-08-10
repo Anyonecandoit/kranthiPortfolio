@@ -99,7 +99,7 @@ export function Navbar() {
             <div className="w-8 h-8 bg-accent flex items-center justify-center">
               <span className="text-white font-bold text-[10px] font-mono">KK</span>
             </div>
-            <span className="text-lg font-bold tracking-tight hidden sm:block" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+            <span className="text-lg font-medium tracking-tight hidden sm:block" style={{ fontFamily: "var(--font-inter)" }}>
               Kranthi Kumar Katta
             </span>
           </motion.div>

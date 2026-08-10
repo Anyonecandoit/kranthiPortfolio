@@ -33,7 +33,7 @@ export default function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
+          <h1 className="text-3xl font-medium tracking-tight mb-2">Dashboard</h1>
           <p className="text-gray-400">Welcome back! Track your conversations and saved content.</p>
         </motion.div>
 

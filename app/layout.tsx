@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
@@ -33,9 +33,11 @@ import { AuthProvider } from "@/lib/auth-context";
 import { SiteSettingsProvider } from "@/lib/settings";
 import { resumeData } from "@/data/resume";
 
-const spaceGrotesk = Space_Grotesk({
+// Inter (variable) — the Oberon template's typeface: neutral, professional,
+// with medium-weight tight-tracked headings. Replaces Space Grotesk.
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -127,7 +129,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased transition-colors duration-300 bg-[var(--bg-primary)]`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased transition-colors duration-300 bg-[var(--bg-primary)]`}
       >
         {/* Skip‑to‑content link for screen‑reader users */}
         <a

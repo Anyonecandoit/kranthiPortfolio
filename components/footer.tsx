@@ -40,7 +40,7 @@ export function Footer() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-medium tracking-[-0.05em]">
             AI-Powered
             <br />
             Portfolio

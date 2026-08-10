@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { resumeData } from "@/data/resume";
 import { SectionLabel } from "@/components/ui/section-label";
@@ -58,6 +58,16 @@ export function Projects() {
   const { projects } = resumeData;
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
   const [carouselIdx, setCarouselIdx] = useState(0);
+  const [carouselHover, setCarouselHover] = useState(false);
+
+  // Auto-advance the featured slider (Oberon-style) every 6s, paused on hover.
+  useEffect(() => {
+    if (carouselHover) return;
+    const timer = window.setInterval(() => {
+      setCarouselIdx((c) => (c + 1) % (projects?.length || 1));
+    }, 6000);
+    return () => window.clearInterval(timer);
+  }, [carouselHover, projects?.length]);
 
   const nextProject = () => setCarouselIdx((c) => (c + 1) % (projects?.length || 1));
   const prevProject = () => setCarouselIdx((c) => (c - 1 + (projects?.length || 1)) % (projects?.length || 1));
@@ -79,7 +89,7 @@ export function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight"
+              className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-[-0.05em]"
             >
               Case studies
             </motion.h2>
@@ -117,6 +127,8 @@ export function Projects() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -40 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            onMouseEnter={() => setCarouselHover(true)}
+            onMouseLeave={() => setCarouselHover(false)}
             className="grid grid-cols-1 lg:grid-cols-12 gap-0 mb-20"
           >
             {/* Left — halftone image (zooms on hover) */}
@@ -135,7 +147,7 @@ export function Projects() {
                     {featured?.period || ""}
                   </span>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold mb-4">{featured?.title}</h3>
+                <h3 className="text-2xl md:text-3xl font-medium tracking-[-0.04em] mb-4">{featured?.title}</h3>
                 <p className="text-[var(--text-light-muted)] text-sm leading-relaxed mb-6">
                   {featured?.description}
                 </p>
@@ -190,7 +202,7 @@ export function Projects() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="sticky top-32"
             >
-              <div className="text-6xl md:text-7xl font-bold mb-2">{projects?.length ?? 0}</div>
+              <div className="text-6xl md:text-7xl font-medium tracking-tight mb-2">{projects?.length ?? 0}</div>
               <div className="label-mono text-[var(--text-light-muted)] text-[0.6rem]">PROJECTS SHIPPED</div>
               <div className="mt-6 h-px bg-[var(--border-dark)]" />
               <p className="mt-6 text-sm text-[var(--text-light-muted)] leading-relaxed">

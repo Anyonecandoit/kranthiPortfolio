@@ -88,7 +88,7 @@ export function Faq() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-16"
+          className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-[-0.05em] mb-16"
         >
           FAQ
         </motion.h2>

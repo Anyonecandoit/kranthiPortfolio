@@ -212,7 +212,7 @@ export default function NotesPage() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-600 to-cyan-600 flex items-center justify-center">
               <NotebookPen size={20} className="text-white" />
             </div>
-            <h1 className="text-3xl font-bold">AI Notes</h1>
+            <h1 className="text-3xl font-medium tracking-tight">AI Notes</h1>
             <Badge variant="accent">Autosaved</Badge>
           </div>
           <p className="text-gray-400 max-w-2xl">

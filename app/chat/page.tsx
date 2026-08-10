@@ -17,7 +17,7 @@ export default function ChatPage() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             <SectionLabel number="AI" title="ASSISTANT" />
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4 text-balance">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-[-0.05em] mb-4 text-balance">
               Chat with my AI
             </h1>
             <p className="text-[var(--text-secondary)] text-lg max-w-2xl leading-relaxed mb-10">
