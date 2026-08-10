@@ -66,6 +66,12 @@ Open [http://localhost:3000](http://localhost:3000).
 
 See [PROJECT_PROGRESS.md](./PROJECT_PROGRESS.md) for the full phased roadmap and current status.
 
+## Analytics
+
+Real-time visitor analytics (Live / Total / Today) with a floating widget and
+admin dashboard counters. Setup, schema, security rules, deployment, and
+testing: [ANALYTICS_SETUP.md](./ANALYTICS_SETUP.md).
+
 ## License
 
 Private — © Kranthi Kumar Katta

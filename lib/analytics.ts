@@ -24,6 +24,20 @@ export type AnalyticsEventType =
 const STORAGE_KEY = "kranthi-visitor-id";
 let _visitorId: string | null | undefined;
 
+/**
+ * True when a stable visitor id already existed in localStorage before this
+ * page load (i.e. the browser has visited before). Used to flag returning
+ * visitors on their sessions. Does not generate an id.
+ */
+export function isReturningVisitor(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) !== null;
+  } catch {
+    return false;
+  }
+}
+
 /** Stable per-browser visitor id (localStorage-backed). */
 export function getVisitorId(): string | null {
   if (typeof window === "undefined") return null;

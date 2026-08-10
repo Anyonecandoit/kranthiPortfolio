@@ -20,6 +20,12 @@ const GlobalSearch = dynamic(
   () => import("@/components/search-modal").then((m) => m.GlobalSearch),
   { ssr: false, loading: () => null }
 );
+// The visitor widget is client-only (localStorage/sessionStorage + polling),
+// so it is lazy-loaded too — keeps the server-rendered HTML and initial JS lean.
+const VisitorWidget = dynamic(
+  () => import("@/components/visitor-widget").then((m) => m.VisitorWidget),
+  { ssr: false, loading: () => null }
+);
 import { ChatProvider } from "@/lib/chat-context";
 import { AuthProvider } from "@/lib/auth-context";
 import { SiteSettingsProvider } from "@/lib/settings";
@@ -152,6 +158,8 @@ export default function RootLayout({
             <ConditionalFooter />
             <FloatingChat />
             <FloatingVoice />
+            {/* Real-time visitor analytics widget (bottom-left) */}
+            <VisitorWidget />
           </ChatProvider>
           </SiteSettingsProvider>
           </AuthProvider>

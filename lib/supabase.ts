@@ -239,9 +239,113 @@ export type Database = {
         };
         Relationships: [];
       };
+      visitor_sessions: {
+        Row: {
+          id: string;
+          session_id: string;
+          visitor_id: string;
+          is_returning: boolean;
+          counted: boolean;
+          browser: string | null;
+          device: string | null;
+          os: string | null;
+          country: string | null;
+          city: string | null;
+          landing_page: string | null;
+          referrer: string | null;
+          page_path: string | null;
+          created_at: string;
+          last_seen: string;
+        };
+        Insert: {
+          id?: string;
+          session_id: string;
+          visitor_id: string;
+          is_returning?: boolean;
+          counted?: boolean;
+          browser?: string | null;
+          device?: string | null;
+          os?: string | null;
+          country?: string | null;
+          city?: string | null;
+          landing_page?: string | null;
+          referrer?: string | null;
+          page_path?: string | null;
+          created_at?: string;
+          last_seen?: string;
+        };
+        Update: {
+          id?: string;
+          session_id?: string;
+          visitor_id?: string;
+          is_returning?: boolean;
+          counted?: boolean;
+          browser?: string | null;
+          device?: string | null;
+          os?: string | null;
+          country?: string | null;
+          city?: string | null;
+          landing_page?: string | null;
+          referrer?: string | null;
+          page_path?: string | null;
+          created_at?: string;
+          last_seen?: string;
+        };
+        Relationships: [];
+      };
+      analytics_counters: {
+        Row: {
+          key: string;
+          value: number;
+          date: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          key: string;
+          value?: number;
+          date?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          key?: string;
+          value?: number;
+          date?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      get_visitor_stats: {
+        Args: Record<string, never>;
+        Returns: { live: number; total: number; today: number };
+      };
+      upsert_visitor_session: {
+        Args: {
+          p_session_id: string;
+          p_visitor_id: string;
+          p_is_returning?: boolean;
+          p_browser?: string | null;
+          p_device?: string | null;
+          p_os?: string | null;
+          p_country?: string | null;
+          p_city?: string | null;
+          p_landing_page?: string | null;
+          p_referrer?: string | null;
+          p_page_path?: string | null;
+        };
+        Returns: undefined;
+      };
+      record_visitor: {
+        Args: { p_session_id: string };
+        Returns: undefined;
+      };
+      prune_visitor_sessions: {
+        Args: { p_older_than_days?: number };
+        Returns: number;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

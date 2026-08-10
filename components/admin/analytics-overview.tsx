@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Users, Brain, FileText, Eye, Activity } from "lucide-react";
+import { Users, Brain, FileText, Eye, Activity, Globe, Calendar } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/empty-state";
 import { getSupabase } from "@/lib/supabase";
+import { fetchVisitorStats } from "@/lib/visitor-analytics";
 
 interface RecentEvent {
   id: string;
@@ -21,6 +22,9 @@ export interface AnalyticsSnapshot {
   uniqueVisitors: number;
   chatMessages: number;
   resumeDownloads: number;
+  live: number | null;
+  totalVisitors: number | null;
+  todayVisitors: number | null;
   recent: RecentEvent[];
 }
 
@@ -40,7 +44,7 @@ async function loadSnapshot(): Promise<AnalyticsSnapshot> {
 
   const since = new Date(Date.now() - 30 * DAY_MS).toISOString();
 
-  const [pageViews, chatMessages, resumeDownloads, visitorRows, recentRes] =
+  const [pageViews, chatMessages, resumeDownloads, visitorRows, recentRes, visitorStats] =
     await Promise.all([
       count("page_view"),
       count("chat_message"),
@@ -55,6 +59,7 @@ async function loadSnapshot(): Promise<AnalyticsSnapshot> {
         .select("id, event_type, page_path, metadata, created_at")
         .order("created_at", { ascending: false })
         .limit(15),
+      fetchVisitorStats(),
     ]);
 
   const uniqueVisitors = new Set(
@@ -68,6 +73,9 @@ async function loadSnapshot(): Promise<AnalyticsSnapshot> {
     uniqueVisitors,
     chatMessages,
     resumeDownloads,
+    live: visitorStats?.live ?? null,
+    totalVisitors: visitorStats?.total ?? null,
+    todayVisitors: visitorStats?.today ?? null,
     recent: recentRes.data ?? [],
   };
 }
@@ -92,7 +100,32 @@ export function AnalyticsOverview() {
     load();
   }, [load, refreshKey]);
 
-  const stats = [
+  const stats: Array<{
+    label: string;
+    value: number | null | undefined;
+    icon: typeof Activity;
+    color: string;
+    live?: boolean;
+  }> = [
+    {
+      label: "Live Now",
+      value: snapshot?.live,
+      icon: Activity,
+      color: "text-emerald-400",
+      live: true,
+    },
+    {
+      label: "Total Visitors",
+      value: snapshot?.totalVisitors,
+      icon: Globe,
+      color: "text-sky-400",
+    },
+    {
+      label: "Today's Visitors",
+      value: snapshot?.todayVisitors,
+      icon: Calendar,
+      color: "text-violet-400",
+    },
     {
       label: "Page Views",
       value: snapshot?.pageViews,
@@ -119,6 +152,18 @@ export function AnalyticsOverview() {
     },
   ];
 
+  const StatIcon = ({ icon, live }: { icon: typeof Activity; live?: boolean }) => {
+    const Icon = icon;
+    return live ? (
+      <span className="relative flex h-2.5 w-2.5">
+        <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60 animate-ping" />
+        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
+      </span>
+    ) : (
+      <Icon size={20} />
+    );
+  };
+
   return (
     <div className="space-y-6">
       {/* Stats */}
@@ -127,7 +172,7 @@ export function AnalyticsOverview() {
           <Card key={stat.label}>
             <div className="flex items-center gap-3">
               <div className={`p-2 rounded-lg bg-white/5 ${stat.color}`}>
-                <stat.icon size={20} />
+                <StatIcon icon={stat.icon} live={stat.live} />
               </div>
               <div>
                 {snapshot === null ? (
