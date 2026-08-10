@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { resumeData } from "@/data/resume";
 import { SectionHeader } from "./section-header";
 import { GridBackground } from "@/components/ui/grid-background";
+import { AnimatedCounter } from "./animated-counter";
 import { TestTube, FolderOpen, Award, TrendingUp } from "lucide-react";
 
 export function About() {
@@ -20,11 +21,15 @@ export function About() {
       .join(" ")
       .match(/(\d+)%\s*(?:manual testing effort|efficiency)/i);
 
+    const years = startYears.length
+      ? Math.max(new Date().getFullYear() - Math.min(...startYears), 1)
+      : 5;
+
     return [
-      { value: yearsExp, label: "YEARS EXPERIENCE", icon: TestTube },
-      { value: String(resumeData.projects?.length ?? 0), label: "PROJECTS SHIPPED", icon: FolderOpen },
-      { value: String(resumeData.certifications?.length ?? 0), label: "CERTIFICATIONS", icon: Award },
-      { value: efficiencyMatch ? `${efficiencyMatch[1]}%` : "60%", label: "EFFICIENCY GAIN", icon: TrendingUp },
+      { value: years, suffix: "+", label: "YEARS EXPERIENCE", icon: TestTube },
+      { value: resumeData.projects?.length ?? 0, suffix: "", label: "PROJECTS SHIPPED", icon: FolderOpen },
+      { value: resumeData.certifications?.length ?? 0, suffix: "", label: "CERTIFICATIONS", icon: Award },
+      { value: efficiencyMatch ? Number(efficiencyMatch[1]) : 60, suffix: "%", label: "EFFICIENCY GAIN", icon: TrendingUp },
     ];
   }, []);
 
@@ -88,7 +93,9 @@ export function About() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="text-3xl md:text-4xl font-bold mb-1">{stat.value}</div>
+              <div className="text-3xl md:text-4xl font-bold mb-1">
+                <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+              </div>
               <div className="label-mono text-[var(--text-secondary)] text-[0.6rem]">{stat.label}</div>
             </motion.div>
           ))}

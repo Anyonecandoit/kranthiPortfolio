@@ -33,13 +33,13 @@ const sizes = {
 
 const variants = {
   primary:
-    "bg-[var(--accent)] text-white hover:bg-[var(--accent-2)] shadow-lg shadow-black/20 hover:shadow-black/30 active:scale-[0.98]",
+    "bg-[var(--accent)] text-white hover:bg-[var(--accent-2)] shadow-lg shadow-black/20 hover:shadow-black/30 hover:-translate-y-0.5 active:scale-[0.98]",
   secondary:
-    "bg-white/5 text-gray-200 border border-white/10 hover:bg-white/10 hover:border-white/20 active:scale-[0.98]",
+    "bg-white/5 text-gray-200 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:-translate-y-0.5 active:scale-[0.98]",
   ghost:
     "bg-transparent text-gray-300 hover:bg-white/5 hover:text-white",
   outline:
-    "bg-transparent text-[var(--accent)] border border-[rgba(230,88,0,0.3)] hover:bg-[rgba(230,88,0,0.08)] hover:border-[rgba(230,88,0,0.5)] active:scale-[0.98]",
+    "bg-transparent text-[var(--accent)] border border-[rgba(230,88,0,0.3)] hover:bg-[rgba(230,88,0,0.08)] hover:border-[rgba(230,88,0,0.5)] hover:-translate-y-0.5 active:scale-[0.98]",
 };
 
 export function Button({

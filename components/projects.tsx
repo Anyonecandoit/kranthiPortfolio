@@ -20,9 +20,9 @@ function HalftoneProjectImage({ index }: { index: number }) {
 
   return (
     <div className="relative w-full h-full overflow-hidden" style={{ background: p.bg }}>
-      {/* Abstract shapes — unique per project */}
+      {/* Abstract shapes — unique per project (zooms on card hover) */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
         style={{
           background: `
             radial-gradient(ellipse 50% 40% at 60% 40%, ${p.dot} 0%, transparent 70%),
@@ -119,8 +119,8 @@ export function Projects() {
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="grid grid-cols-1 lg:grid-cols-12 gap-0 mb-20"
           >
-            {/* Left — halftone image */}
-            <div className="lg:col-span-7 aspect-[16/10] lg:aspect-auto lg:min-h-[420px]">
+            {/* Left — halftone image (zooms on hover) */}
+            <div className="group lg:col-span-7 aspect-[16/10] lg:aspect-auto lg:min-h-[420px] overflow-hidden">
               <HalftoneProjectImage index={carouselIdx} />
             </div>
 
@@ -208,7 +208,7 @@ export function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.5, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
-                className="border border-[var(--border-dark)] hover:border-accent/30 transition-colors duration-300"
+                className="border border-[var(--border-dark)] hover:border-accent/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/20 transition-all duration-300"
               >
                 <div className="p-5 md:p-6">
                   <div className="flex items-start justify-between gap-4">

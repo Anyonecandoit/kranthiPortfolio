@@ -12,6 +12,8 @@ import { ConditionalFooter } from "@/components/chat/chat-footer-wrapper";
 import { NoiseTexture } from "@/components/ui/noise-texture";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { CursorGlow } from "@/components/ui/cursor-glow";
+import { AmbientBackground } from "@/components/ambient-background";
+import { PageTransition } from "@/components/page-transition";
 import dynamic from "next/dynamic";
 
 // Lazy-load the command palette so the tools catalog + resume index only
@@ -141,6 +143,8 @@ export default function RootLayout({
             <ChatPageGuard />
             {/* Subtle noise texture overlay */}
             <NoiseTexture opacity={0.025} />
+            {/* Floating gradient blobs + grid (all pages) */}
+            <AmbientBackground />
             {/* Scroll progress bar */}
             <ScrollProgress />
             {/* Cursor glow effect */}
@@ -153,7 +157,7 @@ export default function RootLayout({
             <GlobalSearch />
             {/* Main content – wrapped with an id for the skip link */}
             <main id="main-content" className="relative z-10">
-              {children}
+              <PageTransition>{children}</PageTransition>
             </main>
             <ConditionalFooter />
             <FloatingChat />

@@ -128,27 +128,28 @@ a {
    COMPONENT UTILITIES
    ═══════════════════════════════════════════ */
 
-/* Clean card (Oberon-style minimal border) */
+/* Clean card (Oberon-style minimal border) — hover: lift + glow */
 .card-clean {
   border: 1px solid var(--border-color);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .card-clean:hover {
   border-color: var(--accent);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(230, 88, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-/* Outline CTA button */
+/* Outline CTA button — hover: lift + glow */
 .btn-outline {
   @apply px-6 py-3 border border-current transition-all duration-300;
-  @apply hover:bg-[var(--text-primary)] hover:text-[var(--bg-primary)];
+  @apply hover:bg-[var(--text-primary)] hover:text-[var(--bg-primary)] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/10;
 }
 
-/* Solid CTA button */
+/* Solid CTA button — hover: lift + glow */
 .btn-solid {
   @apply px-6 py-3 bg-[var(--text-primary)] text-[var(--bg-primary)] transition-all duration-300;
-  @apply hover:opacity-90;
+  @apply hover:opacity-90 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/15;
 }
 
 /* ═══════════════════════════════════════════
@@ -218,6 +219,49 @@ a {
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════
+   AMBIENT FLOATING BLOBS (Oberon-style)
+   ═══════════════════════════════════════════ */
+
+/* Soft accent-colored radial blob, blurred into a glow */
+.bg-blob {
+  background: radial-gradient(
+    circle at 30% 30%,
+    color-mix(in srgb, var(--accent) 15%, transparent) 0%,
+    color-mix(in srgb, var(--highlight) 10%, transparent) 45%,
+    transparent 70%
+  );
+  filter: blur(70px);
+  will-change: transform;
+}
+
+@keyframes blob-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(40px, -30px) scale(1.08); }
+  66%      { transform: translate(-25px, 25px) scale(0.94); }
+}
+
+@keyframes blob-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-35px, 35px) scale(1.1); }
+}
+
+@keyframes blob-float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40%      { transform: translate(30px, 30px) scale(0.95); }
+  70%      { transform: translate(-20px, -15px) scale(1.05); }
+}
+
+.blob-float-1 { animation: blob-float-1 22s ease-in-out infinite; }
+.blob-float-2 { animation: blob-float-2 26s ease-in-out infinite; }
+.blob-float-3 { animation: blob-float-3 30s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .blob-float-1, .blob-float-2, .blob-float-3 {
+    animation: none;
+  }
 }
 
 /* ═══════════════════════════════════════════
