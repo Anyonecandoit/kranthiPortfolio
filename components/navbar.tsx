@@ -61,16 +61,16 @@ export function Navbar() {
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen]);
 
-  const scrollToSection = (href: string) => {
-    if (href.startsWith("/")) {
-      window.location.href = href;
-      return;
-    }
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.href = "/" + href;
+  /**
+   * Section links use the crawlable "/#section" form so they work across
+   * pages; when we are already on the homepage we smooth-scroll in place
+   * instead of triggering a full navigation.
+   */
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      const id = href.split("#")[1];
+      if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -90,7 +90,7 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-16">
         {/* Logo — monospace brand name (Oberon-style) */}
-        <Link href="#home" onClick={() => scrollToSection("#home")}>
+        <Link href="/" aria-label="Kranthi Kumar Katta – Home">
           <motion.div
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -108,9 +108,10 @@ export function Navbar() {
         {/* Desktop navigation — clean center links */}
         <div className="hidden md:flex items-center gap-1">
           {sectionItems.map((item) => (
-            <button
+            <a
               key={item.name}
-              onClick={() => scrollToSection(item.href)}
+              href={`/#${item.href.substring(1)}`}
+              onClick={(e) => scrollToSection(e, item.href)}
               className={`
                 px-3 py-1.5 text-sm transition-colors duration-200
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]
@@ -122,7 +123,7 @@ export function Navbar() {
               style={{ fontFamily: "var(--font-jetbrains-mono)" }}
             >
               {item.name}
-            </button>
+            </a>
           ))}
 
           {/* Apps dropdown */}
@@ -150,17 +151,15 @@ export function Navbar() {
                   {appItems.map((item) => {
                     const Icon = item.icon!;
                     return (
-                      <button
+                      <Link
                         key={item.name}
-                        onClick={() => {
-                          scrollToSection(item.href);
-                          setAppsOpen(false);
-                        }}
+                        href={item.href}
+                        onClick={() => setAppsOpen(false)}
                         className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
                       >
                         <Icon size={14} className="text-accent" />
                         {item.name}
-                      </button>
+                      </Link>
                     );
                   })}
                 </motion.div>
@@ -254,10 +253,11 @@ export function Navbar() {
           >
             <div className="px-6 py-4 space-y-1">
               {sectionItems.map((item) => (
-                <button
+                <a
                   key={item.name}
-                  onClick={() => {
-                    scrollToSection(item.href);
+                  href={`/#${item.href.substring(1)}`}
+                  onClick={(e) => {
+                    scrollToSection(e, item.href);
                     setIsOpen(false);
                   }}
                   className={`
@@ -270,7 +270,7 @@ export function Navbar() {
                   style={{ fontFamily: "var(--font-jetbrains-mono)" }}
                 >
                   {item.name}
-                </button>
+                </a>
               ))}
 
               <div className="pt-2 border-t border-[var(--border-color)]">
@@ -278,17 +278,15 @@ export function Navbar() {
                 {appItems.map((item) => {
                   const Icon = item.icon!;
                   return (
-                    <button
+                    <Link
                       key={item.name}
-                      onClick={() => {
-                        scrollToSection(item.href);
-                        setIsOpen(false);
-                      }}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
                       className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-md text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] transition-colors"
                     >
                       <Icon size={14} className="text-accent" />
                       {item.name}
-                    </button>
+                    </Link>
                   );
                 })}
               </div>

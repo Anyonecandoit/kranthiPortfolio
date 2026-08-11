@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -60,58 +60,186 @@ const structuredData = {
       url: `${siteUrl}/`,
       image: `${siteUrl}/og-image.png`,
       jobTitle: resumeData.title,
+      description: resumeData.summary,
       email: `mailto:${resumeData.contact.email}`,
       telephone: resumeData.contact.phone.replace(/\s+/g, ""),
       address: {
         "@type": "PostalAddress",
         addressLocality: resumeData.location.split(",")[0]?.trim() ?? "Bangalore",
+        addressRegion: "Karnataka",
         addressCountry: "IN",
       },
-      sameAs: [resumeData.contact.linkedin],
+      sameAs: [
+        resumeData.contact.linkedin,
+        "https://github.com/kranthiai2006",
+      ],
       worksFor: {
         "@type": "Organization",
         name: resumeData.experience[0]?.company ?? "Barraq Technology Lab India Private Limited",
       },
+      alumniOf: {
+        "@type": "CollegeOrUniversity",
+        name: resumeData.education[0]?.institution ?? "Jawaharlal Nehru Technological University, Kakinada",
+      },
+      knowsAbout: resumeData.skills.map((skill) => skill.name),
+    },
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Kranthi Kumar Katta",
+      url: `${siteUrl}/`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+      },
+      sameAs: [
+        resumeData.contact.linkedin,
+        "https://github.com/kranthiai2006",
+      ],
     },
     {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       url: `${siteUrl}/`,
-      name: "Kranthi Kumar Katta | AI-Powered Portfolio",
+      name: "Kranthi Kumar Katta | Senior SDET & Test Automation Expert",
       publisher: { "@id": `${siteUrl}/#person` },
+      inLanguage: "en",
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${siteUrl}/#webpage`,
+      url: `${siteUrl}/`,
+      name: "Kranthi Kumar Katta – Senior SDET & Test Automation Expert",
+      isPartOf: { "@id": `${siteUrl}/#website` },
+      about: { "@id": `${siteUrl}/#person` },
+      mainEntity: { "@id": `${siteUrl}/#person` },
+      inLanguage: "en",
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${siteUrl}/#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: `${siteUrl}/`,
+        },
+      ],
+    },
+    {
+      "@type": "ItemList",
+      name: "Kranthi Kumar Katta's Projects",
+      itemListElement: resumeData.projects.map((project, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "CreativeWork",
+          name: project.title,
+          description: project.description,
+          ...(project.technologies?.length
+            ? { keywords: project.technologies.join(", ") }
+            : {}),
+        },
+      })),
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${siteUrl}/#faq`,
+      mainEntity: resumeData.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.a,
+        },
+      })),
     },
   ],
 };
 
 export const metadata: Metadata = {
-  title: "Kranthi Kumar Katta | AI-Powered Portfolio",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Kranthi Kumar Katta | Senior SDET & Test Automation Expert",
+    template: "%s | Kranthi Kumar Katta",
+  },
   description:
-    "Senior SDET specializing in automation, performance testing, API testing, and AI-powered tools. Explore my projects, experience, and chat with my AI assistant.",
-  metadataBase: new URL("https://www.kranthikumarkatta.in"),
+    "Senior SDET with 5+ years in test automation — Selenium, Playwright, REST Assured, JMeter, API & performance testing, CI/CD. Explore projects, experience, and chat with my AI assistant.",
+  applicationName: "Kranthi Kumar Katta Portfolio",
+  authors: [{ name: "Kranthi Kumar Katta", url: siteUrl }],
+  creator: "Kranthi Kumar Katta",
+  publisher: "Kranthi Kumar Katta",
+  category: "Portfolio",
+  keywords: [
+    "Kranthi Kumar Katta",
+    "Senior SDET",
+    "SDET portfolio",
+    "test automation engineer",
+    "QA engineer Bangalore",
+    "Selenium",
+    "Playwright",
+    "REST Assured",
+    "JMeter",
+    "API testing",
+    "performance testing",
+    "software testing",
+    "test automation expert",
+    "Bangalore",
+    "India",
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/og-image.png",
+  },
   openGraph: {
-    title: "Kranthi Kumar Katta – AI-Powered Portfolio",
+    title: "Kranthi Kumar Katta | Senior SDET & Test Automation Expert",
     description:
-      "Senior SDET with 5+ years of experience. AI assistant, real-time chat, and knowledge base.",
-    url: "https://www.kranthikumarkatta.in",
+      "Senior SDET with 5+ years of experience in Selenium, Playwright, API testing, performance testing, and CI/CD. Explore my projects, experience, and chat with my AI assistant.",
+    url: siteUrl,
     siteName: "Kranthi Kumar Katta",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Kranthi Kumar Katta portfolio preview",
+        alt: "Kranthi Kumar Katta – Senior SDET & Test Automation Expert portfolio preview",
       },
     ],
-    locale: "en_US",
+    locale: "en_IN",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kranthi Kumar Katta – AI-Powered Portfolio",
+    title: "Kranthi Kumar Katta | Senior SDET & Test Automation Expert",
     description:
-      "Senior SDET with 5+ years of experience. AI assistant, real-time chat, and knowledge base.",
+      "Senior SDET with 5+ years in automation, performance testing, API testing, and AI-powered tools. Chat with my AI assistant.",
     images: ["/og-image.png"],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f2f0ee" },
+    { media: "(prefers-color-scheme: dark)", color: "#171717" },
+  ],
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -120,7 +248,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="light" suppressHydrationWarning>
+    <html lang="en" className="light scroll-smooth" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <script

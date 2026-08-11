@@ -81,14 +81,14 @@ export function Hero() {
               that work for you
             </motion.h1>
 
-            {/* Monospace tagline */}
+            {/* Monospace tagline — name + role for on-page keyword presence */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
               className="label-mono text-[var(--text-secondary)] mb-8 max-w-lg"
             >
-              {title || "SENIOR SDET | AUTOMATION EXPERT"}
+              {name.toUpperCase()} — {title || "SENIOR SDET | AUTOMATION EXPERT"}
             </motion.p>
 
             {/* Summary */}

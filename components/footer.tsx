@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -19,20 +20,24 @@ const appLinks = [
   { label: "Notes", href: "/notes" },
 ];
 
-function scrollToSection(href: string) {
-  if (href.startsWith("/")) {
-    window.location.href = href;
-    return;
+/**
+ * Section links use the crawlable "/#section" form so they work across pages;
+ * when already on the homepage we smooth-scroll in place instead of
+ * triggering a full navigation.
+ */
+function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  if (window.location.pathname === "/") {
+    e.preventDefault();
+    const id = href.split("#")[1];
+    if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   }
-  const el = document.querySelector(href);
-  if (el) el.scrollIntoView({ behavior: "smooth" });
 }
 
 export function Footer() {
   return (
     <footer className="bg-[var(--bg-primary)] border-t border-[var(--border-color)]">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        {/* Large headline (Oberon-style) */}
+        {/* Large headline (Oberon-style) — decorative, so rendered as a div */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -40,11 +45,11 @@ export function Footer() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-medium tracking-[-0.05em]">
+          <div className="text-3xl md:text-5xl font-medium tracking-[-0.05em]">
             AI-Powered
             <br />
             Portfolio
-          </h2>
+          </div>
         </motion.div>
 
         {/* Footer grid */}
@@ -55,12 +60,13 @@ export function Footer() {
             <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.label}>
-                  <button
-                    onClick={() => scrollToSection(link.href)}
+                  <a
+                    href={`/#${link.href.substring(1)}`}
+                    onClick={(e) => scrollToSection(e, link.href)}
                     className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                   >
                     {link.label}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -72,12 +78,12 @@ export function Footer() {
             <ul className="space-y-2">
               {appLinks.map((link) => (
                 <li key={link.label}>
-                  <button
-                    onClick={() => scrollToSection(link.href)}
+                  <Link
+                    href={link.href}
                     className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -89,7 +95,14 @@ export function Footer() {
             <ul className="space-y-2">
               <li><span className="text-sm text-[var(--text-secondary)]">Privacy Policy</span></li>
               <li><span className="text-sm text-[var(--text-secondary)]">Terms of Service</span></li>
-              <li><span className="text-sm text-[var(--text-secondary)]">Sitemap</span></li>
+              <li>
+                <Link
+                  href="/sitemap.xml"
+                  className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+                >
+                  Sitemap
+                </Link>
+              </li>
             </ul>
           </div>
 
