@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 import type { Database } from "@/lib/supabase";
 import { apiUrl } from "@/lib/api";
+import { apiFetch } from "@/lib/offline";
 
 type KnowledgeRow = Database["public"]["Tables"]["knowledge_documents"]["Row"];
 
@@ -63,7 +64,7 @@ export function KnowledgeBase() {
       if (title.trim()) fd.append("title", title);
       if (content.trim()) fd.append("content", content);
       if (file) fd.append("file", file);
-      const res = await fetch(apiUrl("/api/knowledge/upload"), {
+      const res = await apiFetch(apiUrl("/api/knowledge/upload"), {
         method: "POST",
         headers: await authHeader(),
         body: fd,
@@ -84,7 +85,7 @@ export function KnowledgeBase() {
   };
 
   const remove = async (id: string) => {
-    const res = await fetch(apiUrl("/api/knowledge/delete"), {
+    const res = await apiFetch(apiUrl("/api/knowledge/delete"), {
       method: "POST",
       headers: { ...(await authHeader()), "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
@@ -102,7 +103,7 @@ export function KnowledgeBase() {
     setSearching(true);
     setErr(null);
     try {
-      const res = await fetch(apiUrl("/api/knowledge/search"), {
+      const res = await apiFetch(apiUrl("/api/knowledge/search"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query, topK: 3 }),

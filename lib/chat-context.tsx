@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef, ReactNode } from "react";
 import { useAuth } from "./auth-context";
 import { apiUrl } from "./api";
+import { apiFetch } from "./offline";
 import { hapticSuccess, hapticError } from "./haptics";
 import { supabase } from "./supabase";
 import { trackEvent } from "./analytics";
@@ -170,7 +171,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     let fullContent = "";
 
     try {
-      const response = await fetch(apiUrl("/api/chat"), {
+      const response = await apiFetch(apiUrl("/api/chat"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

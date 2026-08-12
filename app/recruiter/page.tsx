@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics";
 import { apiUrl } from "@/lib/api";
+import { apiFetch } from "@/lib/offline";
 import type { MatchResult } from "@/lib/api-types";
 
 const OVERALL_STYLES: Record<MatchResult["overall"], { badge: "success" | "warning" | "default"; bar: string; text: string }> = {
@@ -37,7 +38,7 @@ export default function RecruiterPage() {
       const fd = new FormData();
       if (file) fd.append("file", file);
       if (jdText.trim()) fd.append("jdText", jdText);
-      const res = await fetch(apiUrl("/api/recruiter"), { method: "POST", body: fd });
+      const res = await apiFetch(apiUrl("/api/recruiter"), { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Request failed");
       setResult(data as MatchResult);

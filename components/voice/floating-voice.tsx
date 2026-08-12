@@ -11,6 +11,7 @@ import {
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { apiUrl } from "@/lib/api";
+import { apiFetch } from "@/lib/offline";
 
 type Status = "idle" | "listening" | "thinking" | "speaking" | "error";
 
@@ -75,7 +76,7 @@ export function FloatingVoice() {
         }
       };
       try {
-        const res = await fetch(apiUrl("/api/voice"), {
+        const res = await apiFetch(apiUrl("/api/voice"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ text, agentId: "guide", history: messagesRef.current }),

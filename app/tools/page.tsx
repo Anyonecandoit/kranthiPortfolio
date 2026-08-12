@@ -11,6 +11,7 @@ import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { SectionLabel } from "@/components/ui/section-label";
 import { apiUrl } from "@/lib/api";
+import { apiFetch } from "@/lib/offline";
 
 type ToolValues = Record<string, string>;
 
@@ -69,7 +70,7 @@ export default function ToolsPage() {
     setError(null);
     setOutput(null);
     try {
-      const res = await fetch(apiUrl("/api/tools/run"), {
+      const res = await apiFetch(apiUrl("/api/tools/run"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ toolId: selected.id, inputs: values }),

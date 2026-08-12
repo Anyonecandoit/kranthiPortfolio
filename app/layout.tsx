@@ -17,6 +17,8 @@ import { PageTransition } from "@/components/page-transition";
 import { NativeShell } from "@/components/native-shell";
 import { PushService } from "@/components/push-service";
 import { PushToast } from "@/components/push-toast";
+import { OfflineBanner } from "@/components/offline-banner";
+import { ServiceWorkerRegister } from "@/components/service-worker-register";
 import dynamic from "next/dynamic";
 
 // Lazy-load the command palette so the tools catalog + resume index only
@@ -306,8 +308,12 @@ export default function RootLayout({
             <FloatingVoice />
             {/* Foreground push notification banner */}
             <PushToast />
+            {/* Offline / back-online status pill (web + native) */}
+            <OfflineBanner />
             {/* Real-time visitor analytics widget (bottom-left) */}
             <VisitorWidget />
+            {/* Web/PWA offline cache — skipped inside the native app */}
+            <ServiceWorkerRegister />
           </ChatProvider>
           </SiteSettingsProvider>
           </AuthProvider>

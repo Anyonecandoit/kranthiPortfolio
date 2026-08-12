@@ -177,6 +177,27 @@ server script with the service-account key.
 Topic subscriptions are stored per device (`topics` column) and sent to the
 backend on registration; a server job can target devices by topic directly.
 
+## Offline support
+
+The app is fully offline-capable for its static content: the site is bundled
+inside the app, so every page renders without a connection. On top of that:
+
+- `lib/offline.ts` + `lib/use-network-status.ts` detect connectivity via
+  `@capacitor/network` (native) / browser events (web) and drive a persistent
+  **retry queue**. Fire-and-forget API calls (analytics sessions) made while
+  offline are stored and replayed automatically when the connection returns
+  (also on app foreground, and every 60 s while online).
+- Interactive API calls get a friendly “You're offline” message instead of a
+  cryptic network error (all call sites use `apiFetch`).
+- `components/offline-banner.tsx` shows an Offline pill and a “Back online”
+  confirmation.
+- The web/PWA version gets a **service worker** (`public/sw.js`, registered by
+  `components/service-worker-register.tsx`): network-first for pages (keeps
+  SEO-safe fresh HTML), stale-while-revalidate for hashed JS/CSS/fonts/images,
+  and a cached offline homepage as fallback. It is intentionally *not*
+  registered inside the native app (the app bundles its own assets, and WebView
+  service workers are unreliable).
+
 ## Troubleshooting
 
 - **`app/api` missing after a failed build** — the script restores it on exit;
