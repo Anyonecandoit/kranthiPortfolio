@@ -133,14 +133,14 @@ export function KnowledgeBase() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Document title (optional)"
-          className="w-full rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-2 text-sm text-white placeholder-gray-600 outline-none focus:border-violet-500/40"
+          className="w-full rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-2 text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:border-violet-500/40"
         />
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Paste document content (or upload a PDF/text file below)…"
           rows={4}
-          className="w-full rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-2 text-sm text-white placeholder-gray-600 outline-none focus:border-violet-500/40 resize-none"
+          className="w-full rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-2 text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:border-violet-500/40 resize-none"
         />
         <div className="flex flex-wrap items-center gap-2">
           <input
@@ -164,14 +164,14 @@ export function KnowledgeBase() {
       {/* Test search */}
       <div className="px-4 pb-4">
         <div className="flex items-center gap-2">
-          <div className="flex-1 flex items-center gap-2 rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-1.5 focus-within:border-violet-500/40">
-            <Search size={14} className="text-gray-500" />
+          <div className="flex-1 flex items-center gap-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-1.5 focus-within:border-violet-500/40">
+            <Search size={14} className="text-[var(--text-secondary)]" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && testSearch()}
               placeholder="Test retrieval — try a question…"
-              className="flex-1 bg-transparent text-white placeholder-gray-600 outline-none text-sm"
+              className="flex-1 bg-transparent text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none text-sm"
             />
           </div>
           <Button variant="outline" size="sm" onClick={testSearch} disabled={!query.trim() || searching} loading={searching}>
@@ -183,9 +183,9 @@ export function KnowledgeBase() {
             {hits.map((h) => (
               <div key={h.id} className="rounded-lg border border-violet-500/20 bg-violet-500/[0.06] p-2.5">
                 <p className="text-xs font-semibold text-violet-300 mb-0.5">
-                  {h.title} <span className="text-gray-600 font-normal">({Math.round(h.score * 100)}%)</span>
+                  {h.title} <span className="text-[var(--text-secondary)] font-normal">({Math.round(h.score * 100)}%)</span>
                 </p>
-                <p className="text-xs text-gray-400 line-clamp-2">{h.content}</p>
+                <p className="text-xs text-[var(--text-secondary)] line-clamp-2">{h.content}</p>
               </div>
             ))}
           </div>
@@ -194,25 +194,25 @@ export function KnowledgeBase() {
 
       {/* List */}
       {loading ? (
-        <p className="px-4 pb-4 text-sm text-gray-500">Loading…</p>
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">Loading…</p>
       ) : docs.length === 0 ? (
-        <p className="px-4 pb-4 text-sm text-gray-500">No documents yet. Add your first one above.</p>
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">No documents yet. Add your first one above.</p>
       ) : (
         <div className="px-4 pb-4 space-y-2">
           {docs.map((d) => (
-            <div key={d.id} className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
+            <div key={d.id} className="rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] p-3">
               <div className="flex items-center justify-between gap-2 mb-1">
-                <span className="text-sm font-medium text-white truncate">{d.title}</span>
+                <span className="text-sm font-medium text-[var(--text-primary)] truncate">{d.title}</span>
                 <button
                   onClick={() => remove(d.id)}
-                  className="text-gray-500 hover:text-red-400 transition-colors shrink-0"
+                  className="text-[var(--text-secondary)] hover:text-red-400 transition-colors shrink-0"
                   title="Delete chunk"
                 >
                   <Trash2 size={14} />
                 </button>
               </div>
-              <p className="text-xs text-gray-500 line-clamp-2">{d.content}</p>
-              <p className="text-[10px] text-gray-600 mt-1">
+              <p className="text-xs text-[var(--text-secondary)] line-clamp-2">{d.content}</p>
+              <p className="text-[10px] text-[var(--text-secondary)] mt-1">
                 {d.file_type} · {d.content.length} chars · {new Date(d.created_at).toLocaleDateString()}
               </p>
             </div>

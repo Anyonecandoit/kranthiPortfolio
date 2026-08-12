@@ -37,10 +37,10 @@ export function FeatureFlags() {
           const info = FLAG_INFO[key] ?? { label: key, desc: "" };
           const on = settings[key] !== "false";
           return (
-            <div key={key} className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
+            <div key={key} className="flex items-center justify-between gap-3 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] p-3">
               <div className="min-w-0">
-                <p className="text-sm font-medium text-white">{info.label}</p>
-                <p className="text-xs text-gray-500">{info.desc}</p>
+                <p className="text-sm font-medium text-[var(--text-primary)]">{info.label}</p>
+                <p className="text-xs text-[var(--text-secondary)]">{info.desc}</p>
               </div>
               <button
                 onClick={() => toggle(key)}
@@ -48,7 +48,7 @@ export function FeatureFlags() {
                 aria-checked={on}
                 className={cn(
                   "relative w-11 h-6 rounded-full transition-colors shrink-0",
-                  on ? "bg-emerald-500" : "bg-white/[0.08]"
+                  on ? "bg-emerald-500" : "bg-[var(--bg-card)]"
                 )}
               >
                 <span
@@ -61,7 +61,7 @@ export function FeatureFlags() {
             </div>
           );
         })}
-        <p className="text-[10px] text-gray-600">
+        <p className="text-[10px] text-[var(--text-secondary)]">
           Changes apply site-wide immediately. Writes are admin-only (enforced by RLS).
         </p>
       </div>

@@ -52,14 +52,14 @@ export default function AuthPage() {
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center mx-auto text-xl font-bold text-white">
             {(user.email ?? "U")[0]?.toUpperCase()}
           </div>
-          <p className="text-gray-300 text-sm">
-            Signed in as <span className="text-white font-medium">{user.email}</span>
+          <p className="text-[var(--text-secondary)] text-sm">
+            Signed in as <span className="text-[var(--text-primary)] font-medium">{user.email}</span>
           </p>
           <div className="flex gap-3 justify-center">
             <Link href="/dashboard" className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-sm font-medium transition-colors">
               Dashboard
             </Link>
-            <button onClick={signOut} className="px-4 py-2 rounded-xl bg-white/[0.05] border border-white/[0.08] text-gray-300 hover:bg-white/[0.1] text-sm transition-colors">
+            <button onClick={signOut} className="px-4 py-2 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:border-accent/40 text-sm transition-colors">
               Sign Out
             </button>
           </div>
@@ -86,7 +86,7 @@ export default function AuthPage() {
               className={`mx-auto mt-5 flex items-center gap-2 px-4 py-2 rounded-xl border text-xs font-medium transition-colors ${
                 biometricUnlock
                   ? "border-violet-500/50 bg-violet-600/15 text-violet-300"
-                  : "border-white/[0.08] bg-white/[0.04] text-gray-400 hover:bg-white/[0.08]"
+                  : "border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-accent/40"
               }`}
             >
               <Fingerprint size={14} />
@@ -114,10 +114,10 @@ export default function AuthPage() {
       <div className="w-full max-w-md mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-medium text-white mb-2">
+          <h1 className="text-2xl font-medium text-[var(--text-primary)] mb-2">
             {mode === "signin" ? "Welcome back" : "Create an account"}
           </h1>
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-[var(--text-secondary)]">
             {mode === "signin"
               ? "Sign in to save conversations and track activity."
               : "Join to get started with the AI-powered portfolio."}
@@ -129,9 +129,9 @@ export default function AuthPage() {
         {!isNative() && (
           <div className="space-y-2.5 mb-6">
             <div className="flex items-center gap-3">
-              <div className="flex-1 h-px bg-white/[0.08]" />
-              <span className="text-[11px] uppercase tracking-wider text-gray-600">or continue with</span>
-              <div className="flex-1 h-px bg-white/[0.08]" />
+              <div className="flex-1 h-px bg-[var(--border-color)]" />
+              <span className="text-[11px] uppercase tracking-wider text-[var(--text-secondary)]">or continue with</span>
+              <div className="flex-1 h-px bg-[var(--border-color)]" />
             </div>
             <div className="grid grid-cols-2 gap-2.5">
               <button
@@ -146,7 +146,7 @@ export default function AuthPage() {
                   }
                 }}
                 disabled={oauthBusy !== null}
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-gray-200 hover:bg-white/[0.08] hover:border-white/20 transition-colors disabled:opacity-50"
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] hover:border-accent/40 transition-colors disabled:opacity-50"
               >
                 {oauthBusy === "google" ? (
                   <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
@@ -167,7 +167,7 @@ export default function AuthPage() {
                   }
                 }}
                 disabled={oauthBusy !== null}
-                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-gray-200 hover:bg-white/[0.08] hover:border-white/20 transition-colors disabled:opacity-50"
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] hover:border-accent/40 transition-colors disabled:opacity-50"
               >
                 {oauthBusy === "github" ? (
                   <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
@@ -190,7 +190,7 @@ export default function AuthPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Full name"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-white placeholder-gray-600 outline-none focus:border-violet-500/40 transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:border-violet-500/40 transition-colors"
               />
             </div>
           )}
@@ -202,7 +202,7 @@ export default function AuthPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               required
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-white placeholder-gray-600 outline-none focus:border-violet-500/40 transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:border-violet-500/40 transition-colors"
             />
           </div>
           <div className="relative">
@@ -213,7 +213,7 @@ export default function AuthPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               required
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-white placeholder-gray-600 outline-none focus:border-violet-500/40 transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:border-violet-500/40 transition-colors"
             />
           </div>
 
@@ -236,7 +236,7 @@ export default function AuthPage() {
           </button>
         </form>
 
-        <p className="text-center text-xs text-gray-500 mt-5">
+        <p className="text-center text-xs text-[var(--text-secondary)] mt-5">
           {mode === "signin" ? "Don't have an account?" : "Already have an account?"}{" "}
           <button
             onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setError(""); }}

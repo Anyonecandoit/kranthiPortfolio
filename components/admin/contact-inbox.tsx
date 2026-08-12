@@ -61,9 +61,9 @@ export function ContactInbox() {
       </CardHeader>
 
       {error && <p className="px-4 pb-3 text-sm text-amber-400">{error}</p>}
-      {loading && <p className="px-4 pb-4 text-sm text-gray-500">Loading…</p>}
+      {loading && <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">Loading…</p>}
       {!loading && requests.length === 0 && (
-        <p className="px-4 pb-4 text-sm text-gray-500">No contact requests yet.</p>
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">No contact requests yet.</p>
       )}
 
       <div className="space-y-2 px-4 pb-4">
@@ -73,20 +73,20 @@ export function ContactInbox() {
             className={`rounded-xl border p-3 ${
               r.status === "new"
                 ? "border-emerald-500/30 bg-emerald-500/[0.06]"
-                : "border-white/[0.06] bg-white/[0.02]"
+                : "border-[var(--border-color)] bg-[var(--bg-card)]"
             }`}
           >
             <div className="flex items-center justify-between gap-2 mb-1">
               <div className="flex items-center gap-2 min-w-0">
-                <span className="text-sm font-semibold text-white truncate">{r.name}</span>
-                {r.email && <span className="text-xs text-gray-500 truncate">{r.email}</span>}
+                <span className="text-sm font-semibold text-[var(--text-primary)] truncate">{r.name}</span>
+                {r.email && <span className="text-xs text-[var(--text-secondary)] truncate">{r.email}</span>}
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <Badge variant={r.status === "new" ? "success" : "default"}>{r.status}</Badge>
                 {r.status === "new" && (
                   <button
                     onClick={() => markSeen([r.id])}
-                    className="text-gray-500 hover:text-emerald-400 transition-colors"
+                    className="text-[var(--text-secondary)] hover:text-emerald-400 transition-colors"
                     title="Mark seen"
                   >
                     <Check size={14} />
@@ -94,9 +94,9 @@ export function ContactInbox() {
                 )}
               </div>
             </div>
-            {r.source && <p className="text-[10px] text-gray-600 mb-1">via {r.source}</p>}
-            <p className="text-sm text-gray-300">{r.message}</p>
-            <p className="text-[10px] text-gray-600 mt-1.5">
+            {r.source && <p className="text-[10px] text-[var(--text-secondary)] mb-1">via {r.source}</p>}
+            <p className="text-sm text-[var(--text-secondary)]">{r.message}</p>
+            <p className="text-[10px] text-[var(--text-secondary)] mt-1.5">
               {new Date(r.created_at).toLocaleString()}
             </p>
           </div>

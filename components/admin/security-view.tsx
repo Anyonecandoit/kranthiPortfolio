@@ -57,13 +57,13 @@ export function SecurityView() {
       </CardHeader>
       <div className="px-4 pb-4 space-y-5">
         <div>
-          <p className="text-xs text-gray-400 mb-2">Signed in as</p>
-          <p className="text-sm text-white">{user?.email ?? "—"}</p>
-          {status && <p className="text-xs text-gray-500 mt-1">Knowledge base: {status.knowledgeChunks} chunks</p>}
+          <p className="text-xs text-[var(--text-secondary)] mb-2">Signed in as</p>
+          <p className="text-sm text-[var(--text-primary)]">{user?.email ?? "—"}</p>
+          {status && <p className="text-xs text-[var(--text-secondary)] mt-1">Knowledge base: {status.knowledgeChunks} chunks</p>}
         </div>
 
         <div>
-          <p className="text-xs text-gray-400 mb-2">Server configuration</p>
+          <p className="text-xs text-[var(--text-secondary)] mb-2">Server configuration</p>
           <div className="space-y-1.5">
             {status ? (
               Object.entries(status.env).map(([key, ok]) => (
@@ -73,26 +73,26 @@ export function SecurityView() {
                   ) : (
                     <XCircle size={14} className="text-amber-400" />
                   )}
-                  <span className="text-xs text-gray-300">{ENV_LABELS[key] ?? key}</span>
+                  <span className="text-xs text-[var(--text-secondary)]">{ENV_LABELS[key] ?? key}</span>
                   <Badge variant={ok ? "success" : "warning"} className="ml-auto">{ok ? "configured" : "missing"}</Badge>
                 </div>
               ))
             ) : error ? (
               <p className="text-xs text-amber-400">{error}</p>
             ) : (
-              <p className="text-xs text-gray-500">Loading…</p>
+              <p className="text-xs text-[var(--text-secondary)]">Loading…</p>
             )}
           </div>
         </div>
 
         <div>
-          <p className="text-xs text-gray-400 mb-2">Tables with RLS</p>
+          <p className="text-xs text-[var(--text-secondary)] mb-2">Tables with RLS</p>
           <div className="flex flex-wrap gap-1.5">
             {(status?.tables ?? []).map((t) => (
               <Badge key={t} variant="outline">{t}</Badge>
             ))}
           </div>
-          <p className="text-[10px] text-gray-600 mt-2">
+          <p className="text-[10px] text-[var(--text-secondary)] mt-2">
             Row Level Security is enabled on all tables. Admin routes additionally verify the
             caller&apos;s role server-side with the Supabase access token.
           </p>

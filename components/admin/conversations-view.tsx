@@ -64,20 +64,20 @@ export function ConversationsView() {
         </div>
       </CardHeader>
       {loading ? (
-        <p className="px-4 pb-4 text-sm text-gray-500">Loading…</p>
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">Loading…</p>
       ) : convs.length === 0 ? (
-        <p className="px-4 pb-4 text-sm text-gray-500">No conversations yet.</p>
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">No conversations yet.</p>
       ) : (
         <div className="px-4 pb-4 space-y-2">
           {convs.map((c) => (
-            <div key={c.id} className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
+            <div key={c.id} className="rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] p-3">
               <div className="flex items-center justify-between gap-2 mb-1">
-                <span className="text-sm font-medium text-white font-mono truncate">{c.id.slice(0, 8)}…</span>
-                <span className="text-[10px] text-gray-600 shrink-0">
+                <span className="text-sm font-medium text-[var(--text-primary)] font-mono truncate">{c.id.slice(0, 8)}…</span>
+                <span className="text-[10px] text-[var(--text-secondary)] shrink-0">
                   {msgCount[c.id] ?? 0} msgs · {new Date(c.updated_at).toLocaleString([], { month: "short", day: "numeric" })}
                 </span>
               </div>
-              {lastMsg[c.id] && <p className="text-xs text-gray-500 line-clamp-2">{lastMsg[c.id]}</p>}
+              {lastMsg[c.id] && <p className="text-xs text-[var(--text-secondary)] line-clamp-2">{lastMsg[c.id]}</p>}
             </div>
           ))}
         </div>

@@ -60,21 +60,21 @@ export function AIUsage() {
 
   const render = (title: string, stats: UsageStat[]) => (
     <div>
-      <p className="text-xs text-gray-400 mb-2">{title}</p>
+      <p className="text-xs text-[var(--text-secondary)] mb-2">{title}</p>
       {stats.length === 0 ? (
-        <p className="text-xs text-gray-600">No data yet.</p>
+        <p className="text-xs text-[var(--text-secondary)]">No data yet.</p>
       ) : (
         <div className="space-y-1.5">
           {stats.map((s) => (
             <div key={s.label} className="flex items-center gap-2">
-              <span className="text-xs text-gray-300 capitalize flex-1 truncate">{s.label}</span>
-              <div className="h-1.5 flex-1 max-w-[60%] rounded-full bg-white/[0.06] overflow-hidden">
+              <span className="text-xs text-[var(--text-secondary)] capitalize flex-1 truncate">{s.label}</span>
+              <div className="h-1.5 flex-1 max-w-[60%] rounded-full bg-[var(--bg-card)] overflow-hidden">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-violet-600 to-purple-600"
                   style={{ width: `${Math.min(100, (s.count / (stats[0]?.count || 1)) * 100)}%` }}
                 />
               </div>
-              <span className="text-[10px] text-gray-500 w-8 text-right">{s.count}</span>
+              <span className="text-[10px] text-[var(--text-secondary)] w-8 text-right">{s.count}</span>
             </div>
           ))}
         </div>
@@ -95,7 +95,7 @@ export function AIUsage() {
         </div>
       </CardHeader>
       {loading ? (
-        <p className="px-4 pb-4 text-sm text-gray-500">Loading…</p>
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">Loading…</p>
       ) : (
         <div className="px-4 pb-4 space-y-5">
           {render("Events", byType)}

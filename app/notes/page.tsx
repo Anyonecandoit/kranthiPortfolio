@@ -212,12 +212,12 @@ export default function NotesPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-600 to-cyan-600 flex items-center justify-center">
-              <NotebookPen size={20} className="text-white" />
+              <NotebookPen size={20} className="text-[var(--text-primary)]" />
             </div>
             <h1 className="text-3xl font-medium tracking-tight">AI Notes</h1>
             <Badge variant="accent">Autosaved</Badge>
           </div>
-          <p className="text-gray-400 max-w-2xl">
+          <p className="text-[var(--text-secondary)] max-w-2xl">
             A notepad with AI superpowers — summarize, improve, expand, translate, or
             continue any note in one click. Notes are saved locally; sign in to sync.
           </p>
@@ -241,20 +241,20 @@ export default function NotesPage() {
                     "group rounded-xl border px-3 py-2.5 cursor-pointer transition-colors",
                     n.id === activeId
                       ? "border-sky-500/40 bg-sky-500/10"
-                      : "border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05]"
+                      : "border-[var(--border-color)] bg-[var(--bg-card)] hover:bg-[var(--text-primary)]/10"
                   )}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-medium text-white truncate">{n.title || "Untitled note"}</p>
+                    <p className="text-sm font-medium text-[var(--text-primary)] truncate">{n.title || "Untitled note"}</p>
                     <button
                       onClick={(e) => { e.stopPropagation(); deleteNote(n.id); }}
-                      className="opacity-0 group-hover:opacity-100 text-gray-500 hover:text-red-400 transition-all shrink-0"
+                      className="opacity-0 group-hover:opacity-100 text-[var(--text-secondary)] hover:text-red-400 transition-all shrink-0"
                       title="Delete"
                     >
                       <Trash2 size={13} />
                     </button>
                   </div>
-                  <p className="text-[10px] text-gray-600 mt-0.5">{n.content.length} chars</p>
+                  <p className="text-[10px] text-[var(--text-secondary)] mt-0.5">{n.content.length} chars</p>
                 </div>
               ))}
             </div>
@@ -268,12 +268,12 @@ export default function NotesPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Note title"
-                  className="w-full bg-transparent text-xl font-semibold text-white placeholder-gray-600 outline-none"
+                  className="w-full bg-transparent text-xl font-semibold text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none"
                 />
-                <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] overflow-hidden">
+                <div className="rounded-2xl border border-[var(--border-color)] bg-[var(--bg-card)] overflow-hidden">
                   {preview ? (
                     <div className="min-h-[50vh] p-5">
-                      <div className="prose prose-invert prose-sm max-w-none prose-p:my-1 prose-headings:text-white prose-p:text-gray-200 prose-strong:text-white prose-a:text-sky-400 prose-li:text-gray-200 prose-code:text-sky-300">
+                      <div className="prose prose-sm max-w-none prose-p:my-1 prose-headings:text-[var(--text-primary)] prose-p:text-[var(--text-secondary)] prose-strong:text-[var(--text-primary)] prose-a:text-sky-400 prose-li:text-[var(--text-secondary)] prose-code:text-sky-300">
                         <Markdown>{content || "*Empty note*"}</Markdown>
                       </div>
                     </div>
@@ -282,7 +282,7 @@ export default function NotesPage() {
                       value={content}
                       onChange={(e) => setContent(e.target.value)}
                       placeholder="Start typing, or pick an AI action below…"
-                      className="w-full min-h-[50vh] resize-none bg-transparent p-5 text-sm text-gray-200 placeholder-gray-600 outline-none leading-relaxed"
+                      className="w-full min-h-[50vh] resize-none bg-transparent p-5 text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none leading-relaxed"
                     />
                   )}
                 </div>
@@ -301,7 +301,7 @@ export default function NotesPage() {
                           "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium transition-colors disabled:opacity-40",
                           busy
                             ? "bg-sky-600/25 border-sky-500/40 text-sky-200"
-                            : "bg-white/[0.04] border-white/10 text-gray-300 hover:text-white hover:bg-white/10"
+                            : "bg-[var(--bg-card)] border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/10"
                         )}
                       >
                         {busy ? <Loader2 size={13} className="animate-spin" /> : <Icon size={13} />}
@@ -313,7 +313,7 @@ export default function NotesPage() {
                     <select
                       value={lang}
                       onChange={(e) => setLang(e.target.value)}
-                      className="rounded-lg bg-[rgba(20,20,24,1)] border border-white/10 px-2 py-1.5 text-xs text-white outline-none"
+                      className="rounded-lg bg-[rgba(20,20,24,1)] border border-[var(--border-color)] px-2 py-1.5 text-xs text-[var(--text-primary)] outline-none"
                     >
                       {TRANSLATE_LANGS.map((l) => <option key={l} value={l}>{l}</option>)}
                     </select>
@@ -325,7 +325,7 @@ export default function NotesPage() {
                       "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs transition-colors",
                       showRules
                         ? "border-amber-500/40 bg-amber-500/10 text-amber-300"
-                        : "border-white/10 text-gray-300 hover:text-white hover:bg-white/10"
+                        : "border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/10"
                     )}
                     title="Set rules the AI must read before touching your note"
                   >
@@ -333,7 +333,7 @@ export default function NotesPage() {
                   </button>
                   <button
                     onClick={() => setPreview((v) => !v)}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border-color)] px-2.5 py-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/10 transition-colors"
                   >
                     {preview ? <EyeOff size={13} /> : <Eye size={13} />}
                     {preview ? "Edit" : "Preview"}
@@ -341,7 +341,7 @@ export default function NotesPage() {
                   {undoStack.length > 0 && (
                     <button
                       onClick={undo}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 px-2.5 py-1.5 text-xs text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border-color)] px-2.5 py-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/10 transition-colors"
                       title="Undo last AI change"
                     >
                       <Undo2 size={13} /> Undo
@@ -360,7 +360,7 @@ export default function NotesPage() {
                       onChange={(e) => setRules(e.target.value)}
                       placeholder={"e.g.\n- Always reply in first person, as Kranthi's assistant.\n- Keep output under 200 words.\n- Use headings for any list longer than 5 items."}
                       rows={4}
-                      className="w-full rounded-lg bg-black/20 border border-white/[0.06] px-3 py-2 text-xs text-amber-100/90 placeholder-amber-100/30 outline-none focus:border-amber-500/40 resize-none"
+                      className="w-full rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] px-3 py-2 text-xs text-amber-100/90 placeholder-amber-100/30 outline-none focus:border-amber-500/40 resize-none"
                     />
                     <p className="text-[10px] text-amber-100/40 mt-1">Saved locally. Applied to Summarize, Improve, Expand, TL;DR, Translate, and Continue.</p>
                   </div>
@@ -368,11 +368,11 @@ export default function NotesPage() {
 
                 {/* Sync row */}
                 {user && (
-                  <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                    <button onClick={syncUp} className="inline-flex items-center gap-1.5 text-gray-400 hover:text-sky-300 transition-colors">
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--text-secondary)]">
+                    <button onClick={syncUp} className="inline-flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-sky-300 transition-colors">
                       <CloudUpload size={13} /> Save to account
                     </button>
-                    <button onClick={syncDown} className="inline-flex items-center gap-1.5 text-gray-400 hover:text-sky-300 transition-colors">
+                    <button onClick={syncDown} className="inline-flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-sky-300 transition-colors">
                       <CloudDownload size={13} /> Load from account
                     </button>
                     {syncMsg && <span className="text-emerald-400">{syncMsg}</span>}
@@ -380,11 +380,11 @@ export default function NotesPage() {
                 )}
               </>
             ) : (
-              <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] flex flex-col items-center justify-center py-20 text-center px-6">
-                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-3">
-                  <NotebookPen size={24} className="text-gray-500" />
+              <div className="rounded-2xl border border-[var(--border-color)] bg-[var(--bg-card)] flex flex-col items-center justify-center py-20 text-center px-6">
+                <div className="w-12 h-12 rounded-2xl bg-[var(--bg-card)] flex items-center justify-center mb-3">
+                  <NotebookPen size={24} className="text-[var(--text-secondary)]" />
                 </div>
-                <p className="text-sm text-gray-500 max-w-sm">
+                <p className="text-sm text-[var(--text-secondary)] max-w-sm">
                   No note selected. Create one to start writing — and let AI help you finish.
                 </p>
               </div>

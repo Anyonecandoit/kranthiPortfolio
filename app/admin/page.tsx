@@ -52,14 +52,14 @@ export default function AdminPage() {
 
   return (
     <RequireAuth requiredRole="admin">
-      <div className="min-h-screen bg-transparent text-white pt-20 px-4">
+      <div className="min-h-screen bg-transparent text-[var(--text-primary)] pt-20 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-3xl font-medium tracking-tight">Admin Dashboard</h1>
               <Badge variant="accent">Admin</Badge>
             </div>
-            <p className="text-gray-400">Monitor analytics, manage AI, and control your platform.</p>
+            <p className="text-[var(--text-secondary)]">Monitor analytics, manage AI, and control your platform.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -77,8 +77,8 @@ export default function AdminPage() {
                         className={cn(
                           "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors",
                           active
-                            ? "bg-violet-600/20 text-white border border-violet-500/30"
-                            : "text-gray-400 hover:text-white hover:bg-white/[0.04] border border-transparent"
+                            ? "bg-violet-600/20 text-[var(--text-primary)] border border-violet-500/30"
+                            : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/10 border border-transparent"
                         )}
                       >
                         <Icon size={16} className={active ? "text-violet-300" : ""} />
@@ -101,8 +101,8 @@ export default function AdminPage() {
                   transition={{ duration: 0.18 }}
                 >
                   <div className="mb-4">
-                    <h2 className="text-lg font-semibold text-white">{SECTION_META[section].title}</h2>
-                    <p className="text-sm text-gray-500">{SECTION_META[section].desc}</p>
+                    <h2 className="text-lg font-semibold text-[var(--text-primary)]">{SECTION_META[section].title}</h2>
+                    <p className="text-sm text-[var(--text-secondary)]">{SECTION_META[section].desc}</p>
                   </div>
                   {section === "analytics" && <AnalyticsOverview />}
                   {section === "visitors" && <VisitorActivity />}

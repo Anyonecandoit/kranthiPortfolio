@@ -18,7 +18,7 @@ const OVERALL_STYLES: Record<MatchResult["overall"], { badge: "success" | "warni
   Excellent: { badge: "success", bar: "from-emerald-500 to-teal-400", text: "text-emerald-400" },
   Strong: { badge: "success", bar: "from-emerald-500 to-teal-400", text: "text-emerald-400" },
   Moderate: { badge: "warning", bar: "from-amber-500 to-orange-400", text: "text-amber-400" },
-  Weak: { badge: "default", bar: "from-gray-500 to-gray-400", text: "text-gray-400" },
+  Weak: { badge: "default", bar: "from-gray-500 to-gray-400", text: "text-[var(--text-secondary)]" },
 };
 
 export default function RecruiterPage() {
@@ -59,12 +59,12 @@ export default function RecruiterPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-purple-600 flex items-center justify-center">
-              <Briefcase size={20} className="text-white" />
+              <Briefcase size={20} className="text-[var(--text-primary)]" />
             </div>
             <h1 className="text-3xl font-medium tracking-tight">Recruiter Mode</h1>
             <Badge variant="accent">JD Matcher</Badge>
           </div>
-          <p className="text-gray-400 max-w-2xl">
+          <p className="text-[var(--text-secondary)] max-w-2xl">
             Paste a job description or upload a PDF and get an instant match score against
             Kranthi&apos;s resume — matched skills, gaps, relevant experience, and interview questions.
           </p>
@@ -76,13 +76,13 @@ export default function RecruiterPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Job Description</CardTitle>
-                <p className="text-xs text-gray-500 mt-1">Paste the JD text, or upload a PDF (.pdf)</p>
+                <p className="text-xs text-[var(--text-secondary)] mt-1">Paste the JD text, or upload a PDF (.pdf)</p>
               </CardHeader>
               <textarea
                 value={jdText}
                 onChange={(e) => setJdText(e.target.value)}
                 placeholder="Paste the job description here..."
-                className="w-full h-56 rounded-xl bg-white/[0.04] border border-white/[0.08] focus:border-violet-500/40 outline-none p-3 text-sm text-white placeholder-gray-600 resize-none"
+                className="w-full h-56 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] focus:border-violet-500/40 outline-none p-3 text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] resize-none"
               />
               <div className="mt-3 flex flex-col gap-2">
                 <input
@@ -93,12 +93,12 @@ export default function RecruiterPage() {
                   onChange={(e) => setFile(e.target.files?.[0] ?? null)}
                 />
                 {file ? (
-                  <div className="flex items-center justify-between rounded-xl bg-white/[0.04] border border-white/[0.08] px-3 py-2 text-sm">
-                    <span className="text-gray-300 truncate flex items-center gap-2">
+                  <div className="flex items-center justify-between rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-2 text-sm">
+                    <span className="text-[var(--text-secondary)] truncate flex items-center gap-2">
                       <CheckCircle2 size={14} className="text-emerald-400" />
                       {file.name}
                     </span>
-                    <button onClick={() => { setFile(null); if (fileInputRef.current) fileInputRef.current.value = ""; }} className="text-gray-500 hover:text-white">
+                    <button onClick={() => { setFile(null); if (fileInputRef.current) fileInputRef.current.value = ""; }} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                       <X size={14} />
                     </button>
                   </div>
@@ -121,11 +121,11 @@ export default function RecruiterPage() {
             {!result && !loading && (
               <Card>
                 <div className="flex flex-col items-center justify-center py-16 text-center px-6">
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-3">
-                    <Briefcase size={24} className="text-gray-500" />
+                  <div className="w-12 h-12 rounded-2xl bg-[var(--bg-card)] flex items-center justify-center mb-3">
+                    <Briefcase size={24} className="text-[var(--text-secondary)]" />
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-1">Match results will appear here</h3>
-                  <p className="text-sm text-gray-500 max-w-sm">
+                  <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">Match results will appear here</h3>
+                  <p className="text-sm text-[var(--text-secondary)] max-w-sm">
                     Paste a job description or upload a PDF to see a scored match against
                     Kranthi&apos;s resume.
                   </p>
@@ -137,7 +137,7 @@ export default function RecruiterPage() {
               <Card>
                 <div className="flex flex-col items-center justify-center py-16 text-center">
                   <Loader2 size={28} className="text-violet-400 animate-spin mb-3" />
-                  <p className="text-sm text-gray-400">Analyzing the job description...</p>
+                  <p className="text-sm text-[var(--text-secondary)]">Analyzing the job description...</p>
                 </div>
               </Card>
             )}
@@ -148,17 +148,17 @@ export default function RecruiterPage() {
                 <Card>
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Match Score</p>
+                      <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wider mb-1">Match Score</p>
                       <div className="flex items-end gap-3">
-                        <span className="text-5xl font-bold text-white">{result.matchScore}</span>
+                        <span className="text-5xl font-bold text-[var(--text-primary)]">{result.matchScore}</span>
                         <span className="mb-1.5"><Badge variant={style.badge}>{result.overall}</Badge></span>
                       </div>
                     </div>
-                    <div className="text-right text-[10px] text-gray-600">
+                    <div className="text-right text-[10px] text-[var(--text-secondary)]">
                       {result.source === "llm" ? "AI-scored" : "Keyword estimate"}
                     </div>
                   </div>
-                  <div className="h-2.5 rounded-full bg-white/[0.06] overflow-hidden">
+                  <div className="h-2.5 rounded-full bg-[var(--bg-card)] overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${result.matchScore}%` }}
@@ -183,7 +183,7 @@ export default function RecruiterPage() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-sm text-gray-500">No direct skill matches found.</p>
+                      <p className="text-sm text-[var(--text-secondary)]">No direct skill matches found.</p>
                     )}
                   </Card>
 
@@ -201,7 +201,7 @@ export default function RecruiterPage() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-sm text-gray-500">No obvious skill gaps.</p>
+                      <p className="text-sm text-[var(--text-secondary)]">No obvious skill gaps.</p>
                     )}
                   </Card>
                 </div>
@@ -214,7 +214,7 @@ export default function RecruiterPage() {
                         <Sparkles size={16} className="text-violet-400" /> Recommendation
                       </CardTitle>
                     </CardHeader>
-                    <p className="text-sm text-gray-300 leading-relaxed">{result.recommendation}</p>
+                    <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{result.recommendation}</p>
                   </Card>
                 )}
 
@@ -226,7 +226,7 @@ export default function RecruiterPage() {
                         <CardHeader>
                           <CardTitle className="text-sm">Relevant Experience</CardTitle>
                         </CardHeader>
-                        <ul className="space-y-2 text-sm text-gray-300">
+                        <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
                           {result.relevantExperience.map((r, i) => (
                             <li key={i} className="flex gap-2">
                               <span className="text-violet-400 mt-1">•</span>
@@ -241,7 +241,7 @@ export default function RecruiterPage() {
                         <CardHeader>
                           <CardTitle className="text-sm">Relevant Projects</CardTitle>
                         </CardHeader>
-                        <ul className="space-y-2 text-sm text-gray-300">
+                        <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
                           {result.relevantProjects.map((r, i) => (
                             <li key={i} className="flex gap-2">
                               <span className="text-violet-400 mt-1">•</span>
@@ -262,7 +262,7 @@ export default function RecruiterPage() {
                         <MessageSquare size={16} className="text-sky-400" /> Suggested Interview Questions
                       </CardTitle>
                     </CardHeader>
-                    <ol className="space-y-2 text-sm text-gray-300 list-decimal ml-5">
+                    <ol className="space-y-2 text-sm text-[var(--text-secondary)] list-decimal ml-5">
                       {result.interviewQuestions.map((q, i) => (
                         <li key={i}>{q}</li>
                       ))}

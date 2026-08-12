@@ -35,9 +35,9 @@ const variants = {
   primary:
     "bg-[var(--accent)] text-white hover:bg-[var(--accent-2)] shadow-lg shadow-black/20 hover:shadow-black/30 hover:-translate-y-0.5 active:scale-[0.98]",
   secondary:
-    "bg-white/5 text-gray-200 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:-translate-y-0.5 active:scale-[0.98]",
+    "bg-[var(--bg-card)] text-[var(--text-primary)] border border-[var(--border-color)] hover:border-accent/40 hover:-translate-y-0.5 active:scale-[0.98]",
   ghost:
-    "bg-transparent text-gray-300 hover:bg-white/5 hover:text-white",
+    "bg-transparent text-[var(--text-secondary)] hover:bg-[var(--text-primary)]/10 hover:text-[var(--text-primary)]",
   outline:
     "bg-transparent text-[var(--accent)] border border-[rgba(230,88,0,0.3)] hover:bg-[rgba(230,88,0,0.08)] hover:border-[rgba(230,88,0,0.5)] hover:-translate-y-0.5 active:scale-[0.98]",
 };

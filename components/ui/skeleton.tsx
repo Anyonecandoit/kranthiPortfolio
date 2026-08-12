@@ -21,7 +21,7 @@ export function Skeleton({ className }: SkeletonProps) {
  */
 export function CardSkeleton({ className }: SkeletonProps) {
   return (
-    <div className={cn("rounded-2xl border border-white/10 bg-white/5 p-6 space-y-4", className)}>
+    <div className={cn("rounded-2xl border border-[var(--border-color)] bg-[var(--bg-card)] p-6 space-y-4", className)}>
       <Skeleton className="h-40 w-full rounded-xl" />
       <Skeleton className="h-5 w-3/4" />
       <Skeleton className="h-4 w-full" />

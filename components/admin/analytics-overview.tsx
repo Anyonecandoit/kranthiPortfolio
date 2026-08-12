@@ -171,16 +171,16 @@ export function AnalyticsOverview() {
         {stats.map((stat) => (
           <Card key={stat.label}>
             <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-lg bg-white/5 ${stat.color}`}>
+              <div className={`p-2 rounded-lg bg-[var(--bg-card)] ${stat.color}`}>
                 <StatIcon icon={stat.icon} live={stat.live} />
               </div>
               <div>
                 {snapshot === null ? (
                   <Skeleton className="h-7 w-12" />
                 ) : (
-                  <p className="text-2xl font-bold text-white">{stat.value ?? 0}</p>
+                  <p className="text-2xl font-bold text-[var(--text-primary)]">{stat.value ?? 0}</p>
                 )}
-                <p className="text-xs text-gray-400">{stat.label}</p>
+                <p className="text-xs text-[var(--text-secondary)]">{stat.label}</p>
               </div>
             </div>
           </Card>
@@ -220,11 +220,11 @@ export function AnalyticsOverview() {
             {snapshot.recent.map((ev) => (
               <li
                 key={ev.id}
-                className="flex items-center gap-3 text-sm rounded-lg bg-white/[0.03] border border-white/[0.05] px-3 py-2"
+                className="flex items-center gap-3 text-sm rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-2"
               >
                 <Badge variant="default">{ev.event_type}</Badge>
-                <span className="text-gray-300 flex-1 truncate">{ev.page_path ?? "—"}</span>
-                <span className="text-xs text-gray-500">
+                <span className="text-[var(--text-secondary)] flex-1 truncate">{ev.page_path ?? "—"}</span>
+                <span className="text-xs text-[var(--text-secondary)]">
                   {new Date(ev.created_at).toLocaleString()}
                 </span>
               </li>

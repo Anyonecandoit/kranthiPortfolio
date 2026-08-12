@@ -54,16 +54,16 @@ export function VisitorActivity() {
         </div>
       </CardHeader>
       {loading ? (
-        <p className="px-4 pb-4 text-sm text-gray-500">Loading…</p>
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">Loading…</p>
       ) : events.length === 0 ? (
-        <p className="px-4 pb-4 text-sm text-gray-500">No events yet.</p>
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">No events yet.</p>
       ) : (
         <div className="px-4 pb-4 max-h-[420px] overflow-y-auto space-y-1.5">
           {events.map((e) => (
-            <div key={e.id} className="flex items-center gap-2.5 rounded-lg bg-white/[0.02] border border-white/[0.05] px-3 py-2">
+            <div key={e.id} className="flex items-center gap-2.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-2">
               <Badge variant={TYPE_COLORS[e.event_type] ?? "default"}>{e.event_type}</Badge>
-              <span className="text-xs text-gray-300 font-mono truncate flex-1">{e.page_path ?? "—"}</span>
-              <span className="text-[10px] text-gray-600 shrink-0">
+              <span className="text-xs text-[var(--text-secondary)] font-mono truncate flex-1">{e.page_path ?? "—"}</span>
+              <span className="text-[10px] text-[var(--text-secondary)] shrink-0">
                 {new Date(e.created_at).toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
               </span>
             </div>

@@ -7,10 +7,10 @@ export default function NotFound() {
         <div className="text-7xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent mb-4">
           404
         </div>
-        <h1 className="text-2xl font-semibold text-white mb-3">
+        <h1 className="text-2xl font-semibold text-[var(--text-primary)] mb-3">
           Page not found
         </h1>
-        <p className="text-gray-400 text-sm leading-relaxed mb-8">
+        <p className="text-[var(--text-secondary)] text-sm leading-relaxed mb-8">
           The page you&apos;re looking for doesn&apos;t exist or has moved. Let&apos;s
           get you back on track.
         </p>
@@ -23,7 +23,7 @@ export default function NotFound() {
           </Link>
           <Link
             href="/chat"
-            className="px-5 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-gray-300 hover:bg-white/[0.1] text-sm font-medium transition-colors"
+            className="px-5 py-2.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:border-accent/40 text-sm font-medium transition-colors"
           >
             Chat with my AI assistant
           </Link>

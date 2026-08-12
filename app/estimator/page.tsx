@@ -56,7 +56,7 @@ export default function EstimatorPage() {
   };
 
   const inputClasses =
-    "w-full rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-2 text-sm text-white placeholder-gray-600 outline-none focus:border-violet-500/40";
+    "w-full rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-2 text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:border-violet-500/40";
 
   return (
     <main className="min-h-screen bg-[var(--bg-primary)] pt-24 px-6 pb-16">
@@ -64,12 +64,12 @@ export default function EstimatorPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center">
-              <Calculator size={20} className="text-white" />
+              <Calculator size={20} className="text-[var(--text-primary)]" />
             </div>
             <h1 className="text-3xl font-medium tracking-tight">Project Estimator</h1>
             <Badge variant="accent">For clients</Badge>
           </div>
-          <p className="text-gray-400 max-w-2xl">
+          <p className="text-[var(--text-secondary)] max-w-2xl">
             Describe your project and get a structured estimate — scope, timeline,
             cost range, milestones, and next steps. Free and no commitment.
           </p>
@@ -84,7 +84,7 @@ export default function EstimatorPage() {
               </CardHeader>
               <div className="space-y-3.5 px-4 pb-4">
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">Project type</label>
+                  <label className="block text-xs text-[var(--text-secondary)] mb-1">Project type</label>
                   <select value={projectType} onChange={(e) => setProjectType(e.target.value)} className={inputClasses}>
                     <option value="">Select a type…</option>
                     {PROJECT_TYPES.map((t) => (
@@ -93,7 +93,7 @@ export default function EstimatorPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">Description</label>
+                  <label className="block text-xs text-[var(--text-secondary)] mb-1">Description</label>
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -103,7 +103,7 @@ export default function EstimatorPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1">Key features (one per line)</label>
+                  <label className="block text-xs text-[var(--text-secondary)] mb-1">Key features (one per line)</label>
                   <textarea
                     value={features}
                     onChange={(e) => setFeatures(e.target.value)}
@@ -114,11 +114,11 @@ export default function EstimatorPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs text-gray-400 mb-1">Timeline expectation</label>
+                    <label className="block text-xs text-[var(--text-secondary)] mb-1">Timeline expectation</label>
                     <input value={timeline} onChange={(e) => setTimeline(e.target.value)} placeholder="e.g. 3 months" className={inputClasses} />
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-400 mb-1">Budget (optional)</label>
+                    <label className="block text-xs text-[var(--text-secondary)] mb-1">Budget (optional)</label>
                     <input value={budget} onChange={(e) => setBudget(e.target.value)} placeholder="e.g. $15k" className={inputClasses} />
                   </div>
                 </div>
@@ -135,11 +135,11 @@ export default function EstimatorPage() {
             {!result && !loading && (
               <Card>
                 <div className="flex flex-col items-center justify-center py-16 text-center px-6">
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-3">
-                    <Calculator size={24} className="text-gray-500" />
+                  <div className="w-12 h-12 rounded-2xl bg-[var(--bg-card)] flex items-center justify-center mb-3">
+                    <Calculator size={24} className="text-[var(--text-secondary)]" />
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-1">Your estimate appears here</h3>
-                  <p className="text-sm text-gray-500 max-w-sm">
+                  <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-1">Your estimate appears here</h3>
+                  <p className="text-sm text-[var(--text-secondary)] max-w-sm">
                     Fill in the form to get a structured project estimate with scope,
                     timeline, cost, and milestones.
                   </p>
@@ -150,7 +150,7 @@ export default function EstimatorPage() {
               <Card>
                 <div className="flex flex-col items-center justify-center py-16 text-center">
                   <Loader2 size={28} className="text-emerald-400 animate-spin mb-3" />
-                  <p className="text-sm text-gray-400">Crunching the numbers…</p>
+                  <p className="text-sm text-[var(--text-secondary)]">Crunching the numbers…</p>
                 </div>
               </Card>
             )}
@@ -163,22 +163,22 @@ export default function EstimatorPage() {
                     <Card>
                       <div className="grid grid-cols-3 gap-4 text-center">
                         <div>
-                          <p className="text-3xl font-bold text-white">{result.personWeeks}</p>
-                          <p className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Person-weeks</p>
+                          <p className="text-3xl font-bold text-[var(--text-primary)]">{result.personWeeks}</p>
+                          <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mt-1">Person-weeks</p>
                         </div>
                         <div>
                           <p className="text-3xl font-bold text-emerald-400">${result.costRange[0]}–${result.costRange[1]}</p>
-                          <p className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Est. cost</p>
+                          <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mt-1">Est. cost</p>
                         </div>
                         <div>
                           <p className="text-3xl font-bold text-sky-400">{result.timelineMonths} mo</p>
-                          <p className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Timeline</p>
+                          <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mt-1">Timeline</p>
                         </div>
                       </div>
                       {result.summary && (
-                        <p className="mt-4 text-sm text-gray-300 leading-relaxed">{result.summary}</p>
+                        <p className="mt-4 text-sm text-[var(--text-secondary)] leading-relaxed">{result.summary}</p>
                       )}
-                      <p className="mt-3 text-[10px] text-gray-600">
+                      <p className="mt-3 text-[10px] text-[var(--text-secondary)]">
                         {result.source === "llm" ? "AI-generated estimate" : "Heuristic estimate"} · assumes a small team of 1–2 engineers
                       </p>
                     </Card>
@@ -190,7 +190,7 @@ export default function EstimatorPage() {
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-sm"><ClipboardList size={15} className="text-violet-400" /> Scope</CardTitle>
                       </CardHeader>
-                      <ul className="space-y-1.5 px-4 pb-4 text-sm text-gray-300">
+                      <ul className="space-y-1.5 px-4 pb-4 text-sm text-[var(--text-secondary)]">
                         {result.scope.map((s, i) => <li key={i} className="flex gap-2"><span className="text-violet-400 mt-0.5">•</span>{s}</li>)}
                       </ul>
                     </Card>
@@ -216,14 +216,14 @@ export default function EstimatorPage() {
                             <div key={i} className="flex items-start gap-3">
                               <div className="flex flex-col items-center mt-0.5">
                                 <span className="w-6 h-6 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[10px] flex items-center justify-center font-semibold">{i + 1}</span>
-                                {i < result.milestones.length - 1 && <span className="w-px h-full bg-white/[0.06] my-1" />}
+                                {i < result.milestones.length - 1 && <span className="w-px h-full bg-[var(--bg-card)] my-1" />}
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center justify-between gap-2">
-                                  <p className="text-sm font-medium text-white">{m.phase}</p>
-                                  <span className="text-[10px] text-gray-500 shrink-0">~{m.weeks} wk</span>
+                                  <p className="text-sm font-medium text-[var(--text-primary)]">{m.phase}</p>
+                                  <span className="text-[10px] text-[var(--text-secondary)] shrink-0">~{m.weeks} wk</span>
                                 </div>
-                                <p className="text-xs text-gray-500">{m.detail}</p>
+                                <p className="text-xs text-[var(--text-secondary)]">{m.detail}</p>
                               </div>
                             </div>
                           ))}
@@ -238,7 +238,7 @@ export default function EstimatorPage() {
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-sm"><AlertTriangle size={15} className="text-amber-400" /> Risks</CardTitle>
                       </CardHeader>
-                      <ul className="space-y-1.5 px-4 pb-4 text-sm text-gray-300">
+                      <ul className="space-y-1.5 px-4 pb-4 text-sm text-[var(--text-secondary)]">
                         {result.risks.map((r, i) => <li key={i} className="flex gap-2"><span className="text-amber-400 mt-0.5">•</span>{r}</li>)}
                       </ul>
                     </Card>
@@ -246,7 +246,7 @@ export default function EstimatorPage() {
                       <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-sm"><Footprints size={15} className="text-sky-400" /> Next steps</CardTitle>
                       </CardHeader>
-                      <ol className="space-y-1.5 px-4 pb-4 text-sm text-gray-300 list-decimal ml-5">
+                      <ol className="space-y-1.5 px-4 pb-4 text-sm text-[var(--text-secondary)] list-decimal ml-5">
                         {result.nextSteps.map((s, i) => <li key={i}>{s}</li>)}
                       </ol>
                     </Card>
@@ -256,7 +256,7 @@ export default function EstimatorPage() {
                   <motion.div key="cta" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
                     <Card>
                       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4">
-                        <p className="text-sm text-gray-300">
+                        <p className="text-sm text-[var(--text-secondary)]">
                           Want a detailed proposal? Let&apos;s talk.
                         </p>
                         <div className="flex items-center gap-2">

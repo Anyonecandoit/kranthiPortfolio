@@ -277,21 +277,21 @@ export function DocumentVault() {
             "rounded-xl border-2 border-dashed px-4 py-6 text-center cursor-pointer transition-colors",
             dragOver
               ? "border-sky-400/60 bg-sky-500/10"
-              : "border-white/[0.12] bg-white/[0.02] hover:border-sky-400/40 hover:bg-white/[0.04]"
+              : "border-[var(--border-color)] bg-[var(--bg-card)] hover:border-sky-400/40 hover:bg-[var(--text-primary)]/10"
           )}
         >
-          <UploadCloud size={22} className="mx-auto mb-2 text-gray-500" />
-          <p className="text-sm text-gray-400">
+          <UploadCloud size={22} className="mx-auto mb-2 text-[var(--text-secondary)]" />
+          <p className="text-sm text-[var(--text-secondary)]">
             {file ? (
               <>
-                <span className="text-white font-medium">{file.name}</span> ·{" "}
+                <span className="text-[var(--text-primary)] font-medium">{file.name}</span> ·{" "}
                 {formatSize(file.size)}
               </>
             ) : (
               "Drop a PDF here, or click to choose"
             )}
           </p>
-          <p className="text-[11px] text-gray-600 mt-1">
+          <p className="text-[11px] text-[var(--text-secondary)] mt-1">
             PDF · Word · Excel · text · images — up to 25 MB. Stored privately, admin-only.
           </p>
         </div>
@@ -309,16 +309,16 @@ export function DocumentVault() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Document title"
-                className="w-full rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-2 text-sm text-white placeholder-gray-600 outline-none focus:border-violet-500/40"
+                className="w-full rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-2 text-sm text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:border-violet-500/40"
               />
               <div className="flex gap-2">
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="rounded-lg bg-white/[0.05] border border-white/[0.08] px-2.5 py-2 text-xs text-white outline-none focus:border-violet-500/40"
+                  className="rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-2.5 py-2 text-xs text-[var(--text-primary)] outline-none focus:border-violet-500/40"
                 >
                   {DOC_CATEGORIES.map((c) => (
-                    <option key={c} value={c} className="bg-[#14141a]">
+                    <option key={c} value={c} className="bg-[var(--bg-card)]">
                       {c}
                     </option>
                   ))}
@@ -327,7 +327,7 @@ export function DocumentVault() {
                   value={tags}
                   onChange={(e) => setTags(e.target.value)}
                   placeholder="Tags (comma separated) — e.g. selenium, api"
-                  className="flex-1 rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-2 text-xs text-white placeholder-gray-600 outline-none focus:border-violet-500/40"
+                  className="flex-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-2 text-xs text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:border-violet-500/40"
                 />
               </div>
             </div>
@@ -349,13 +349,13 @@ export function DocumentVault() {
       {/* Search + filter */}
       <div className="px-4 pb-4 space-y-2">
         <div className="flex items-center gap-2">
-          <div className="flex-1 flex items-center gap-2 rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-1.5 focus-within:border-violet-500/40">
-            <Search size={14} className="text-gray-500" />
+          <div className="flex-1 flex items-center gap-2 rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-1.5 focus-within:border-violet-500/40">
+            <Search size={14} className="text-[var(--text-secondary)]" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search title, category, or tags…"
-              className="flex-1 bg-transparent text-white placeholder-gray-600 outline-none text-sm"
+              className="flex-1 bg-transparent text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none text-sm"
             />
           </div>
         </div>
@@ -368,7 +368,7 @@ export function DocumentVault() {
                 "px-2.5 py-1 text-[11px] rounded-full border transition-colors",
                 filter === c
                   ? "bg-sky-500/20 border-sky-400/40 text-sky-300"
-                  : "border-white/[0.08] text-gray-500 hover:text-gray-300 hover:border-white/20"
+                  : "border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-secondary)]"
               )}
             >
               {c}
@@ -380,16 +380,16 @@ export function DocumentVault() {
       {/* Preview panel */}
       {preview && (
         <div className="px-4 pb-4">
-          <div className="rounded-xl border border-white/[0.08] bg-black/40 overflow-hidden">
-            <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-white/[0.06]">
-              <span className="text-xs font-medium text-white truncate">{preview.title}</span>
+          <div className="rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] overflow-hidden">
+            <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-[var(--border-color)]">
+              <span className="text-xs font-medium text-[var(--text-primary)] truncate">{preview.title}</span>
               <div className="flex items-center gap-1.5 shrink-0">
                 {preview.signedUrl && (
                   <a
                     href={preview.signedUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                    className="p-1.5 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/10 transition-colors"
                     title="Open in new tab"
                   >
                     <Eye size={14} />
@@ -397,7 +397,7 @@ export function DocumentVault() {
                 )}
                 <button
                   onClick={() => setPreview(null)}
-                  className="p-1.5 rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                  className="p-1.5 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/10 transition-colors"
                   title="Close preview"
                 >
                   <X size={14} />
@@ -411,7 +411,7 @@ export function DocumentVault() {
                 className="w-full h-[70vh] bg-white"
               />
             ) : (
-              <div className="p-8 text-center text-sm text-gray-500">
+              <div className="p-8 text-center text-sm text-[var(--text-secondary)]">
                 No inline preview for this file type — download or open it in a new tab.
               </div>
             )}
@@ -421,34 +421,34 @@ export function DocumentVault() {
 
       {/* List */}
       {loading ? (
-        <p className="px-4 pb-4 text-sm text-gray-500 flex items-center gap-2">
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)] flex items-center gap-2">
           <Loader2 size={14} className="animate-spin" /> Loading…
         </p>
       ) : docs.length === 0 ? (
-        <p className="px-4 pb-4 text-sm text-gray-500">
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">
           Your vault is empty. Drop your first testing document above — it stays private to you.
         </p>
       ) : filtered.length === 0 ? (
-        <p className="px-4 pb-4 text-sm text-gray-500">No documents match your search.</p>
+        <p className="px-4 pb-4 text-sm text-[var(--text-secondary)]">No documents match your search.</p>
       ) : (
         <div className="px-4 pb-4 space-y-2">
           {filtered.map((d) => (
-            <div key={d.id} className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
+            <div key={d.id} className="rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] p-3">
               {editing?.id === d.id ? (
                 <div className="space-y-2">
                   <input
                     value={editTitle}
                     onChange={(e) => setEditTitle(e.target.value)}
-                    className="w-full rounded-lg bg-white/[0.05] border border-white/[0.08] px-3 py-1.5 text-sm text-white outline-none focus:border-violet-500/40"
+                    className="w-full rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-3 py-1.5 text-sm text-[var(--text-primary)] outline-none focus:border-violet-500/40"
                   />
                   <div className="flex flex-wrap gap-2">
                     <select
                       value={editCategory}
                       onChange={(e) => setEditCategory(e.target.value)}
-                      className="rounded-lg bg-white/[0.05] border border-white/[0.08] px-2 py-1.5 text-xs text-white outline-none"
+                      className="rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-2 py-1.5 text-xs text-[var(--text-primary)] outline-none"
                     >
                       {DOC_CATEGORIES.map((c) => (
-                        <option key={c} value={c} className="bg-[#14141a]">
+                        <option key={c} value={c} className="bg-[var(--bg-card)]">
                           {c}
                         </option>
                       ))}
@@ -457,7 +457,7 @@ export function DocumentVault() {
                       value={editTags}
                       onChange={(e) => setEditTags(e.target.value)}
                       placeholder="Tags (comma separated)"
-                      className="flex-1 min-w-[160px] rounded-lg bg-white/[0.05] border border-white/[0.08] px-2.5 py-1.5 text-xs text-white outline-none"
+                      className="flex-1 min-w-[160px] rounded-lg bg-[var(--bg-card)] border border-[var(--border-color)] px-2.5 py-1.5 text-xs text-[var(--text-primary)] outline-none"
                     />
                     <Button variant="primary" size="sm" onClick={saveEdit}>
                       <Check size={13} /> Save
@@ -476,7 +476,7 @@ export function DocumentVault() {
                       title={isPdf(d) ? "Preview" : "Open"}
                     >
                       <FileText size={15} className="text-sky-400 shrink-0" />
-                      <span className="text-sm font-medium text-white truncate group-hover:text-sky-300 transition-colors">
+                      <span className="text-sm font-medium text-[var(--text-primary)] truncate group-hover:text-sky-300 transition-colors">
                         {d.title}
                       </span>
                     </button>
@@ -485,7 +485,7 @@ export function DocumentVault() {
                         <a
                           href={d.signedUrl}
                           download={d.file_name}
-                          className="p-1.5 rounded-md text-gray-500 hover:text-white hover:bg-white/10 transition-colors"
+                          className="p-1.5 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/10 transition-colors"
                           title="Download"
                         >
                           <Download size={14} />
@@ -498,14 +498,14 @@ export function DocumentVault() {
                           setEditCategory(d.category);
                           setEditTags(d.tags.join(", "));
                         }}
-                        className="p-1.5 rounded-md text-gray-500 hover:text-white hover:bg-white/10 transition-colors"
+                        className="p-1.5 rounded-md text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/10 transition-colors"
                         title="Edit details"
                       >
                         <Pencil size={14} />
                       </button>
                       <button
                         onClick={() => remove(d)}
-                        className="p-1.5 rounded-md text-gray-500 hover:text-red-400 hover:bg-white/10 transition-colors"
+                        className="p-1.5 rounded-md text-[var(--text-secondary)] hover:text-red-400 hover:bg-[var(--text-primary)]/10 transition-colors"
                         title="Delete"
                       >
                         <Trash2 size={14} />
@@ -519,12 +519,12 @@ export function DocumentVault() {
                     {d.tags.map((t) => (
                       <span
                         key={t}
-                        className="inline-flex items-center gap-1 text-[10px] text-gray-500"
+                        className="inline-flex items-center gap-1 text-[10px] text-[var(--text-secondary)]"
                       >
                         <Tag size={9} /> {t}
                       </span>
                     ))}
-                    <span className="text-[10px] text-gray-600 ml-auto">
+                    <span className="text-[10px] text-[var(--text-secondary)] ml-auto">
                       {formatSize(d.file_size)} · {new Date(d.created_at).toLocaleDateString()}
                     </span>
                   </div>
