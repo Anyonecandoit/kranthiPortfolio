@@ -34,7 +34,10 @@ on conflict (id) do nothing;
 
 -- 2. Storage RLS — users manage only their own folder (path = <user_id>/...).
 --    Signed URLs + uploads/removes from the client are authorized by this.
-create policy if not exists documents_owner_all
+--    Note: `CREATE POLICY IF NOT EXISTS` needs PG15; Supabase projects on
+--    PG14 use drop-if-exists + plain create (idempotent, no data loss).
+drop policy if exists documents_owner_all on storage.objects;
+create policy documents_owner_all
   on storage.objects
   for all
   using (
@@ -62,7 +65,8 @@ create table if not exists public.admin_documents (
 
 alter table public.admin_documents enable row level security;
 
-create policy if not exists own_documents
+drop policy if exists own_documents on public.admin_documents;
+create policy own_documents
   on public.admin_documents
   for all
   using (auth.uid() = user_id)

@@ -63,9 +63,9 @@ run_query "CREATE INDEX IF NOT EXISTS idx_analytics_created ON public.analytics_
 echo "=== Step 8: Admin document vault (private docs) ==="
 run_query "CREATE TABLE IF NOT EXISTS public.admin_documents (id uuid primary key default uuid_generate_v4(), user_id uuid references public.profiles(id) on delete cascade not null, title text not null, category text not null default 'Other', tags text[] not null default '{}', file_path text not null, file_name text not null, file_size integer not null default 0, file_type text not null default 'application/pdf', created_at timestamptz not null default now());"
 run_query "ALTER TABLE public.admin_documents ENABLE ROW LEVEL SECURITY;"
-run_query "CREATE POLICY IF NOT EXISTS own_documents ON public.admin_documents FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);"
+run_query "DROP POLICY IF EXISTS own_documents ON public.admin_documents; CREATE POLICY own_documents ON public.admin_documents FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);"
 run_query "CREATE INDEX IF NOT EXISTS idx_admin_documents_user ON public.admin_documents(user_id);"
 run_query "INSERT INTO storage.buckets (id, name, public) VALUES ('documents', 'documents', false) ON CONFLICT (id) DO NOTHING;"
-run_query "CREATE POLICY IF NOT EXISTS documents_owner_all ON storage.objects FOR ALL USING (bucket_id = 'documents' AND auth.uid()::text = (storage.foldername(name))[1]) WITH CHECK (bucket_id = 'documents' AND auth.uid()::text = (storage.foldername(name))[1]);"
+run_query "DROP POLICY IF EXISTS documents_owner_all ON storage.objects; CREATE POLICY documents_owner_all ON storage.objects FOR ALL USING (bucket_id = 'documents' AND auth.uid()::text = (storage.foldername(name))[1]) WITH CHECK (bucket_id = 'documents' AND auth.uid()::text = (storage.foldername(name))[1]);"
 
 echo "=== Done! Schema deployed ==="
