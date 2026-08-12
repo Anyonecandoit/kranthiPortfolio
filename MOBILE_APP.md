@@ -230,6 +230,29 @@ inside the app, so every page renders without a connection. On top of that:
   everything from the local bundle — no network round-trips for JS/CSS/fonts.
 - API calls are only made on demand; the SW (web) never caches API responses.
 
+## Firebase Analytics (optional)
+
+The app can report analytics to Firebase alongside the existing Supabase
+analytics. Everything is env-gated — without config, zero Firebase code is
+bundled.
+
+1. In Firebase console → Project settings → *Your apps* → Web app, copy the
+   config values into your Vercel environment (and `.env.local` for local
+   builds): `NEXT_PUBLIC_FIREBASE_API_KEY`, `_AUTH_DOMAIN`, `_PROJECT_ID`,
+   `_APP_ID`, `_MESSAGING_SENDER_ID`, `_STORAGE_BUCKET`.
+2. Redeploy. Every existing event now also flows to Firebase Analytics
+   (`lib/analytics.ts` mirrors them), screen views are auto-tracked, and
+   uncaught errors report as `app_error` (`components/error-tracker.tsx`).
+3. Remote Config is available via `firebaseRemoteConfigValue()` in
+   `lib/analytics-firebase.ts`.
+
+**Crashlytics / Performance Monitoring** need the *native* Firebase SDKs. If
+you add `google-services.json`/`GoogleService-Info.plist` for push
+notifications, you can also add `@capacitor-firebase/crashlytics` and
+`@capacitor-firebase/performance` and follow their setup docs — they are
+intentionally not pre-installed so builds keep working without the Firebase
+project.
+
 ## Troubleshooting
 
 - **`app/api` missing after a failed build** — the script restores it on exit;

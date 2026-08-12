@@ -28,6 +28,7 @@ import { PushToast } from "@/components/push-toast";
 import { OfflineBanner } from "@/components/offline-banner";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
 import { SecurityManager } from "@/components/security-manager";
+import { ErrorTracker } from "@/components/error-tracker";
 import dynamic from "next/dynamic";
 
 // Lazy-load the command palette so the tools catalog + resume index only
@@ -306,6 +307,8 @@ export default function RootLayout({
             <CursorGlow />
             {/* Fires page_view analytics on every route change */}
             <AnalyticsTracker />
+            {/* Reports uncaught errors to analytics */}
+            <ErrorTracker />
             {/* Sticky nav */}
             <Navbar />
             {/* Command palette — opens with ⌘K / Ctrl+K or the navbar search icon */}

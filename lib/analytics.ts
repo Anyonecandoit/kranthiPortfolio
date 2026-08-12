@@ -1,4 +1,5 @@
 import { getSupabase } from "@/lib/supabase";
+import { isFirebaseAnalyticsConfigured } from "./analytics-firebase";
 
 /**
  * Lightweight, best-effort analytics.
@@ -86,4 +87,50 @@ export function trackEvent(
       /* analytics must never throw */
     }
   })();
+  // Mirror to Firebase Analytics when configured (fire-and-forget).
+  if (isFirebaseAnalyticsConfigured()) {
+    void import("./analytics-firebase").then(({ firebaseLogEvent }) =>
+      firebaseLogEvent(event_type, {
+        ...metadata,
+        page_path: page_path ?? (typeof window !== "undefined" ? window.location.pathname : undefined),
+      })
+    );
+  }
+}
+
+/**
+ * Record a client-side error (no-op on the server). Fires to both the
+ * Supabase event table and Firebase Analytics ("app_error").
+ */
+export function trackError(
+  context: string,
+  message: string,
+  metadata: Record<string, unknown> = {},
+): void {
+  if (typeof window === "undefined") return;
+  void (async () => {
+    try {
+      const res = await getSupabase()
+        .from("analytics_events")
+        .insert({
+          event_type: "app_error",
+          page_path: window.location.pathname,
+          user_id: null,
+          metadata: {
+            ...metadata,
+            context,
+            message: String(message).slice(0, 500),
+            visitor_id: getVisitorId(),
+          },
+        });
+      if (res.error) console.debug("[analytics] error insert failed", res.error.message);
+    } catch {
+      /* analytics must never throw */
+    }
+  })();
+  if (isFirebaseAnalyticsConfigured()) {
+    void import("./analytics-firebase").then(({ firebaseLogEvent }) =>
+      firebaseLogEvent("app_error", { context, message: String(message).slice(0, 200), ...metadata })
+    );
+  }
 }
