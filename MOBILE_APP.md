@@ -129,6 +129,54 @@ ios/                         # generated iOS project (regenerate: npx cap add io
 out/                         # static export (gitignored)
 ```
 
+## Push notifications (Firebase Cloud Messaging)
+
+The app ships with full FCM client code (`lib/push.ts`, `components/push-service.tsx`,
+`components/push-toast.tsx`): permission flow, token registration + refresh,
+foreground in-app banners, notification-tap navigation, backend token sync, and
+topic subscriptions. **No Firebase project exists yet — you must create one and
+add two files before notifications work.** The Android build stays green either
+way (the `google-services` gradle plugin is applied conditionally).
+
+### Manual steps (once)
+
+1. Create a Firebase project: https://console.firebase.google.com
+   - **Android app**: package `in.kranthikumarkatta.portfolio` → download
+     `google-services.json` → place it at `android/app/google-services.json`.
+   - **iOS app**: bundle id `in.kranthikumarkatta.portfolio` → download
+     `GoogleService-Info.plist` → place it at `ios/App/App/GoogleService-Info.plist`
+     (add it to the Xcode project, target membership: App).
+2. iOS only: upload an **APNs key** to Firebase (Cloud Messaging → Apple app
+   configuration) and enable the Push Notifications capability in Xcode.
+3. Create the Supabase table (SQL editor):
+
+```sql
+create table if not exists public.device_tokens (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  token text unique not null,
+  platform text not null check (platform in ('android','ios')),
+  topics text[] not null default '{}',
+  last_seen timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+alter table public.device_tokens enable row level security;
+-- Admins read all tokens; anonymous users can insert their own device token.
+create policy "device_tokens insert" on public.device_tokens for insert with check (true);
+create policy "device_tokens select" on public.device_tokens for select using (
+  auth.uid() = user_id or exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
+);
+```
+
+4. Rebuild the app (`npm run build:app`). Tokens self-register on first launch
+   and are stored in `device_tokens` via `POST /api/notifications/register`.
+5. Send a test notification: in the Firebase console → Cloud Messaging → send a
+test message to the registered token, or use `admin.messaging().send()` from a
+server script with the service-account key.
+
+Topic subscriptions are stored per device (`topics` column) and sent to the
+backend on registration; a server job can target devices by topic directly.
+
 ## Troubleshooting
 
 - **`app/api` missing after a failed build** — the script restores it on exit;

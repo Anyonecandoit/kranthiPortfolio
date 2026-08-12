@@ -15,6 +15,8 @@ import { CursorGlow } from "@/components/ui/cursor-glow";
 import { AmbientBackground } from "@/components/ambient-background";
 import { PageTransition } from "@/components/page-transition";
 import { NativeShell } from "@/components/native-shell";
+import { PushService } from "@/components/push-service";
+import { PushToast } from "@/components/push-toast";
 import dynamic from "next/dynamic";
 
 // Lazy-load the command palette so the tools catalog + resume index only
@@ -275,6 +277,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light">
           {/* Native-only shell: splash, status bar, back button, deep links, haptics */}
           <NativeShell />
+          {/* Firebase push: token registration + tap navigation (native only) */}
+          <PushService />
           <AuthProvider>
           <SiteSettingsProvider>
           <ChatProvider>
@@ -300,6 +304,8 @@ export default function RootLayout({
             <ConditionalFooter />
             <FloatingChat />
             <FloatingVoice />
+            {/* Foreground push notification banner */}
+            <PushToast />
             {/* Real-time visitor analytics widget (bottom-left) */}
             <VisitorWidget />
           </ChatProvider>

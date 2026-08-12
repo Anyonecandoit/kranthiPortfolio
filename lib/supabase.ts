@@ -314,6 +314,36 @@ export type Database = {
         };
         Relationships: [];
       };
+      device_tokens: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          token: string;
+          platform: "android" | "ios";
+          topics: string[];
+          last_seen: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string | null;
+          token: string;
+          platform: "android" | "ios";
+          topics?: string[];
+          last_seen?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string | null;
+          token?: string;
+          platform?: "android" | "ios";
+          topics?: string[];
+          last_seen?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {
