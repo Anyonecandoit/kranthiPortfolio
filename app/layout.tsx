@@ -4,8 +4,16 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { FloatingChat } from "@/components/chat/floating-chat";
-import { FloatingVoice } from "@/components/voice/floating-voice";
+// Chat + voice widgets are heavy (markdown, streaming UI) — load them only
+// after first paint so the initial bundle and cold start stay fast.
+const FloatingChat = dynamic(
+  () => import("@/components/chat/floating-chat").then((m) => m.FloatingChat),
+  { ssr: false, loading: () => null }
+);
+const FloatingVoice = dynamic(
+  () => import("@/components/voice/floating-voice").then((m) => m.FloatingVoice),
+  { ssr: false, loading: () => null }
+);
 import { AnalyticsTracker } from "@/components/analytics-tracker";
 import { ChatPageGuard } from "@/components/chat/chat-layout";
 import { ConditionalFooter } from "@/components/chat/chat-footer-wrapper";

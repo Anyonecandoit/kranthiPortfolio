@@ -218,6 +218,18 @@ inside the app, so every page renders without a connection. On top of that:
 - **Screenshot protection** — iOS exposes no API; on Android it requires
   `FLAG_SECURE`, which conflicts with the WebView; not enabled.
 
+## Performance
+
+- The chat + voice widgets are split out of the initial bundle (dynamic
+  imports in `app/layout.tsx`) so they load after first paint instead of
+  blocking it. The search modal and visitor widget were already deferred.
+- The splash hides on first paint (`markAppReady` in `lib/perf.ts`), so the
+  perceived cold start is the time to the first meaningful frame — measured
+  and logged as `__KRANTHI_COLD_START_MS` on native (target < 2 s).
+- The whole app is a static export with hashed assets, so the WebView serves
+  everything from the local bundle — no network round-trips for JS/CSS/fonts.
+- API calls are only made on demand; the SW (web) never caches API responses.
+
 ## Troubleshooting
 
 - **`app/api` missing after a failed build** — the script restores it on exit;

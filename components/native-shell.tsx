@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { isNative } from "@/lib/platform";
 import { hapticTap } from "@/lib/haptics";
+import { markAppReady } from "@/lib/perf";
 import { useTheme } from "./theme-provider";
 
 /**
@@ -30,6 +31,7 @@ export function NativeShell() {
     const hide = () => {
       if (hidden) return;
       hidden = true;
+      markAppReady();
       void import("@capacitor/splash-screen").then(({ SplashScreen }) =>
         SplashScreen.hide().catch(() => undefined)
       );
