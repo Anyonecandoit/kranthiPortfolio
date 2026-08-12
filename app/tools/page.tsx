@@ -89,8 +89,9 @@ export default function ToolsPage() {
   const copy = async () => {
     if (!output) return;
     try {
-      await navigator.clipboard.writeText(output);
+      const copied = await import("@/lib/native").then(({ copyText }) => copyText(output));
       void import("@/lib/haptics").then(({ hapticSuccess }) => hapticSuccess());
+      if (!copied) throw new Error("Clipboard unavailable");
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch { /* ignore */ }

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { resumeData } from "@/data/resume";
 import { SectionHeader } from "./section-header";
 import { DotMatrixBottom } from "@/components/ui/dot-pattern";
+import { isNative } from "@/lib/platform";
 
 export function Contact() {
   const { contact } = resumeData;
@@ -51,8 +52,13 @@ export function Contact() {
                 <div className="label-mono text-[var(--text-light-muted)] text-[0.6rem] mb-2">LINKEDIN</div>
                 <a
                   href={contact.linkedin}
-                  target="_blank"
+                  target={isNative() ? undefined : "_blank"}
                   rel="noopener noreferrer"
+                  onClick={(e) => {
+                    if (!isNative()) return;
+                    e.preventDefault();
+                    void import("@/lib/native").then(({ openExternal }) => openExternal(contact.linkedin));
+                  }}
                   className="text-lg font-semibold hover:text-accent transition-colors"
                 >
                   linkedin.com/in/kranthi-kumar-katta
@@ -85,8 +91,13 @@ export function Contact() {
               </a>
               <a
                 href={contact.linkedin}
-                target="_blank"
+                target={isNative() ? undefined : "_blank"}
                 rel="noopener noreferrer"
+                onClick={(e) => {
+                  if (!isNative()) return;
+                  e.preventDefault();
+                  void import("@/lib/native").then(({ openExternal }) => openExternal(contact.linkedin));
+                }}
                 className="btn-outline inline-flex items-center gap-2 border-[var(--border-dark)] text-[var(--text-light)] hover:bg-[var(--text-light)] hover:text-[var(--bg-dark)]"
                 style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: "0.8rem", letterSpacing: "0.1em" }}
               >

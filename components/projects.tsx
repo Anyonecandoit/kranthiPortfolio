@@ -6,7 +6,9 @@ import { resumeData } from "@/data/resume";
 import { SectionLabel } from "@/components/ui/section-label";
 import { GridBackground } from "@/components/ui/grid-background";
 import { DotMatrixBottom } from "@/components/ui/dot-pattern";
-import { ChevronLeft, ChevronRight, ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight, ChevronDown, ChevronUp, Share2 } from "lucide-react";
+import { shareContent } from "@/lib/native";
+import { hapticSelection } from "@/lib/haptics";
 
 /* ─── halftone project image placeholder (CSS only, no external imgs) ─ */
 function HalftoneProjectImage({ index }: { index: number }) {
@@ -180,13 +182,29 @@ export function Projects() {
                   </div>
                 )}
               </div>
-              <a
-                href="/tools"
-                className="btn-solid inline-flex items-center justify-center w-full mt-4"
-                style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: "0.75rem", letterSpacing: "0.1em" }}
-              >
-                SEE ALL PROJECTS
-              </a>
+              <div className="flex items-center gap-3 mt-4">
+                <a
+                  href="/tools"
+                  className="btn-solid inline-flex items-center justify-center flex-1"
+                  style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: "0.75rem", letterSpacing: "0.1em" }}
+                >
+                  SEE ALL PROJECTS
+                </a>
+                <button
+                  onClick={() => {
+                    void hapticSelection();
+                    void shareContent({
+                      title: featured?.title,
+                      text: `Check out ${featured?.title} — ${featured?.description ?? ""}`.slice(0, 140),
+                      url: "https://www.kranthikumarkatta.in/#projects",
+                    });
+                  }}
+                  className="w-12 h-12 border border-[var(--border-dark)] text-[var(--text-light-muted)] hover:text-accent hover:border-accent/40 flex items-center justify-center transition-colors"
+                  aria-label={`Share ${featured?.title ?? "project"}`}
+                >
+                  <Share2 size={16} />
+                </button>
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>

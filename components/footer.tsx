@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { isNative } from "@/lib/platform";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -34,6 +36,15 @@ function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
 }
 
 export function Footer() {
+  const [appVersion, setAppVersion] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isNative()) return;
+    void import("@/lib/native").then(({ getDeviceInfo }) =>
+      getDeviceInfo().then((d) => setAppVersion(d.appVersion ? `v${d.appVersion}` : null))
+    );
+  }, []);
+
   return (
     <footer className="bg-[var(--bg-primary)] border-t border-[var(--border-color)]">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -113,8 +124,13 @@ export function Footer() {
               <li>
                 <a
                   href="https://linkedin.com/in/kranthi-kumar-katta-a40093318"
-                  target="_blank"
+                  target={isNative() ? undefined : "_blank"}
                   rel="noopener noreferrer"
+                  onClick={(e) => {
+                    if (!isNative()) return;
+                    e.preventDefault();
+                    void import("@/lib/native").then(({ openExternal }) => openExternal("https://linkedin.com/in/kranthi-kumar-katta-a40093318"));
+                  }}
                   className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                 >
                   LinkedIn
@@ -123,6 +139,11 @@ export function Footer() {
               <li>
                 <a
                   href="mailto:kranthikumarkattatech@gmail.com"
+                  onClick={(e) => {
+                    if (!isNative()) return;
+                    e.preventDefault();
+                    void import("@/lib/native").then(({ openExternal }) => openExternal("mailto:kranthikumarkattatech@gmail.com"));
+                  }}
                   className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
                 >
                   Email
@@ -137,8 +158,13 @@ export function Footer() {
           <p className="text-xs text-[var(--text-secondary)]">
             © {new Date().getFullYear()} Kranthi Kumar Katta. All rights reserved.
           </p>
-          <p className="text-xs text-[var(--text-secondary)]">
+          <p className="text-xs text-[var(--text-secondary)] flex items-center gap-3">
             Built with Next.js, TypeScript & Tailwind CSS
+            {appVersion && (
+              <span className="px-1.5 py-0.5 border border-[var(--border-color)] rounded font-mono">
+                {appVersion}
+              </span>
+            )}
           </p>
         </div>
       </div>
