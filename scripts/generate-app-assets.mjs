@@ -13,6 +13,7 @@ import sharp from "sharp";
 
 const OUT = "assets";
 await mkdir(OUT, { recursive: true });
+await mkdir(`${OUT}/store`, { recursive: true });
 
 const ACCENT = "#e65800"; // site accent (terracotta)
 const NAVY = "#0f172a";
@@ -69,6 +70,54 @@ function splashSvg(size, bg, kColor) {
   </svg>`;
 }
 
+/* ------------------------------------------------------------------ */
+/* Store marketing assets (feature graphic + screenshot placeholders)   */
+/* ------------------------------------------------------------------ */
+
+function featureGraphicSvg() {
+  const w = 1024;
+  const h = 500;
+  const k = kSvg(300, { x: 80, y: 100, color: "white" });
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <defs>
+      <linearGradient id="fg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="${ACCENT}"/>
+        <stop offset="1" stop-color="${NAVY}"/>
+      </linearGradient>
+    </defs>
+    <rect width="${w}" height="${h}" fill="url(#fg)"/>
+    ${k}
+    <text x="470" y="220" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="bold" fill="white">Kranthi Kumar Katta</text>
+    <text x="470" y="275" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#f2f0ee">AI-Powered Portfolio · SDET &amp; Test Automation</text>
+    <rect x="470" y="310" width="220" height="46" rx="23" fill="white"/>
+    <text x="580" y="340" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="${ACCENT}" text-anchor="middle">Get the app</text>
+  </svg>`;
+}
+
+function screenshotSvg(index, title, subtitle) {
+  const w = 1080;
+  const h = 1920;
+  const k = kSvg(320, { x: (w - 320) / 2, y: 360, color: "white" });
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <rect width="${w}" height="${h}" fill="${LIGHT}"/>
+    <!-- top nav bar -->
+    <rect width="${w}" height="180" fill="white"/>
+    <rect x="60" y="70" width="72" height="72" fill="${ACCENT}" rx="14"/>
+    <text x="150" y="120" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="bold" fill="#202020">Kranthi Kumar Katta</text>
+    <circle cx="960" cy="105" r="18" fill="#d9d6d1"/>
+    <circle cx="1010" cy="105" r="18" fill="#d9d6d1"/>
+    <!-- content card -->
+    <rect x="60" y="260" width="960" height="820" rx="28" fill="white"/>
+    <text x="120" y="350" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="bold" fill="${ACCENT}" letter-spacing="6">SCREEN ${index + 1} · PLACEHOLDER</text>
+    ${k}
+    <text x="540" y="900" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="bold" fill="#202020" text-anchor="middle">${title}</text>
+    <text x="540" y="970" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#616060" text-anchor="middle">${subtitle}</text>
+    <!-- bottom action bar -->
+    <rect x="60" y="1700" width="960" height="120" rx="60" fill="${NAVY}"/>
+    <text x="540" y="1772" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="bold" fill="white" text-anchor="middle">AI-Powered Portfolio</text>
+  </svg>`;
+}
+
 const tasks = [
   ["icon-only.png", tileSvg(1024, ACCENT, NAVY)],
   ["icon-background.png", tileSvg(1024, NAVY, NAVY_DARK, false)],
@@ -77,6 +126,11 @@ const tasks = [
   // matches the dark theme. Colors mirror capacitor.config.ts SplashScreen.
   ["splash.png", splashSvg(2732, LIGHT, "#171717")],
   ["splash-dark.png", splashSvg(2732, NAVY, "white")],
+  // Store marketing assets (written under store/)
+  ["store/feature-graphic.png", featureGraphicSvg()],
+  ["store/screenshot-1.png", screenshotSvg(0, "Chat with the AI assistant", "Answers about skills, projects and experience")],
+  ["store/screenshot-2.png", screenshotSvg(1, "Automation tools on tap", "Run engineering tools right in the app")],
+  ["store/screenshot-3.png", screenshotSvg(2, "Estimate any project", "AI-powered project estimates in seconds")],
 ];
 
 for (const [name, svg] of tasks) {
