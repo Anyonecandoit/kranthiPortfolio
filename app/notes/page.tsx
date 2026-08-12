@@ -10,6 +10,7 @@ import {
 import Markdown from "react-markdown";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth-context";
+import { apiUrl } from "@/lib/api";
 import { supabase } from "@/lib/supabase";
 import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -133,7 +134,7 @@ export default function NotesPage() {
     setAiBusy(action);
     setUndoStack((s) => [content, ...s].slice(0, 5));
     try {
-      const res = await fetch("/api/notes/ai", {
+      const res = await fetch(apiUrl("/api/notes/ai"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action, title, content, lang, rules }),

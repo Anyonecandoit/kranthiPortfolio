@@ -10,7 +10,8 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics";
-import type { MatchResult } from "@/app/api/recruiter/route";
+import { apiUrl } from "@/lib/api";
+import type { MatchResult } from "@/lib/api-types";
 
 const OVERALL_STYLES: Record<MatchResult["overall"], { badge: "success" | "warning" | "default"; bar: string; text: string }> = {
   Excellent: { badge: "success", bar: "from-emerald-500 to-teal-400", text: "text-emerald-400" },
@@ -36,7 +37,7 @@ export default function RecruiterPage() {
       const fd = new FormData();
       if (file) fd.append("file", file);
       if (jdText.trim()) fd.append("jdText", jdText);
-      const res = await fetch("/api/recruiter", { method: "POST", body: fd });
+      const res = await fetch(apiUrl("/api/recruiter"), { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Request failed");
       setResult(data as MatchResult);

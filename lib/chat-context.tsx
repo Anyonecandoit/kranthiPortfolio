@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useCallback, useEffect, useRef, ReactNode } from "react";
 import { useAuth } from "./auth-context";
+import { apiUrl } from "./api";
 import { supabase } from "./supabase";
 import { trackEvent } from "./analytics";
 import { DEFAULT_AGENT_ID, getAgent } from "./agents";
@@ -168,7 +169,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     let fullContent = "";
 
     try {
-      const response = await fetch("/api/chat", {
+      const response = await fetch(apiUrl("/api/chat"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

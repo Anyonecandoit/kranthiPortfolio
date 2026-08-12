@@ -8,7 +8,8 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics";
-import type { EstimateResult } from "@/app/api/estimate/route";
+import { apiUrl } from "@/lib/api";
+import type { EstimateResult } from "@/lib/api-types";
 
 const PROJECT_TYPES = [
   "Custom web app",
@@ -37,7 +38,7 @@ export default function EstimatorPage() {
     setError(null);
     setResult(null);
     try {
-      const res = await fetch("/api/estimate", {
+      const res = await fetch(apiUrl("/api/estimate"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ projectType, description, features, timeline, budget }),

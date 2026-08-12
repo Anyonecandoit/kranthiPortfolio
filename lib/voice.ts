@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { apiUrl } from "./api";
 
 /**
  * Browser voice: speech-to-text (Web Speech API) + text-to-speech.
@@ -244,7 +245,7 @@ export function speakViaCloud(text: string, opts: SpeakOptions = {}): void {
       return;
     }
     const chunk = chunks[index++];
-    fetch("/api/tts", {
+    fetch(apiUrl("/api/tts"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: chunk, voice: opts.voice ?? DEFAULT_VOICE }),

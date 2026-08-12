@@ -7,9 +7,18 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "detect-framework": "node scripts/detect-framework.js"
+    "detect-framework": "node scripts/detect-framework.js",
+    "build:app": "bash scripts/build-mobile.sh",
+    "assets": "node scripts/generate-app-assets.mjs && npx capacitor-assets generate --assetPath assets",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npm run build:app && npx cap open android",
+    "cap:open:ios": "npm run build:app && npx cap open ios"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/cli": "^8.5.0",
+    "@capacitor/core": "^8.5.0",
+    "@capacitor/ios": "^8.5.0",
     "@google/generative-ai": "^0.24.1",
     "@supabase/supabase-js": "^2.112.0",
     "@types/three": "^0.185.4",
@@ -25,6 +34,7 @@
     "ws": "^8.21.2"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@types/node": "^20.12.12",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",

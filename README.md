@@ -66,6 +66,19 @@ Open [http://localhost:3000](http://localhost:3000).
 
 See [PROJECT_PROGRESS.md](./PROJECT_PROGRESS.md) for the full phased roadmap and current status.
 
+## Mobile App (Android & iOS)
+
+The site is also packaged as a native app with Capacitor — same codebase, one
+static export bundled inside both platform shells. Build steps, live-reload
+workflow, signing, store publishing, and limitations:
+[MOBILE_APP.md](./MOBILE_APP.md).
+
+```bash
+npm run build:app          # static export + sync into android/ & ios/
+npm run cap:open:android   # run on a device/emulator via Android Studio
+npm run cap:open:ios       # run via Xcode
+```
+
 ## Analytics
 
 Real-time visitor analytics (Live / Total / Today) with a floating widget and

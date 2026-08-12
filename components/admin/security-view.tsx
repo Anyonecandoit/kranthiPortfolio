@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/lib/supabase";
+import { apiUrl } from "@/lib/api";
 
 interface StatusData {
   env: Record<string, boolean>;
@@ -31,7 +32,7 @@ export function SecurityView() {
     const token = data.session?.access_token;
     if (!token) return;
     try {
-      const res = await fetch("/api/admin/status", {
+      const res = await fetch(apiUrl("/api/admin/status"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const body = await res.json();

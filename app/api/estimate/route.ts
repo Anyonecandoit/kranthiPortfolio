@@ -1,18 +1,8 @@
 import { NextRequest } from "next/server";
 import { completeOpenRouter } from "@/lib/openrouter";
+import type { EstimateResult } from "@/lib/api-types";
 
-export interface EstimateResult {
-  summary: string;
-  scope: string[];
-  techStack: string[];
-  personWeeks: number;
-  costRange: [number, number];
-  timelineMonths: number;
-  milestones: { phase: string; weeks: number; detail: string }[];
-  risks: string[];
-  nextSteps: string[];
-  source: "llm" | "heuristic";
-}
+export type { EstimateResult };
 
 const json = (body: unknown, status: number) =>
   new Response(JSON.stringify(body), {

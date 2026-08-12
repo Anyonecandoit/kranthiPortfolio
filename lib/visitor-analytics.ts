@@ -1,5 +1,6 @@
 import { getSupabase } from "@/lib/supabase";
 import { getVisitorId, isReturningVisitor } from "@/lib/analytics";
+import { apiUrl } from "@/lib/api";
 
 /**
  * Real-time visitor analytics client.
@@ -110,7 +111,7 @@ export function startVisitorTracking(): () => void {
   /** Create the session server-side (captures geo headers) + count once. */
   const createSession = async () => {
     try {
-      await fetch("/api/analytics/session", {
+      await fetch(apiUrl("/api/analytics/session"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

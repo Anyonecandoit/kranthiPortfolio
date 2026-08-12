@@ -2,18 +2,9 @@ import { NextRequest } from "next/server";
 import { completeOpenRouter } from "@/lib/openrouter";
 import { resumeToMarkdown, resumeData } from "@/data/resume";
 import { extractTextFromPdf } from "@/lib/pdf";
+import type { MatchResult } from "@/lib/api-types";
 
-export interface MatchResult {
-  matchScore: number;
-  overall: "Excellent" | "Strong" | "Moderate" | "Weak";
-  matchedSkills: string[];
-  missingSkills: string[];
-  relevantExperience: string[];
-  relevantProjects: string[];
-  recommendation: string;
-  interviewQuestions: string[];
-  source: "llm" | "heuristic";
-}
+export type { MatchResult };
 
 function overallFor(score: number): MatchResult["overall"] {
   if (score >= 85) return "Excellent";
