@@ -198,6 +198,26 @@ inside the app, so every page renders without a connection. On top of that:
   registered inside the native app (the app bundles its own assets, and WebView
   service workers are unreliable).
 
+## Security
+
+- **Session timeout** — authenticated sessions end after 60 minutes of
+  inactivity (configurable at runtime via `setSessionTimeoutMinutes()`); the
+  timer also covers time spent backgrounded.
+- **Secure storage** — `lib/security.ts` stores sensitive values (e.g. the
+  biometric-unlock flag) in the iOS Keychain / Android Keystore-backed
+  EncryptedSharedPreferences with a localStorage fallback on the web.
+- **Biometric unlock** — after signing in, the auth page offers “Unlock with
+  Face ID / fingerprint”. When enabled, the app re-verifies biometrics every
+  time it returns to the foreground and signs out on failure. Needs
+  `NSFaceIDUsageDescription` (already in the iOS plist).
+- **Root / jailbreak detection** — best-effort scan for known root/jailbreak
+  apps at startup; a `security:compromised` event is dispatched (no blocking).
+- **Certificate pinning** — not possible through web `fetch`. On Android it
+  can be layered on with a `network_security_config` (Vercel doesn’t expose
+  the CA chain, so pin only if you self-host the backend).
+- **Screenshot protection** — iOS exposes no API; on Android it requires
+  `FLAG_SECURE`, which conflicts with the WebView; not enabled.
+
 ## Troubleshooting
 
 - **`app/api` missing after a failed build** — the script restores it on exit;

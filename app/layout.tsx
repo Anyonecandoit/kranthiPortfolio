@@ -19,6 +19,7 @@ import { PushService } from "@/components/push-service";
 import { PushToast } from "@/components/push-toast";
 import { OfflineBanner } from "@/components/offline-banner";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
+import { SecurityManager } from "@/components/security-manager";
 import dynamic from "next/dynamic";
 
 // Lazy-load the command palette so the tools catalog + resume index only
@@ -282,6 +283,8 @@ export default function RootLayout({
           {/* Firebase push: token registration + tap navigation (native only) */}
           <PushService />
           <AuthProvider>
+          {/* Native security: biometric re-auth on foreground + root detection */}
+          <SecurityManager />
           <SiteSettingsProvider>
           <ChatProvider>
             <ChatPageGuard />

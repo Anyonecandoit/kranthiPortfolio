@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
-import { LogIn, UserPlus, Mail, Lock } from "lucide-react";
+import { LogIn, UserPlus, Mail, Lock, Fingerprint } from "lucide-react";
+import { isNative } from "@/lib/platform";
 
 export default function AuthPage() {
   const { signInWithEmail, signUp, user, loading, signOut } = useAuth();
@@ -13,6 +14,27 @@ export default function AuthPage() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [biometricsAvailable, setBiometricsAvailable] = useState(false);
+  const [biometricUnlock, setBiometricUnlock] = useState(false);
+
+  // Native only: expose the biometric-lock toggle when Face ID / fingerprint
+  // is available and the user has an active session.
+  useEffect(() => {
+    if (!isNative() || !user) return;
+    let mounted = true;
+    void import("@/lib/security").then(async ({ isBiometricsAvailable, secureGet }) => {
+      const [available, enabled] = await Promise.all([
+        isBiometricsAvailable(),
+        secureGet("kranthi-biometric-unlock"),
+      ]);
+      if (!mounted) return;
+      setBiometricsAvailable(available);
+      setBiometricUnlock(enabled === "1");
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [user]);
 
   if (loading) {
     return (
@@ -40,6 +62,36 @@ export default function AuthPage() {
               Sign Out
             </button>
           </div>
+
+          {/* Biometric unlock (native only) */}
+          {isNative() && biometricsAvailable && (
+            <button
+              onClick={async () => {
+                const { secureSet, secureRemove } = await import("@/lib/security");
+                if (biometricUnlock) {
+                  await secureRemove("kranthi-biometric-unlock");
+                  setBiometricUnlock(false);
+                } else {
+                  // Verify the biometric once before enabling.
+                  const ok = await import("@/lib/security").then(({ authenticateWithBiometrics }) =>
+                    authenticateWithBiometrics("Enable biometric unlock")
+                  );
+                  if (ok) {
+                    await secureSet("kranthi-biometric-unlock", "1");
+                    setBiometricUnlock(true);
+                  }
+                }
+              }}
+              className={`mx-auto mt-5 flex items-center gap-2 px-4 py-2 rounded-xl border text-xs font-medium transition-colors ${
+                biometricUnlock
+                  ? "border-violet-500/50 bg-violet-600/15 text-violet-300"
+                  : "border-white/[0.08] bg-white/[0.04] text-gray-400 hover:bg-white/[0.08]"
+              }`}
+            >
+              <Fingerprint size={14} />
+              {biometricUnlock ? "Biometric unlock on" : "Unlock with Face ID / fingerprint"}
+            </button>
+          )}
         </div>
       </div>
     );

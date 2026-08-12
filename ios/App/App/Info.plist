@@ -25,6 +25,8 @@
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Used for voice input in the AI chat assistant.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Used to unlock the app with Face ID.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
