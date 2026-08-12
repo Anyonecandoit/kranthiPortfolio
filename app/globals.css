@@ -357,6 +357,19 @@ a {
   border-radius: 6px;
 }
 
+/* ═══════════════════════════════════════════
+   NATIVE APP SHELL
+   When the Capacitor app is running, the mobile app shell
+   (components/mobile/app-shell.tsx) covers the whole screen. Hide the
+   website chrome beneath it so only the app-style UI is visible.
+   ═══════════════════════════════════════════ */
+
+body[data-native-app="true"] nav,
+body[data-native-app="true"] footer,
+body[data-native-app="true"] #main-content {
+  display: none !important;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }

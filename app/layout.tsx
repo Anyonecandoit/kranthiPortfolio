@@ -23,6 +23,7 @@ import { CursorGlow } from "@/components/ui/cursor-glow";
 import { AmbientBackground } from "@/components/ambient-background";
 import { PageTransition } from "@/components/page-transition";
 import { NativeShell } from "@/components/native-shell";
+import { MobileAppShell } from "@/components/mobile/app-shell";
 import { PushService } from "@/components/push-service";
 import { PushToast } from "@/components/push-toast";
 import { OfflineBanner } from "@/components/offline-banner";
@@ -318,6 +319,9 @@ export default function RootLayout({
               <PageTransition>{children}</PageTransition>
             </main>
             <ConditionalFooter />
+            {/* Native-only app experience: Material-style shell + bottom tabs.
+                Lives inside ChatProvider so its embedded chat can use useChat. */}
+            <MobileAppShell />
             <FloatingChat />
             <FloatingVoice />
             {/* Foreground push notification banner */}

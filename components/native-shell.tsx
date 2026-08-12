@@ -96,6 +96,13 @@ export function NativeShell() {
 
     void import("@capacitor/app").then(async ({ App }) => {
       backHandle = await App.addListener("backButton", async ({ canGoBack }) => {
+        // The mobile app shell owns back navigation when it is active.
+        if (
+          (window as unknown as { __mobileShellActive?: boolean })
+            .__mobileShellActive
+        ) {
+          return;
+        }
         const path = window.location.pathname;
         if (path !== "/" || canGoBack) {
           if (canGoBack) {
