@@ -30,11 +30,14 @@ export function setSessionTimeoutMinutes(minutes: number): void {
   }
 }
 
+export type OAuthProvider = "google" | "github";
+
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   signInWithEmail: (email: string, password: string) => Promise<{ error?: string }>;
   signUp: (email: string, password: string, name: string) => Promise<{ error?: string }>;
+  signInWithOAuth: (provider: OAuthProvider) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
 }
 
@@ -118,12 +121,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error: error?.message };
   };
 
+  /** Google / GitHub sign-in. After the provider authorizes, Supabase
+   *  redirects back to the site's `/auth/callback`, which exchanges the
+   *  code for a session (see app/auth/callback/route.ts). */
+  const signInWithOAuth = async (provider: OAuthProvider) => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    return { error: error?.message };
+  };
+
   const signOut = async () => {
     await supabase.auth.signOut();
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithEmail, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{ user, loading, signInWithEmail, signUp, signInWithOAuth, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

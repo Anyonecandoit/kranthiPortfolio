@@ -2,18 +2,19 @@
 
 import { useEffect, useState, FormEvent } from "react";
 import Link from "next/link";
-import { useAuth } from "@/lib/auth-context";
-import { LogIn, UserPlus, Mail, Lock, Fingerprint } from "lucide-react";
+import { useAuth, type OAuthProvider } from "@/lib/auth-context";
+import { LogIn, UserPlus, Mail, Lock, Fingerprint, Chrome, Github } from "lucide-react";
 import { isNative } from "@/lib/platform";
 
 export default function AuthPage() {
-  const { signInWithEmail, signUp, user, loading, signOut } = useAuth();
+  const { signInWithEmail, signUp, signInWithOAuth, user, loading, signOut } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [oauthBusy, setOauthBusy] = useState<OAuthProvider | null>(null);
   const [biometricsAvailable, setBiometricsAvailable] = useState(false);
   const [biometricUnlock, setBiometricUnlock] = useState(false);
 
@@ -122,6 +123,62 @@ export default function AuthPage() {
               : "Join to get started with the AI-powered portfolio."}
           </p>
         </div>
+
+        {/* Social login — web only (OAuth needs the server callback route,
+            which is not shipped in the native static build) */}
+        {!isNative() && (
+          <div className="space-y-2.5 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-px bg-white/[0.08]" />
+              <span className="text-[11px] uppercase tracking-wider text-gray-600">or continue with</span>
+              <div className="flex-1 h-px bg-white/[0.08]" />
+            </div>
+            <div className="grid grid-cols-2 gap-2.5">
+              <button
+                type="button"
+                onClick={async () => {
+                  setError("");
+                  setOauthBusy("google");
+                  const { error: oErr } = await signInWithOAuth("google");
+                  if (oErr) {
+                    setError(oErr);
+                    setOauthBusy(null);
+                  }
+                }}
+                disabled={oauthBusy !== null}
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-gray-200 hover:bg-white/[0.08] hover:border-white/20 transition-colors disabled:opacity-50"
+              >
+                {oauthBusy === "google" ? (
+                  <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <Chrome size={16} />
+                )}
+                Google
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  setError("");
+                  setOauthBusy("github");
+                  const { error: oErr } = await signInWithOAuth("github");
+                  if (oErr) {
+                    setError(oErr);
+                    setOauthBusy(null);
+                  }
+                }}
+                disabled={oauthBusy !== null}
+                className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-gray-200 hover:bg-white/[0.08] hover:border-white/20 transition-colors disabled:opacity-50"
+              >
+                {oauthBusy === "github" ? (
+                  <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <Github size={16} />
+                )}
+                GitHub
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Email form */}
         <form onSubmit={handleSubmit} className="space-y-4">

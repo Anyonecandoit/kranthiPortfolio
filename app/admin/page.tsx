@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BarChart3, Users, MessageSquare, Brain, Database,
-  Settings, Shield, Mail,
+  Settings, Shield, Mail, FolderLock,
   type LucideIcon,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -18,9 +18,10 @@ import { ConversationsView } from "@/components/admin/conversations-view";
 import { AIUsage } from "@/components/admin/ai-usage";
 import { FeatureFlags } from "@/components/admin/feature-flags";
 import { SecurityView } from "@/components/admin/security-view";
+import { DocumentVault } from "@/components/admin/document-vault";
 import { cn } from "@/lib/utils";
 
-type SectionId = "analytics" | "visitors" | "conversations" | "ai" | "inbox" | "knowledge" | "flags" | "security";
+type SectionId = "analytics" | "visitors" | "conversations" | "ai" | "inbox" | "knowledge" | "documents" | "flags" | "security";
 
 const nav: Array<{ id: SectionId; label: string; icon: LucideIcon }> = [
   { id: "analytics", label: "Analytics", icon: BarChart3 },
@@ -29,6 +30,7 @@ const nav: Array<{ id: SectionId; label: string; icon: LucideIcon }> = [
   { id: "ai", label: "AI Usage", icon: Brain },
   { id: "inbox", label: "Inbox", icon: Mail },
   { id: "knowledge", label: "Knowledge Base", icon: Database },
+  { id: "documents", label: "Document Vault", icon: FolderLock },
   { id: "flags", label: "Feature Flags", icon: Settings },
   { id: "security", label: "Security", icon: Shield },
 ];
@@ -40,6 +42,7 @@ const SECTION_META: Record<SectionId, { title: string; desc: string }> = {
   ai: { title: "AI Usage", desc: "How visitors are using agents and tools." },
   inbox: { title: "Inbox", desc: "Contact & human-handoff requests." },
   knowledge: { title: "Knowledge Base", desc: "Manage RAG documents that power the chat." },
+  documents: { title: "Document Vault", desc: "Private storage for your testing docs — certifications, resumes, cheat sheets." },
   flags: { title: "Feature Flags", desc: "Toggle platform features site-wide." },
   security: { title: "Security & Config", desc: "Environment configuration and RLS status." },
 };
@@ -107,6 +110,7 @@ export default function AdminPage() {
                   {section === "ai" && <AIUsage />}
                   {section === "inbox" && <ContactInbox />}
                   {section === "knowledge" && <KnowledgeBase />}
+                  {section === "documents" && <DocumentVault />}
                   {section === "flags" && <FeatureFlags />}
                   {section === "security" && <SecurityView />}
                 </motion.div>

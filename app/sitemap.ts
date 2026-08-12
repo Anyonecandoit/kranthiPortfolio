@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { TOOLS } from "@/lib/tools";
 
 const siteUrl = "https://www.kranthikumarkatta.in";
 
@@ -23,6 +24,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.7,
     },
+    // One URL per AI tool — each is a self-contained landing page.
+    ...TOOLS.map((tool) => ({
+      url: `${siteUrl}/tools/${tool.id}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
     {
       url: `${siteUrl}/recruiter`,
       lastModified: now,

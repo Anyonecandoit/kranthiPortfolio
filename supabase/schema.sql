@@ -167,8 +167,30 @@ create policy "Own notes" on public.notes for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
+-- Admin document vault (private testing docs, stored in the `documents` storage bucket)
+create table public.admin_documents (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid references public.profiles(id) on delete cascade not null,
+  title text not null,
+  category text not null default 'Other',
+  tags text[] not null default '{}',
+  file_path text not null,
+  file_name text not null,
+  file_size integer not null default 0,
+  file_type text not null default 'application/pdf',
+  created_at timestamptz not null default now()
+);
+
+alter table public.admin_documents enable row level security;
+
+-- Documents are private to the owner (admin) only
+create policy own_documents on public.admin_documents for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
 -- Indexes
 create index idx_conversations_user on public.conversations(user_id);
+create index idx_admin_documents_user on public.admin_documents(user_id);
 create index idx_messages_conversation on public.messages(conversation_id);
 create index idx_knowledge_embedding on public.knowledge_documents using ivfflat (embedding vector_cosine_ops) with (lists = 100);
 create index idx_analytics_type on public.analytics_events(event_type);

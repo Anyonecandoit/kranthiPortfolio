@@ -344,6 +344,45 @@ export type Database = {
         };
         Relationships: [];
       };
+      admin_documents: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          category: string;
+          tags: string[];
+          file_path: string;
+          file_name: string;
+          file_size: number;
+          file_type: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          title: string;
+          category?: string;
+          tags?: string[];
+          file_path: string;
+          file_name: string;
+          file_size?: number;
+          file_type?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          title?: string;
+          category?: string;
+          tags?: string[];
+          file_path?: string;
+          file_name?: string;
+          file_size?: number;
+          file_type?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {

@@ -65,6 +65,15 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = "https://www.kranthikumarkatta.in";
 
+// Optional SEO integrations — set in Vercel/.env.local to enable:
+// - NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: token from Google Search Console
+//   (Settings → Ownership verification → HTML tag). Renders the
+//   `google-site-verification` meta so the property can be verified.
+// - NEXT_PUBLIC_GA_MEASUREMENT_ID: GA4 stream id (G-XXXXXXX). Loads the
+//   gtag script and tracks page views (also wired to the in-app analytics).
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
 /** JSON-LD structured data — single source of truth is resumeData */
 const structuredData = {
   "@context": "https://schema.org",
@@ -220,6 +229,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  // Renders <meta name="google-site-verification" content="..."> when the env
+  // var is set — enables Google Search Console ownership without a DNS change.
+  ...(googleSiteVerification
+    ? { verification: { google: googleSiteVerification } }
+    : {}),
   icons: {
     icon: "/favicon.svg",
     apple: "/og-image.png",
@@ -276,6 +290,20 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        {/* Google Analytics 4 — only when NEXT_PUBLIC_GA_MEASUREMENT_ID is set */}
+        {gaMeasurementId ? (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${gaMeasurementId}');`,
+              }}
+            />
+          </>
+        ) : null}
       </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased transition-colors duration-300 bg-[var(--bg-primary)]`}
