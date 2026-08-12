@@ -9,6 +9,7 @@
     "lint": "next lint",
     "detect-framework": "node scripts/detect-framework.js",
     "build:app": "bash scripts/build-mobile.sh",
+    "copy:apk": "bash scripts/copy-apk.sh",
     "assets": "node scripts/generate-app-assets.mjs && npx capacitor-assets generate --assetPath assets && (cp icons/*.webp public/icons/ 2>/dev/null || true) && rm -rf icons",
     "cap:sync": "npx cap sync",
     "cap:open:android": "npm run build:app && npx cap open android",

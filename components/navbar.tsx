@@ -7,6 +7,7 @@ import { useTheme } from "./theme-provider";
 import { useAuth } from "@/lib/auth-context";
 import { useUnreadContactCount } from "@/lib/contact";
 import { NavVisitorCount } from "./nav-visitor-count";
+import { AndroidDownload } from "./android-download";
 import Link from "next/link";
 
 /* Navigation items — section links on the homepage */
@@ -204,6 +205,9 @@ export function Navbar() {
             {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
           </button>
 
+          {/* Android APK download — right side of the name, next to the CTA */}
+          <AndroidDownload />
+
           {/* CTA button */}
           {user ? (
             <div className="flex items-center gap-2 ml-2">
@@ -303,6 +307,11 @@ export function Navbar() {
                   {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
                   {theme === "light" ? "Dark mode" : "Light mode"}
                 </button>
+              </div>
+
+              {/* Android APK download (mobile drawer) */}
+              <div className="pt-3 border-t border-[var(--border-color)] px-3">
+                <AndroidDownload />
               </div>
 
               {user ? (

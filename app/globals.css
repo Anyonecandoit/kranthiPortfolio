@@ -91,6 +91,17 @@ a {
   color: var(--text-primary);
 }
 
+/* Animated Android-robot download logo (navbar APK button) */
+@keyframes android-bounce {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-3px); }
+  60% { transform: translateY(-1.5px); }
+}
+.animate-android-bounce {
+  animation: android-bounce 1.6s ease-in-out infinite;
+  transform-origin: center;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

@@ -13,6 +13,9 @@ build/
 coverage/
 tsconfig.tsbuildinfo
 
+# APK build artifacts (copied into public/apk via npm run copy:apk)
+public/apk/*.apk
+
 # Testing
 .playwright-mcp/
 test-results/
