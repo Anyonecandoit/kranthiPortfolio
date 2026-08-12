@@ -89,6 +89,7 @@ export default function ToolsPage() {
     if (!output) return;
     try {
       await navigator.clipboard.writeText(output);
+      void import("@/lib/haptics").then(({ hapticSuccess }) => hapticSuccess());
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch { /* ignore */ }

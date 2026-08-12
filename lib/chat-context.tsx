@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef, ReactNode } from "react";
 import { useAuth } from "./auth-context";
 import { apiUrl } from "./api";
+import { hapticSuccess, hapticError } from "./haptics";
 import { supabase } from "./supabase";
 import { trackEvent } from "./analytics";
 import { DEFAULT_AGENT_ID, getAgent } from "./agents";
@@ -216,7 +217,10 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       setMessages((prev) =>
         prev.length > MAX_WIDGET_MESSAGES ? prev.slice(-MAX_WIDGET_MESSAGES) : prev
       );
+
+      void hapticSuccess(); // reply received
     } catch (error) {
+      void hapticError();
       const msg = (error as Error).message || "API Error";
       setMessages((prev) =>
         prev.map((m) =>

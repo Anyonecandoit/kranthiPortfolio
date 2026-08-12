@@ -9,6 +9,25 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: "https",
   },
+  plugins: {
+    SplashScreen: {
+      // Hide manually from components/native-shell.tsx after first paint so
+      // the branded splash melts straight into the page (no white flash).
+      launchShowDuration: 0,
+      launchAutoHide: false,
+      backgroundColor: "#f2f0ee",
+      androidScaleType: "CENTER_CROP",
+      showSpinner: false,
+      splashFullScreen: true,
+      splashImmersive: true,
+    },
+    Keyboard: {
+      // Resize the WebView around the keyboard instead of overlapping it, and
+      // do the same when Android is in edge-to-edge (fullscreen) mode.
+      resize: "native",
+      resizeOnFullScreen: true,
+    },
+  },
 };
 
 export default config;

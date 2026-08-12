@@ -79,6 +79,7 @@ export function Navbar() {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      style={{ paddingTop: "var(--sat)" }}
       className={`
         fixed inset-x-0 top-0 z-50 transition-all duration-300
         ${scrolled
@@ -193,7 +194,10 @@ export function Navbar() {
 
           {/* Theme toggle */}
           <button
-            onClick={toggleTheme}
+            onClick={() => {
+              void import("@/lib/haptics").then(({ hapticSelection }) => hapticSelection());
+              toggleTheme();
+            }}
             aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
             className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >

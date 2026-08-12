@@ -14,13 +14,14 @@ import sharp from "sharp";
 const OUT = "assets";
 await mkdir(OUT, { recursive: true });
 
-const ACCENT = "#7c3aed"; // violet
+const ACCENT = "#e65800"; // site accent (terracotta)
 const NAVY = "#0f172a";
 const NAVY_DARK = "#07070f";
+const LIGHT = "#f2f0ee"; // light-theme page background
 
-/** White "K" monogram as rounded strokes. `stroke` = stroke width. */
+/** "K" monogram as rounded strokes. `stroke` = stroke width, `color` = stroke color. */
 function kSvg(size, opts = {}) {
-  const { stroke = size * 0.125, x = 0, y = 0 } = opts;
+  const { stroke = size * 0.125, x = 0, y = 0, color = "white" } = opts;
   // Geometry kept inside the central ~50% so the mark also fits Android's
   // adaptive-icon circular mask (safe zone = central 66%).
   const cx = x + size / 2;
@@ -40,7 +41,7 @@ function kSvg(size, opts = {}) {
   const strokes = lines
     .map(
       ([x1, y1, x2, y2]) =>
-        `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="white" stroke-width="${s}" stroke-linecap="round"/>`
+        `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}" stroke-width="${s}" stroke-linecap="round"/>`
     )
     .join("");
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${strokes}</svg>`;
@@ -59,9 +60,9 @@ function tileSvg(size, from, to, withK = true) {
   </svg>`;
 }
 
-function splashSvg(size, bg) {
+function splashSvg(size, bg, kColor) {
   // Solid background + centered monogram (kept modest so it reads on any screen).
-  const k = kSvg(size * 0.42, { x: size * 0.29, y: size * 0.29 });
+  const k = kSvg(size * 0.42, { x: size * 0.29, y: size * 0.29, color: kColor });
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
     <rect width="${size}" height="${size}" fill="${bg}"/>
     ${k}
@@ -72,8 +73,10 @@ const tasks = [
   ["icon-only.png", tileSvg(1024, ACCENT, NAVY)],
   ["icon-background.png", tileSvg(1024, NAVY, NAVY_DARK, false)],
   ["icon-foreground.png", kSvg(1024)],
-  ["splash.png", splashSvg(2732, NAVY)],
-  ["splash-dark.png", splashSvg(2732, NAVY_DARK)],
+  // Light splash matches the light theme (no white/navy flash); dark splash
+  // matches the dark theme. Colors mirror capacitor.config.ts SplashScreen.
+  ["splash.png", splashSvg(2732, LIGHT, "#171717")],
+  ["splash-dark.png", splashSvg(2732, NAVY, "white")],
 ];
 
 for (const [name, svg] of tasks) {

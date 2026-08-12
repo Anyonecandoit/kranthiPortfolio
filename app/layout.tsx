@@ -14,6 +14,7 @@ import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { CursorGlow } from "@/components/ui/cursor-glow";
 import { AmbientBackground } from "@/components/ambient-background";
 import { PageTransition } from "@/components/page-transition";
+import { NativeShell } from "@/components/native-shell";
 import dynamic from "next/dynamic";
 
 // Lazy-load the command palette so the tools catalog + resume index only
@@ -240,6 +241,9 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "#171717" },
   ],
   colorScheme: "light",
+  // Required by the Capacitor status-bar overlay + iOS notches: lets the page
+  // draw under the status bar and exposes env(safe-area-inset-*) to CSS.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -269,6 +273,8 @@ export default function RootLayout({
           Skip to content
         </a>
         <ThemeProvider attribute="class" defaultTheme="light">
+          {/* Native-only shell: splash, status bar, back button, deep links, haptics */}
+          <NativeShell />
           <AuthProvider>
           <SiteSettingsProvider>
           <ChatProvider>

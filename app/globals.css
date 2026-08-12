@@ -7,6 +7,13 @@
    ═══════════════════════════════════════════ */
 
 :root {
+  /* Mobile safe areas (Capacitor + iOS Safari with viewport-fit=cover).
+     Zero on desktop browsers, real inset values inside the app. */
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+
   /* Primary backgrounds */
   --bg-primary: #f2f0ee;
   --bg-secondary: #ebe8e4;
@@ -71,6 +78,8 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-feature-settings: "liga" 1, "calt" 1;
+  /* Home-indicator / gesture-bar clearance inside the native app. */
+  padding-bottom: var(--sab);
 }
 
 a {
