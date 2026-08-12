@@ -28,6 +28,15 @@ export interface PushPayload {
 
 const TOKEN_KEY = "kranthi-push-registered";
 
+/**
+ * FCM requires the native Firebase config (google-services.json on Android /
+ * GoogleService-Info.plist on iOS). The mobile build only sets this to "1"
+ * when that config exists — see scripts/build-mobile.sh. Without it,
+ * PushNotifications.register() throws natively (FirebaseApp not initialized)
+ * and kills the whole app process, so the push flow must be a strict no-op.
+ */
+const PUSH_ENABLED = process.env.NEXT_PUBLIC_PUSH_ENABLED === "1";
+
 /** True once this device already registered a token this install. */
 export function isPushRegistered(): boolean {
   if (typeof window === "undefined") return false;
@@ -101,6 +110,7 @@ export async function setTopicSubscription(
  */
 export async function initPushNotifications(): Promise<void> {
   if (!isNative()) return;
+  if (!PUSH_ENABLED) return;
 
   try {
     const { PushNotifications } = await import("@capacitor/push-notifications");

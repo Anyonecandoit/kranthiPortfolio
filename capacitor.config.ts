@@ -11,10 +11,12 @@ const config: CapacitorConfig = {
   },
   plugins: {
     SplashScreen: {
-      // Hide manually from components/native-shell.tsx after first paint so
-      // the branded splash melts straight into the page (no white flash).
-      launchShowDuration: 0,
-      launchAutoHide: false,
+      // Hide early from components/native-shell.tsx after first paint so the
+      // branded splash melts straight into the page (no white flash), while
+      // launchAutoHide: true keeps a native-side timer as a safety net — even
+      // if the WebView fails to load, the splash always clears on its own.
+      launchShowDuration: 3000,
+      launchAutoHide: true,
       backgroundColor: "#f2f0ee",
       androidScaleType: "CENTER_CROP",
       showSpinner: false,
