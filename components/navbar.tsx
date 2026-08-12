@@ -109,30 +109,10 @@ export function Navbar() {
 
         {/* Desktop navigation — clean center links */}
         <div className="hidden md:flex items-center gap-1">
-          {/* About — the APK download button sits right beside it */}
-          {sectionItems[0] && (
-            <a
-              key={sectionItems[0].name}
-              href={`/#${sectionItems[0].href.substring(1)}`}
-              onClick={(e) => scrollToSection(e, sectionItems[0].href)}
-              className={`
-                px-3 py-1.5 text-sm transition-colors duration-200
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]
-                ${activeSection === sectionItems[0].href.substring(1)
-                  ? "text-accent font-medium"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                }
-              `}
-              style={{ fontFamily: "var(--font-jetbrains-mono)" }}
-            >
-              {sectionItems[0].name}
-            </a>
-          )}
+          {/* Android APK download — first, before About, with some space */}
+          <AndroidDownload className="mr-2" />
 
-          {/* Android APK download — beside About */}
-          <AndroidDownload />
-
-          {sectionItems.slice(1).map((item) => (
+          {sectionItems.map((item) => (
             <a
               key={item.name}
               href={`/#${item.href.substring(1)}`}

@@ -38,7 +38,7 @@ function AndroidRobotLogo({ className }: { className?: string }) {
  * The animated robot bounces; clicking downloads public/apk/kranthi-portfolio.apk.
  * If the APK hasn't been built/copied yet, it shows a short inline hint instead.
  */
-export function AndroidDownload() {
+export function AndroidDownload({ className }: { className?: string }) {
   const [hint, setHint] = useState<string | null>(null);
   const timer = useRef<number | undefined>(undefined);
 
@@ -64,7 +64,7 @@ export function AndroidDownload() {
   if (isNative()) return null;
 
   return (
-    <span className="relative inline-block">
+    <span className={`relative inline-block ${className ?? ""}`}>
       <button
         onClick={handleClick}
         aria-label="Download the Android app (APK)"
