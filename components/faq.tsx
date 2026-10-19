@@ -4,158 +4,160 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionLabel } from "@/components/ui/section-label";
 import { GridBackground } from "@/components/ui/grid-background";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, ArrowRight, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
-/* ─── FAQ data (original content) ─────────────────────────────────── */
+/* ─── Recruiter & Technical FAQs for Kranthi's SDET Portfolio ───── */
 const faqs = [
   {
-    q: "What types of projects do you take on?",
-    a: "I specialize in test automation frameworks, performance engineering, full-stack web applications, and AI/LLM integrations. I work best on projects that need reliable, scalable quality infrastructure — from greenfield builds to legacy modernization.",
+    q: "What roles are you currently looking for?",
+    a: "I am actively open to Senior SDET, Lead QA Automation Engineer, and Test Automation Architect positions — both full-time permanent roles and high-impact technical contracts.",
   },
   {
-    q: "Do clients need technical knowledge to get started?",
-    a: "Not at all. I translate business requirements into technical solutions. You describe what you need — faster releases, better test coverage, a new feature — and I handle the architecture, implementation, and documentation.",
+    q: "What is your primary technical stack for test automation?",
+    a: "My primary languages are Java (Oracle Certified Professional) and Python. For web and mobile E2E, I use Selenium WebDriver and Playwright. For API testing, I specialize in REST Assured, Postman, and Apache Kafka event streams. For performance, I build JMeter (10,000+ VUs) and k6 distributed test rigs.",
   },
   {
-    q: "Which tools and platforms do you work with?",
-    a: "My core stack includes Java, Python, TypeScript, Selenium, Playwright, Cypress, Next.js, React, AWS, Docker, PostgreSQL, and Redis. I adapt to whatever your team already uses and recommend additions where they add real value.",
+    q: "How do you eliminate flakiness in large automated test suites?",
+    a: "I isolate test state, enforce atomic test design, replace static sleeps with dynamic state-polling assertions, mock unstable third-party dependencies with WireMock, and quarantine flaky tests with automated alerting while diagnosing root causes.",
   },
   {
-    q: "How long does a typical project take?",
-    a: "A focused test automation framework: 2-4 weeks. A full-stack web application: 6-12 weeks. Performance engineering engagement: 2-6 weeks. Every project starts with a clear scope and milestone plan so there are no surprises.",
+    q: "What domain experience do you bring to an engineering team?",
+    a: "I bring deep expertise across Fintech, Payment Gateways (PayU, 3D Secure 2.0, EMVCo, PCI-DSS compliance), Cross-Border Remittance (Barraq, ISO 20022, SWIFT, multi-currency processing), and Healthcare Learning Platforms (American Heart Association / Impelsys).",
   },
   {
-    q: "Can you work with our existing software and workflows?",
-    a: "Yes — that is actually where I add the most value. I integrate into your existing CI/CD pipelines, extend current test suites, and improve what is already there rather than forcing a rewrite. The goal is to enhance, not replace.",
+    q: "What is your location and work preference?",
+    a: "I am based in Bangalore, India, and open to hybrid roles in Bangalore or remote opportunities globally. I am also open to relocation for compelling full-time roles.",
   },
   {
-    q: "What is your approach to documentation?",
-    a: "Every framework I build ships with comprehensive documentation: architecture diagrams, setup guides, contribution guidelines, and runbooks. I believe code that cannot be understood by your team in 6 months is code that will eventually be replaced.",
+    q: "How can we review your technical work and code samples?",
+    a: "You can explore my projects right here in the Projects section, check out my credentials in the Intro, download my resume PDF, or reach out directly to schedule a technical architecture walkthrough.",
   },
 ];
 
-/* ─── single FAQ item ─────────────────────────────────────────────── */
-function FaqItem({ faq, isOpen, onToggle }: {
-  faq: typeof faqs[number];
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
-  return (
-    <div className="border-b border-[var(--border-color)]">
-      <button
-        onClick={onToggle}
-        className="w-full flex items-start justify-between gap-4 py-6 text-left group"
-        aria-expanded={isOpen}
-      >
-        <h3 className="text-base md:text-lg font-medium text-[var(--text-primary)] group-hover:text-accent transition-colors pr-4">
-          {faq.q}
-        </h3>
-        <span className="mt-1 shrink-0 w-6 h-6 flex items-center justify-center text-[var(--text-secondary)] group-hover:text-accent transition-colors">
-          {isOpen ? <Minus size={16} /> : <Plus size={16} />}
-        </span>
-      </button>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden"
-          >
-            <p className="pb-6 text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl">
-              {faq.a}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-/* ─── main component ───────────────────────────────────────────────── */
+/**
+ * Authentic Oberon '11 FAQ' Section:
+ * Focuses on genuine recruiter and engineering hiring questions.
+ */
 export function Faq() {
-  const [openIdx, setOpenIdx] = useState<number | null>(0); // first open by default
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
+
+  const toggle = (idx: number) => {
+    setOpenIdx(openIdx === idx ? null : idx);
+  };
 
   return (
-    <section className="py-32 px-6 bg-[var(--bg-primary)] relative overflow-hidden">
-      <GridBackground columns={4} />
+    <section id="faq" className="py-24 px-6 relative overflow-hidden bg-[var(--bg-primary)] border-b border-[var(--border-color)]">
+      <GridBackground columns={4} showAccentGuide={true} />
+
       <div className="max-w-7xl mx-auto relative z-10">
-        <SectionLabel number="11" title="HELP" />
+        {/* Top Header */}
+        <div className="mb-14">
+          <SectionLabel number="11" title="FAQ" />
+          <motion.h2
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-[-0.04em] text-[var(--text-primary)] leading-[1.08]"
+          >
+            Frequently Asked Questions
+          </motion.h2>
+        </div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-[-0.05em] mb-16"
-        >
-          FAQ
-        </motion.h2>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* FAQ grid — 2-column on desktop */}
-          <div className="lg:col-span-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
-              {faqs.map((faq, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <FaqItem
-                    faq={faq}
-                    isOpen={openIdx === i}
-                    onToggle={() => setOpenIdx(openIdx === i ? null : i)}
-                  />
-                </motion.div>
-              ))}
+        {/* 2-Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mb-16">
+          {/* Left Column: Attribution Note */}
+          <div className="lg:col-span-4">
+            <div className="border border-[var(--border-color)] bg-[var(--bg-card)] p-6 rounded-sm shadow-sm sticky top-28">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-8 h-8 rounded bg-[var(--accent)] text-white font-mono text-[11px] font-bold flex items-center justify-center">
+                  KK
+                </div>
+                <div>
+                  <div className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                    KRANTHI KUMAR KATTA
+                  </div>
+                  <div className="font-mono text-[10px] uppercase text-[var(--text-secondary)]">
+                    SENIOR SDET &amp; AUTOMATION ARCHITECT
+                  </div>
+                </div>
+              </div>
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--text-secondary)] leading-relaxed font-semibold">
+                ANSWERS TO FREQUENT RECRUITER &amp; TECHNICAL QUESTIONS ABOUT MY EXPERIENCE, TOOLING, AND AVAILABILITY.
+              </p>
             </div>
           </div>
 
-          {/* Sidebar — quote + CTA (like img_8 bottom area) */}
-          <div className="lg:col-span-4 flex flex-col justify-between">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mb-12"
-            >
-              <p
-                className="text-xs text-[var(--text-secondary)] tracking-widest uppercase mb-3"
-                style={{ fontFamily: "var(--font-jetbrains-mono)" }}
+          {/* Right Column: 2-Column FAQ Grid */}
+          <div className="lg:col-span-8 border border-[var(--border-color)] bg-[var(--bg-card)] divide-y divide-[var(--border-color)] shadow-card overflow-hidden">
+            {faqs.map((faq, i) => (
+              <div
+                key={i}
+                className={`p-6 transition-all duration-300 hover:bg-[var(--bg-primary)]/40 relative ${
+                  openIdx === i ? "bg-[var(--bg-primary)]/25" : ""
+                }`}
               >
-                KRANTHI KUMAR, ENGINEER
-              </p>
-              <blockquote className="text-sm leading-relaxed text-[var(--text-primary)] italic">
-                &ldquo;Everything you need to know about building reliable, automated software systems — from architecture to execution.&rdquo;
-              </blockquote>
-            </motion.div>
+                {/* Left accent indicator bar when active */}
+                {openIdx === i && (
+                  <motion.div
+                    layoutId="faqIndicator"
+                    className="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--accent)]"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <p
-                className="text-xs text-[var(--text-secondary)] tracking-widest uppercase mb-4"
-                style={{ fontFamily: "var(--font-jetbrains-mono)" }}
-              >
-                GOT SOME OTHER QUESTIONS?
-              </p>
-              <a
-                href="mailto:kranthikumarkattatech@gmail.com"
-                className="btn-solid inline-flex items-center justify-center w-full"
-                style={{ fontFamily: "var(--font-jetbrains-mono)", fontSize: "0.75rem", letterSpacing: "0.1em" }}
-              >
-                SEND MESSAGE
-              </a>
-            </motion.div>
+                <button
+                  onClick={() => toggle(i)}
+                  className="w-full flex items-start justify-between gap-4 text-left group"
+                  aria-expanded={openIdx === i}
+                >
+                  <span className="font-medium text-base sm:text-lg text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors leading-snug">
+                    {faq.q}
+                  </span>
+                  <motion.span
+                    animate={{ rotate: openIdx === i ? 45 : 0 }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="mt-1 w-6 h-6 border border-[var(--border-color)] flex items-center justify-center text-[var(--accent)] group-hover:border-[var(--accent)] transition-colors rounded-xs shrink-0 bg-[var(--bg-card)] shadow-xs"
+                  >
+                    <Plus size={14} />
+                  </motion.span>
+                </button>
+                <AnimatePresence>
+                  {openIdx === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="overflow-hidden"
+                    >
+                      <p className="mt-4 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed border-t border-[var(--border-color)] pt-3">
+                        {faq.a}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
           </div>
+        </div>
+
+        {/* Bottom Bar: HAVE A QUESTION? -> GET IN TOUCH */}
+        <div className="border border-[var(--border-color)] bg-[var(--bg-card)] p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-[var(--accent)] font-mono font-bold text-sm">+</span>
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+              HAVE A SPECIFIC QUESTION OR WANT TO DISCUSS AN OPPORTUNITY?
+            </span>
+          </div>
+          <a
+            href="#contact"
+            className="px-6 py-3 bg-[var(--text-primary)] text-[var(--bg-primary)] hover:bg-[var(--accent)] hover:text-white transition-colors text-xs font-mono font-bold tracking-wider uppercase inline-flex items-center gap-2 rounded-sm shrink-0"
+          >
+            GET IN TOUCH DIRECTLY
+            <ArrowRight size={13} />
+          </a>
         </div>
       </div>
     </section>

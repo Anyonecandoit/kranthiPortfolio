@@ -3,183 +3,209 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { SectionLabel } from "@/components/ui/section-label";
-import { DotMatrixBottom } from "@/components/ui/dot-pattern";
-import { Check } from "lucide-react";
+import { GridBackground } from "@/components/ui/grid-background";
+import { ArrowRight, Check, Briefcase, Zap, ShieldCheck } from "lucide-react";
 
-/* ─── pricing tiers (adapted for a freelancer portfolio) ────────────── */
-const tiers = [
+/* ─── Role / Engagement profiles for Kranthi's SDET Portfolio ─── */
+const engagementRoles = [
   {
-    name: "CONSULTATION",
-    description: "FOR TEAMS NEEDING\nQUICK EXPERT ADVICE",
-    monthlyPrice: 1500,
-    annualPrice: 1200,
-    features: [
-      "1-on-1 strategy session",
-      "QA audit & recommendations",
-      "Framework selection guidance",
-      "Email support",
-    ],
-    cta: "BOOK A SESSION",
+    name: "SENIOR SDET",
+    subtitle: "FOR ENTERPRISE PRODUCT SQUADS & SCALE",
+    level: "SENIOR LEVEL",
+    focus: "Web, Mobile & High-Throughput APIs",
     popular: false,
+    deliverables: [
+      "Lead test automation architecture across web and mobile (Selenium & Playwright)",
+      "Build and maintain resilient 1,000+ test suites with 95%+ pass rates",
+      "Validate high-volume REST APIs and Kafka event streaming (REST Assured)",
+      "Enforce automated zero-defect quality gates in Jenkins & GitHub Actions",
+      "Cross-functional collaboration with PMs, Developers, and DevOps teams",
+      "Production release signoff, risk assessments, and defect triage",
+    ],
+    cta: "GET IN TOUCH",
   },
   {
-    name: "PROJECT",
-    description: "FOR COMPANIES\nREADY FOR AUTOMATION",
-    monthlyPrice: 8500,
-    annualPrice: 7200,
-    features: [
-      "End-to-end test automation",
-      "CI/CD pipeline setup",
-      "Custom framework build",
-      "Priority support",
-    ],
-    cta: "START A PROJECT",
+    name: "AUTOMATION ARCHITECT",
+    subtitle: "FOR HIGH-VELOCITY PLATFORMS & TEST INFRASTRUCTURE",
+    level: "PRIMARY FOCUS",
+    focus: "Framework Engineering & Performance",
     popular: true,
+    deliverables: [
+      "Design custom Page Object Model & data-driven frameworks from scratch",
+      "Apache JMeter & k6 performance benchmarking (10,000+ concurrent VUs)",
+      "Containerized Docker test runners & cloud infrastructure (AWS Certified)",
+      "Contract testing with Pact and service virtualization with WireMock",
+      "Flakiness elimination, atomic test design, and smart retry policies",
+      "Comprehensive architectural documentation and engineering runbooks",
+    ],
+    cta: "DISCUSS OPPORTUNITIES",
   },
   {
-    name: "RETAINER",
-    description: "FOR ORGANIZATIONS\nWITH ONGOING NEEDS",
-    monthlyPrice: 15000,
-    annualPrice: 12500,
-    features: [
-      "Dedicated QA engineering",
-      "Continuous test maintenance",
-      "Performance monitoring",
-      "Enterprise integrations",
-    ],
-    cta: "GET THE PLAN",
+    name: "QA LEAD & ADVISORY",
+    subtitle: "FOR TEST AUDITS, MODERNIZATION & COMPLIANCE",
+    level: "LEAD / CONSULTING",
+    focus: "Strategy, Compliance & Mentorship",
     popular: false,
+    deliverables: [
+      "Comprehensive test debt and flakiness root-cause audit & stabilization",
+      "Migration roadmaps from legacy Selenium suites to modern Playwright",
+      "Fintech compliance validation: 3D Secure 2.0, EMVCo, and ISO 20022 / SWIFT",
+      "Database transactional data integrity audits (MySQL 8.0, PostgreSQL)",
+      "CI/CD build time acceleration through parallelization and test sharding",
+      "Mentor QA engineers and establish team-wide quality engineering standards",
+    ],
+    cta: "CONNECT WITH KRANTHI",
   },
 ];
 
-/* ─── main component ───────────────────────────────────────────────── */
+/**
+ * Authentic Oberon '10 ENGAGEMENT' Section:
+ * Replaces commercial agency pricing with professional SDET role profiles & ways to collaborate.
+ * - Preserves Oberon aesthetic, 3-column architectural grid, and Framer Motion animations
+ * - Center card highlighted with orange PRIMARY FOCUS tag and solid orange CTA button
+ * - Bullet list with orange '>' markers
+ */
 export function Pricing() {
-  const [annual, setAnnual] = useState(true);
+  const [activeMode, setActiveMode] = useState<"fulltime" | "contract">("fulltime");
 
   return (
-    <section className="py-32 px-6 bg-[var(--bg-dark)] text-[var(--text-light)] relative overflow-hidden">
-      <DotMatrixBottom className="text-[var(--text-light)]" />
+    <section id="pricing" className="py-24 px-6 relative overflow-hidden bg-[var(--bg-primary)] border-b border-[var(--border-color)]">
+      <GridBackground columns={4} showAccentGuide={true} />
+
       <div className="max-w-7xl mx-auto relative z-10">
+        {/* Header with Role Mode Toggle */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <div>
-            <SectionLabel number="10" title="PRICING" light={false} />
+            <SectionLabel number="10" title="ENGAGEMENT" />
             <motion.h2
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-[-0.05em]"
+              className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-[-0.04em] text-[var(--text-primary)] leading-[1.08]"
             >
-              Pricing
+              Open to roles
             </motion.h2>
           </div>
 
-          {/* Annual / Monthly toggle */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex border border-[var(--border-dark)] overflow-hidden"
-            style={{ fontFamily: "var(--font-jetbrains-mono)" }}
-          >
+          {/* Liquid Spring-Physics Toggle Pill */}
+          <div className="relative inline-flex border border-[var(--border-color)] bg-[var(--bg-card)] p-1 rounded-sm shadow-xs self-start select-none">
             <button
-              onClick={() => setAnnual(true)}
-              className={`px-5 py-2.5 text-xs tracking-widest transition-all duration-300 ${
-                annual
-                  ? "bg-[var(--text-light)] text-[var(--bg-dark)]"
-                  : "text-[var(--text-light-muted)] hover:text-[var(--text-light)]"
-              }`}
+              onClick={() => setActiveMode("fulltime")}
+              className="relative px-4 py-2 text-xs font-mono font-bold tracking-wider transition-colors z-10 cursor-pointer"
             >
-              ANNUAL
+              {activeMode === "fulltime" && (
+                <motion.div
+                  layoutId="engagementToggle"
+                  className="absolute inset-0 bg-[var(--text-primary)] rounded-xs z-[-1]"
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                />
+              )}
+              <span className={activeMode === "fulltime" ? "text-[var(--bg-primary)]" : "text-[var(--text-secondary)]"}>
+                FULL-TIME ROLES
+              </span>
             </button>
             <button
-              onClick={() => setAnnual(false)}
-              className={`px-5 py-2.5 text-xs tracking-widest transition-all duration-300 ${
-                !annual
-                  ? "bg-[var(--text-light)] text-[var(--bg-dark)]"
-                  : "text-[var(--text-light-muted)] hover:text-[var(--text-light)]"
-              }`}
+              onClick={() => setActiveMode("contract")}
+              className="relative px-4 py-2 text-xs font-mono font-bold tracking-wider transition-colors z-10 cursor-pointer"
             >
-              MONTHLY
+              {activeMode === "contract" && (
+                <motion.div
+                  layoutId="engagementToggle"
+                  className="absolute inset-0 bg-[var(--text-primary)] rounded-xs z-[-1]"
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                />
+              )}
+              <span className={activeMode === "contract" ? "text-[var(--bg-primary)]" : "text-[var(--text-secondary)]"}>
+                CONTRACT &amp; ADVISORY
+              </span>
             </button>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Pricing cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-[var(--border-dark)]">
-          {tiers.map((tier, i) => (
+        {/* 3-Column Architectural Table */}
+        <div className="border border-[var(--border-color)] bg-[var(--bg-card)] grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-[var(--border-color)] shadow-card">
+          {engagementRoles.map((role, i) => (
             <motion.div
-              key={tier.name}
-              initial={{ opacity: 0, y: 30 }}
+              key={role.name}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className={`relative p-8 flex flex-col ${
-                i < tiers.length - 1 ? "border-r border-[var(--border-dark)]" : ""
-              } ${tier.popular ? "bg-white/[0.03]" : ""}`}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              whileHover={{ y: -4 }}
+              className={`p-8 lg:p-10 flex flex-col justify-between relative transition-shadow duration-300 ${
+                role.popular ? "bg-[var(--bg-primary)]/40 shadow-md" : "hover:bg-[var(--bg-primary)]/20"
+              }`}
             >
-              {/* Icon placeholder (small squares like Oberon) */}
-              <div className="w-10 h-10 bg-white/[0.06] border border-[var(--border-dark)] flex items-center justify-center mb-6">
-                <span className="text-[var(--text-light-muted)] text-xs font-mono">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </div>
+              {/* Popular Shimmer Border */}
+              {role.popular && (
+                <div className="absolute inset-0 pointer-events-none border border-[var(--accent)] z-20">
+                  <motion.div
+                    animate={{ x: ["-100%", "200%"] }}
+                    transition={{ duration: 3.5, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent"
+                  />
+                </div>
+              )}
 
-              {/* Tier description */}
-              <p
-                className="text-[var(--text-light-muted)] text-xs leading-relaxed mb-8 whitespace-pre-line min-h-[48px]"
-                style={{ fontFamily: "var(--font-jetbrains-mono)", letterSpacing: "0.05em" }}
-              >
-                {tier.description}
-              </p>
-
-              {/* Spacer to push price to bottom area */}
-              <div className="flex-1" />
-
-              {/* Price */}
-              <div className="flex items-end justify-between mb-8">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="label-mono text-[var(--text-light-muted)] text-[0.6rem]">
-                      {tier.name}
+              <div>
+                {/* Top Role Label */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                    {role.name}
+                  </span>
+                  {role.popular ? (
+                    <span className="px-2 py-0.5 bg-[var(--accent)] text-white font-mono text-[9px] font-bold uppercase tracking-wider rounded-sm shadow-xs flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                      {role.level}
                     </span>
-                    {tier.popular && (
-                      <span className="label-mono text-accent text-[0.5rem] bg-accent/10 px-2 py-0.5">
-                        POPULAR
-                      </span>
-                    )}
+                  ) : (
+                    <span className="px-2 py-0.5 border border-[var(--border-color)] bg-[var(--bg-primary)] text-[var(--text-secondary)] font-mono text-[9px] font-semibold uppercase tracking-wider rounded-sm">
+                      {role.level}
+                    </span>
+                  )}
+                </div>
+
+                {/* Monospace Subtitle */}
+                <p className="font-mono text-[10px] text-[var(--text-secondary)] uppercase tracking-wider mb-6 leading-relaxed">
+                  {role.subtitle}
+                </p>
+
+                {/* Role Focus Scope Banner */}
+                <div className="mb-6 border-b border-[var(--border-color)] pb-5">
+                  <div className="font-mono text-[10px] text-[var(--accent)] uppercase font-semibold mb-1">
+                    PRIMARY FOCUS :
                   </div>
-                  <div className="flex items-end gap-1">
-                    <span className="text-4xl md:text-5xl font-medium tracking-tight">
-                      ${annual ? tier.annualPrice.toLocaleString() : tier.monthlyPrice.toLocaleString()}
-                    </span>
-                    <span className="text-sm text-[var(--text-light-muted)] mb-2">/mo</span>
+                  <div className="font-mono text-sm font-bold text-[var(--text-primary)]">
+                    {role.focus}
                   </div>
                 </div>
 
-                {/* Features list */}
-                <ul className="space-y-2 text-sm text-[var(--text-light-muted)] max-w-[180px]">
-                  {tier.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2">
-                      <Check size={14} className="text-accent mt-0.5 shrink-0" />
-                      <span>{f}</span>
+                {/* Deliverables List with Orange '>' */}
+                <ul className="space-y-3 mb-10">
+                  {role.deliverables.map((item, fi) => (
+                    <li key={fi} className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed group">
+                      <span className="text-[var(--accent)] font-mono font-bold text-xs mt-0.5 shrink-0 group-hover:translate-x-0.5 transition-transform">&gt;</span>
+                      <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* CTA */}
-              <button
-                className={`w-full py-3.5 text-xs tracking-widest font-medium transition-all duration-300 ${
-                  tier.popular
-                    ? "bg-accent text-white hover:bg-accent-2"
-                    : "border border-[var(--border-dark)] text-[var(--text-light)] hover:bg-[var(--text-light)] hover:text-[var(--bg-dark)]"
-                }`}
-                style={{ fontFamily: "var(--font-jetbrains-mono)" }}
-              >
-                {tier.cta}
-              </button>
+              {/* Bottom CTA Button */}
+              <div className="pt-4">
+                <a
+                  href="#contact"
+                  className={`w-full py-3.5 px-4 text-xs font-mono font-bold tracking-wider uppercase flex items-center justify-center gap-2 transition-all rounded-sm ${
+                    role.popular
+                      ? "bg-[var(--accent)] text-white hover:bg-[var(--accent-2)] shadow-sm hover:scale-[1.01]"
+                      : "bg-[var(--text-primary)] text-[var(--bg-primary)] hover:bg-[var(--accent)] hover:text-white"
+                  }`}
+                >
+                  {role.cta}
+                  <ArrowRight size={13} />
+                </a>
+              </div>
             </motion.div>
           ))}
         </div>

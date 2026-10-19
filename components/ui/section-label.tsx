@@ -6,31 +6,24 @@ interface SectionLabelProps {
   number: string;
   title: string;
   light?: boolean;
+  className?: string;
 }
 
-export function SectionLabel({ number, title, light = true }: SectionLabelProps) {
+export function SectionLabel({ number, title, light, className }: SectionLabelProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
+      initial={{ opacity: 0, x: -16 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="flex items-center gap-3 mb-8"
+      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      className={`inline-flex items-center gap-1.5 select-none ${className || "mb-8"}`}
     >
-      <span
-        className={`inline-flex items-center justify-center w-8 h-8 text-sm font-bold ${
-          light
-            ? "bg-accent text-white"
-            : "bg-accent text-white"
-        }`}
-      >
+      {/* Orange numbered box */}
+      <span className="inline-flex items-center justify-center min-w-[26px] h-[26px] px-1.5 bg-[var(--accent)] text-white text-[11px] font-mono font-bold tracking-tight rounded-sm shadow-sm">
         {number}
       </span>
-      <span
-        className={`font-mono text-xs tracking-[0.2em] uppercase ${
-          light ? "text-[var(--text-secondary)]" : "text-[var(--text-light-muted)]"
-        }`}
-      >
+      {/* Attached neutral label pill */}
+      <span className="inline-flex items-center h-[26px] px-2.5 bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-secondary)] text-[10px] font-mono font-semibold tracking-[0.18em] uppercase rounded-sm">
         {title}
       </span>
     </motion.div>

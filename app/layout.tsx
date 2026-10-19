@@ -30,6 +30,7 @@ import { OfflineBanner } from "@/components/offline-banner";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
 import { SecurityManager } from "@/components/security-manager";
 import { ErrorTracker } from "@/components/error-tracker";
+import { StickyContactDock } from "@/components/sticky-contact-dock";
 import dynamic from "next/dynamic";
 
 // Lazy-load the command palette so the tools catalog + resume index only
@@ -104,7 +105,7 @@ const structuredData = {
       },
       alumniOf: {
         "@type": "CollegeOrUniversity",
-        name: resumeData.education[0]?.institution ?? "Jawaharlal Nehru Technological University, Kakinada",
+        name: resumeData.education[0]?.institution ?? "Halmstad University, Sweden",
       },
       knowsAbout: resumeData.skills.map((skill) => skill.name),
     },
@@ -350,6 +351,8 @@ export default function RootLayout({
             {/* Native-only app experience: Material-style shell + bottom tabs.
                 Lives inside ChatProvider so its embedded chat can use useChat. */}
             <MobileAppShell />
+            {/* Sticky right-side quick contact dock (WhatsApp, LinkedIn, Email, Call) */}
+            <StickyContactDock />
             <FloatingChat />
             <FloatingVoice />
             {/* Foreground push notification banner */}

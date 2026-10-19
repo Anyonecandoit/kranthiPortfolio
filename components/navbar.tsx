@@ -1,22 +1,44 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, Moon, Sun, MessageCircle, Briefcase, Search, Sparkles, Calculator, NotebookPen, ChevronDown } from "lucide-react";
+import {
+  Menu,
+  X,
+  Moon,
+  Sun,
+  MessageCircle,
+  Briefcase,
+  Search,
+  Sparkles,
+  Calculator,
+  NotebookPen,
+  ChevronDown,
+  Home,
+  User,
+  FolderGit2,
+  Cpu,
+  Handshake,
+  Mail,
+  FileText,
+  Download,
+} from "lucide-react";
 import { useTheme } from "./theme-provider";
 import { useAuth } from "@/lib/auth-context";
 import { useUnreadContactCount } from "@/lib/contact";
 import { NavVisitorCount } from "./nav-visitor-count";
-import { AndroidDownload } from "./android-download";
+import { NavLiveStatus } from "./nav-live-status";
 import Link from "next/link";
 
-/* Navigation items — section links on the homepage */
+/* Navigation items — section links on the homepage with distinct icons */
 const sectionItems = [
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
-  { name: "Experience", href: "#experience" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "#home", icon: Home },
+  { name: "Projects", href: "#projects", icon: FolderGit2 },
+  { name: "Experience", href: "#experience", icon: Briefcase },
+  { name: "About", href: "#about", icon: User },
+  { name: "Stack", href: "#stack", icon: Cpu },
+  { name: "Roles", href: "#pricing", icon: Handshake },
+  { name: "Contact", href: "#contact", icon: Mail },
 ];
 
 const appItems = [
@@ -28,6 +50,7 @@ const appItems = [
 ];
 
 export function Navbar() {
+  const { scrollYProgress } = useScroll();
   const [isOpen, setIsOpen] = useState(false);
   const [appsOpen, setAppsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -71,7 +94,11 @@ export function Navbar() {
     if (window.location.pathname === "/") {
       e.preventDefault();
       const id = href.split("#")[1];
-      if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      if (id === "home") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else if (id) {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -81,55 +108,85 @@ export function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       style={{ paddingTop: "var(--sat)" }}
-      className={`
-        fixed inset-x-0 top-0 z-50 transition-all duration-300
-        ${scrolled
-          ? "bg-[var(--bg-primary)]/90 backdrop-blur-lg border-b border-[var(--border-color)]"
-          : "bg-transparent border-b border-transparent"
-        }
-      `}
+      className="fixed inset-x-0 top-0 z-50 transition-all duration-300 bg-[#0B0D11]/95 backdrop-blur-xl border-b border-[#21262D] shadow-md"
       aria-label="Main navigation"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-16">
-        {/* Logo — monospace brand name (Oberon-style) */}
-        <Link href="/" aria-label="Kranthi Kumar Katta – Home">
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-2.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+        {/* Logo — monospace brand name (Oberon-style) with click-to-home */}
+        <div className="flex items-center">
+          <Link
+            href="/#home"
+            onClick={(e) => {
+              if (window.location.pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            aria-label="Kranthi Kumar Katta – Home"
           >
-            <div className="w-8 h-8 bg-accent flex items-center justify-center">
-              <span className="text-white font-bold text-[10px] font-mono">KK</span>
-            </div>
-            <span className="text-lg font-medium tracking-tight hidden sm:block" style={{ fontFamily: "var(--font-inter)" }}>
-              Kranthi Kumar Katta
-            </span>
-          </motion.div>
-        </Link>
-
-        {/* Desktop navigation — clean center links */}
-        <div className="hidden md:flex items-center gap-1">
-          {/* Android APK download — first, before About, with some space */}
-          <AndroidDownload className="mr-2" />
-
-          {sectionItems.map((item) => (
-            <a
-              key={item.name}
-              href={`/#${item.href.substring(1)}`}
-              onClick={(e) => scrollToSection(e, item.href)}
-              className={`
-                px-3 py-1.5 text-sm transition-colors duration-200
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]
-                ${activeSection === item.href.substring(1)
-                  ? "text-accent font-medium"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                }
-              `}
-              style={{ fontFamily: "var(--font-jetbrains-mono)" }}
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-2.5 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] group"
             >
-              {item.name}
-            </a>
-          ))}
+              <div className="w-7 h-7 bg-[var(--accent)] flex items-center justify-center rounded-xs shadow-xs relative overflow-hidden">
+                <span className="text-white font-mono font-bold text-[11px] relative z-10">◱</span>
+                <motion.div
+                  animate={{ x: ["-100%", "200%"] }}
+                  transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute inset-0 bg-white/25 skew-x-12 pointer-events-none"
+                />
+              </div>
+              <span className="text-base font-semibold tracking-tight hidden sm:flex items-center gap-1.5 font-mono text-white">
+                <span>KRANTHI</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+              </span>
+            </motion.div>
+          </Link>
+
+          {/* Live Bangalore Telemetry & Status Pill (after SDET 2 • BANGALORE, IN) */}
+          <NavLiveStatus />
+        </div>
+
+        {/* Desktop navigation — clean center links with icons */}
+        <div className="hidden md:flex items-center gap-1">
+          {sectionItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeSection === item.href.substring(1);
+            return (
+              <a
+                key={item.name}
+                href={`/#${item.href.substring(1)}`}
+                onClick={(e) => scrollToSection(e, item.href)}
+                className={`
+                  flex items-center gap-1.5 px-2.5 py-1.5 text-xs lg:text-sm transition-all duration-200 rounded-xs
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]
+                  ${isActive
+                    ? "text-[var(--accent)] font-semibold bg-[var(--accent)]/15 border border-[var(--accent)]/30"
+                    : "text-zinc-300 hover:text-[var(--accent)] hover:bg-[var(--accent)]/10"
+                  }
+                `}
+                style={{ fontFamily: "var(--font-jetbrains-mono)" }}
+              >
+                <Icon size={14} className={isActive ? "text-[var(--accent)]" : "opacity-80 group-hover:text-[var(--accent)]"} />
+                <span>{item.name}</span>
+              </a>
+            );
+          })}
+
+          {/* Dedicated Resume Action Button with icon */}
+          <a
+            href="/resume/kranthi-kumar-katta-resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs lg:text-sm font-semibold text-[var(--accent)] hover:text-white hover:bg-[var(--accent)] border border-[var(--accent)]/50 bg-[var(--accent)]/10 hover:border-[var(--accent)] transition-all duration-200 rounded-xs ml-1 shadow-xs"
+            style={{ fontFamily: "var(--font-jetbrains-mono)" }}
+            title="Download Official Resume (PDF)"
+          >
+            <FileText size={14} />
+            <span>Resume</span>
+            <Download size={11} className="opacity-80" />
+          </a>
 
           {/* Apps dropdown */}
           <div className="relative">
@@ -137,7 +194,7 @@ export function Navbar() {
               onClick={() => setAppsOpen((v) => !v)}
               aria-expanded={appsOpen}
               className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm transition-colors duration-200 ${
-                appsOpen ? "text-accent" : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                appsOpen ? "text-[var(--accent)]" : "text-zinc-300 hover:text-white"
               }`}
               style={{ fontFamily: "var(--font-jetbrains-mono)" }}
             >
@@ -191,7 +248,7 @@ export function Navbar() {
           <button
             onClick={() => window.dispatchEvent(new Event("open-search"))}
             aria-label="Search (⌘K)"
-            className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="p-2 text-zinc-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             <Search size={16} />
           </button>
@@ -203,13 +260,13 @@ export function Navbar() {
               toggleTheme();
             }}
             aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-            className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="p-2 text-zinc-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
           </button>
 
-          {/* CTA button */}
-          {user ? (
+          {/* User profile (only when signed in, no SIGN IN button) */}
+          {user && (
             <div className="flex items-center gap-2 ml-2">
               <Link
                 href="/dashboard"
@@ -225,17 +282,9 @@ export function Navbar() {
                 Sign Out
               </button>
             </div>
-          ) : (
-            <Link
-              href="/auth"
-              className="ml-2 px-4 py-1.5 bg-[var(--text-primary)] text-[var(--bg-primary)] text-xs font-medium hover:opacity-90 transition-opacity"
-              style={{ fontFamily: "var(--font-jetbrains-mono)" }}
-            >
-              SIGN IN
-            </Link>
           )}
 
-          {/* Live visitor count — right of SIGN IN */}
+          {/* Live visitor count */}
           <NavVisitorCount />
         </div>
 
@@ -243,7 +292,7 @@ export function Navbar() {
         <button
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Close menu" : "Open menu"}
-          className="md:hidden p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+          className="md:hidden p-2 text-zinc-300 hover:text-white transition-colors"
         >
           {isOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
@@ -260,26 +309,49 @@ export function Navbar() {
             className="md:hidden bg-[var(--bg-primary)] border-t border-[var(--border-color)]"
           >
             <div className="px-6 py-4 space-y-1">
-              {sectionItems.map((item) => (
+              {sectionItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeSection === item.href.substring(1);
+                return (
+                  <a
+                    key={item.name}
+                    href={`/#${item.href.substring(1)}`}
+                    onClick={(e) => {
+                      scrollToSection(e, item.href);
+                      setIsOpen(false);
+                    }}
+                    className={`
+                      flex items-center gap-3 w-full text-left px-3 py-2.5 rounded-md text-sm transition-colors
+                      ${isActive
+                        ? "text-[var(--accent)] font-semibold bg-[var(--accent)]/10"
+                        : "text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)]"
+                      }
+                    `}
+                    style={{ fontFamily: "var(--font-jetbrains-mono)" }}
+                  >
+                    <Icon size={16} className={isActive ? "text-[var(--accent)]" : "opacity-80"} />
+                    <span>{item.name}</span>
+                  </a>
+                );
+              })}
+
+              {/* Mobile Resume Link */}
+              <div className="pt-2 pb-1">
                 <a
-                  key={item.name}
-                  href={`/#${item.href.substring(1)}`}
-                  onClick={(e) => {
-                    scrollToSection(e, item.href);
-                    setIsOpen(false);
-                  }}
-                  className={`
-                    block w-full text-left px-3 py-2.5 rounded-md text-sm transition-colors
-                    ${activeSection === item.href.substring(1)
-                      ? "text-accent font-medium"
-                      : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                    }
-                  `}
+                  href="/resume/kranthi-kumar-katta-resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-between w-full px-3 py-2.5 rounded-md text-sm text-[var(--accent)] bg-[var(--accent)]/10 border border-[var(--accent)]/30 font-semibold"
                   style={{ fontFamily: "var(--font-jetbrains-mono)" }}
                 >
-                  {item.name}
+                  <span className="flex items-center gap-3">
+                    <FileText size={16} />
+                    <span>Resume (Official PDF)</span>
+                  </span>
+                  <Download size={14} />
                 </a>
-              ))}
+              </div>
 
               <div className="pt-2 border-t border-[var(--border-color)]">
                 <p className="px-3 py-1.5 text-xs text-[var(--text-secondary)]" style={{ fontFamily: "var(--font-jetbrains-mono)" }}>APPS</p>
@@ -309,12 +381,7 @@ export function Navbar() {
                 </button>
               </div>
 
-              {/* Android APK download (mobile drawer) */}
-              <div className="pt-3 border-t border-[var(--border-color)] px-3">
-                <AndroidDownload />
-              </div>
-
-              {user ? (
+              {user && (
                 <div className="flex items-center gap-3 px-3 py-3 border-t border-[var(--border-color)]">
                   <Link href="/dashboard" onClick={() => setIsOpen(false)}
                     className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-xs font-bold text-white">
@@ -324,17 +391,17 @@ export function Navbar() {
                   <button onClick={() => { signOut(); setIsOpen(false); }}
                     className="text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]">Sign Out</button>
                 </div>
-              ) : (
-                <Link href="/auth" onClick={() => setIsOpen(false)}
-                  className="block w-full text-center px-4 py-2.5 bg-[var(--text-primary)] text-[var(--bg-primary)] text-xs font-medium"
-                  style={{ fontFamily: "var(--font-jetbrains-mono)" }}>
-                  SIGN IN
-                </Link>
               )}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Interactive Reading Progress Laser Line */}
+      <motion.div
+        style={{ scaleX: scrollYProgress, transformOrigin: "0%" }}
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[var(--accent)] via-orange-400 to-[var(--accent)] pointer-events-none z-50 shadow-[0_0_8px_var(--accent)]"
+      />
     </motion.nav>
   );
 }

@@ -1,55 +1,61 @@
 import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
-import { Skills } from "@/components/skills";
-import { Projects } from "@/components/projects";
-import { Testimonials } from "@/components/testimonials";
 import { Experience } from "@/components/experience";
+import { Projects } from "@/components/projects";
+import { TechStack } from "@/components/tech-stack";
+import { Value } from "@/components/value";
+import { Testimonials } from "@/components/testimonials";
 import { Pricing } from "@/components/pricing";
 import { Faq } from "@/components/faq";
 import { Contact } from "@/components/contact";
+import { BackToTop } from "@/components/back-to-top";
 
 /**
- * Default entry page for the Next.js application.
+ * Kranthi Kumar Katta — Senior SDET & Quality Automation Architect
  *
- * The component stitches together the main sections of the portfolio
- * following the Oberon-inspired editorial layout:
- *   01 INTRO (Hero)
- *   02 ABOUT
- *   08 PROCESS (Experience — timeline, page 3)
- *   03 EXPERTISE (Skills, page 4)
- *   05 PROJECTS (Case Studies — carousel, page 5)
- *   07 STACK (Integrations — rendered in the hero, right of SIGN IN)
- *   09 TESTIMONIALS
- *   10 PRICING
- *   11 HELP (FAQ)
- *   12 CONTACTS
+ * Authentic Oberon Editorial Layout:
+ *   01 INTRO        (Hero — Kranthi Kumar Katta, Bio, Credentials & 3D Tech Constellation)
+ *   02 ABOUT        (Specialization — Core Competencies & Companies Worked With)
+ *   03 EXPERIENCE   (Career Journey — Work Experience By Year & QA Methodology)
+ *   05 PROJECTS     (Featured Projects — Enterprise Automation Case Studies)
+ *   07 STACK        (Technical Stack — Constellation Node Graph & Categories)
+ *   08 PRINCIPLES   (Engineering Principles — Shift-Left, Flakiness Elimination & Speed)
+ *   09 ENDORSEMENTS (Recommendations — Engineering Leadership & Colleague Feedback)
+ *   10 ENGAGEMENT   (Open to Roles — Senior SDET, Automation Architect & Advisory)
+ *   11 FAQ          (Frequently Asked Questions — Recruiter & Technical FAQs)
+ *   12 CONTACT      (Get In Touch — Direct Coordinates & Inquiry Form)
  */
 export default function Home() {
   return (
-    <main className="min-h-screen bg-transparent">
-      {/* 01 INTRO — Hero */}
+    <main className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
+      {/* 01 INTRO */}
       <section id="home" className="scroll-mt-20">
         <Hero />
       </section>
 
-      {/* 02 ABOUT */}
-      <section id="about" className="scroll-mt-20">
-        <About />
+      {/* 02 PROJECTS */}
+      <section id="projects" className="scroll-mt-20">
+        <Projects />
       </section>
 
-      {/* 08 PROCESS — Experience timeline (page 3) */}
+      {/* 03 PROCESS */}
       <section id="experience" className="scroll-mt-20">
         <Experience />
       </section>
 
-      {/* 03 EXPERTISE — Skills (page 4) */}
-      <section id="skills" className="scroll-mt-20">
-        <Skills />
+      {/* 05 ABOUT */}
+      <section id="about" className="scroll-mt-20">
+        <About />
       </section>
 
-      {/* 05 PROJECTS — Case Studies carousel (page 5) */}
-      <section id="projects" className="scroll-mt-20">
-        <Projects />
+      {/* 07 STACK */}
+      <section id="stack" className="scroll-mt-20">
+        <TechStack />
+      </section>
+
+      {/* 08 VALUE */}
+      <section id="value" className="scroll-mt-20">
+        <Value />
       </section>
 
       {/* 09 TESTIMONIALS */}
@@ -57,12 +63,12 @@ export default function Home() {
         <Testimonials />
       </section>
 
-      {/* 10 PRICING */}
+      {/* 10 COST */}
       <section id="pricing" className="scroll-mt-20">
         <Pricing />
       </section>
 
-      {/* 11 HELP — FAQ */}
+      {/* 11 HELP */}
       <section id="faq" className="scroll-mt-20">
         <Faq />
       </section>
@@ -71,6 +77,9 @@ export default function Home() {
       <section id="contact" className="scroll-mt-20">
         <Contact />
       </section>
+
+      {/* Floating Animated HOME Back-to-Top Button */}
+      <BackToTop />
     </main>
   );
 }
