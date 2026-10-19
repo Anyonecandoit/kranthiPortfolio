@@ -68,12 +68,12 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Same-origin static assets (hashed JS/CSS, fonts, images): stale-while-
-  // revalidate — cached copies are safe because filenames are content-hashed.
+  // Same-origin static assets (hashed JS/CSS, fonts, images)
   if (url.origin === self.location.origin) {
     event.respondWith(
       caches.match(req).then((cached) => {
-        const network = fetch(req)
+        if (cached) return cached;
+        return fetch(req)
           .then((res) => {
             if (res.ok) {
               const copy = res.clone();
@@ -84,29 +84,25 @@ self.addEventListener("fetch", (event) => {
             }
             return res;
           })
-          .catch(() => cached);
-        return cached || network;
+          .catch(() => cached ?? Response.error());
       })
     );
     return;
   }
 
-  // Cross-origin (opaque) requests — cache best-effort, network-first.
+  // Cross-origin requests — network-first with cache fallback
   event.respondWith(
-    caches.match(req).then((cached) => {
-      const network = fetch(req)
-        .then((res) => {
-          if (res.ok) {
-            const copy = res.clone();
-            caches
-              .open(STATIC_CACHE)
-              .then((cache) => cache.put(req, copy))
-              .catch(() => undefined);
-          }
-          return res;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
+    fetch(req)
+      .then((res) => {
+        if (res.ok) {
+          const copy = res.clone();
+          caches
+            .open(STATIC_CACHE)
+            .then((cache) => cache.put(req, copy))
+            .catch(() => undefined);
+        }
+        return res;
+      })
+      .catch(() => caches.match(req).then((cached) => cached ?? Response.error()))
   );
 });

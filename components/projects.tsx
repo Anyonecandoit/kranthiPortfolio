@@ -446,17 +446,17 @@ export function Projects() {
 
                 <div className="flex items-center gap-3 pt-4 border-t border-[var(--border-color)] flex-wrap">
                   {/* Dynamic Calculated Number of Days Worked in Project */}
-                  <div className="flex-1 min-w-[220px] py-2.5 px-4 bg-[var(--accent)] text-white rounded-xs shadow-sm flex items-center justify-between font-mono select-none">
+                  <div suppressHydrationWarning className="flex-1 min-w-[220px] py-2.5 px-4 bg-[var(--accent)] text-white rounded-xs shadow-sm flex items-center justify-between font-mono select-none">
                     <div className="flex items-center gap-2.5">
                       <Clock size={16} className="text-white shrink-0 animate-pulse" />
                       <div className="flex flex-col text-left">
-                        <div className="text-xs sm:text-[13px] font-extrabold tracking-wider uppercase flex items-center gap-1.5 leading-tight">
-                          <span>{calculateProjectDuration(featured?.period, carouselIdx).daysFormatted} WORKED</span>
+                        <div suppressHydrationWarning className="text-xs sm:text-[13px] font-extrabold tracking-wider uppercase flex items-center gap-1.5 leading-tight">
+                          <span suppressHydrationWarning>{calculateProjectDuration(featured?.period, carouselIdx).daysFormatted} WORKED</span>
                           {calculateProjectDuration(featured?.period, carouselIdx).isOngoing && (
                             <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
                           )}
                         </div>
-                        <span className="text-[9.5px] opacity-90 font-medium tracking-tight">
+                        <span suppressHydrationWarning className="text-[9.5px] opacity-90 font-medium tracking-tight">
                           {calculateProjectDuration(featured?.period, carouselIdx).durationText} • {calculateProjectDuration(featured?.period, carouselIdx).periodText}
                         </span>
                       </div>

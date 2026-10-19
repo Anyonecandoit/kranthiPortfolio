@@ -114,7 +114,6 @@ export function AnimatedHeroName({ className = "" }: AnimatedHeroNameProps) {
                       opacity: 0,
                       y: 18,
                       scale: 0.8,
-                      filter: "blur(4px)",
                     }}
                     animate={
                       phase === "entering" || phase === "holding"
@@ -122,13 +121,11 @@ export function AnimatedHeroName({ className = "" }: AnimatedHeroNameProps) {
                             opacity: 1,
                             y: 0,
                             scale: 1,
-                            filter: "blur(0px)",
                           }
                         : {
                             opacity: 0,
                             y: -12,
                             scale: 0.94,
-                            filter: "blur(3px)",
                           }
                     }
                     transition={

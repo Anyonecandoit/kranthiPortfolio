@@ -2,11 +2,13 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 let _supabase: SupabaseClient<Database> | null = null;
 
+const DEFAULT_SUPABASE_URL = "https://utukxclojtfveabmmbmg.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_bUyr51QmTkuyAY5_Glegjw_V7m55KzJ";
+
 export function getSupabase(): SupabaseClient<Database> {
   if (!_supabase) {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (!url || !key) throw new Error("Supabase URL or key not set");
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_SUPABASE_ANON_KEY;
     _supabase = createClient<Database>(url, key);
   }
   return _supabase!;

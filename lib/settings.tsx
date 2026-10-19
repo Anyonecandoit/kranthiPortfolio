@@ -29,18 +29,22 @@ export function SiteSettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Record<string, string>>(DEFAULT_SETTINGS);
 
   const refresh = useCallback(async () => {
-    const { data } = await supabase.from("site_settings").select("key,value");
-    if (data?.length) {
-      setSettings((prev) => {
-        const next = { ...prev };
-        for (const row of data) next[row.key] = row.value ?? "";
-        return next;
-      });
+    try {
+      const { data } = await supabase.from("site_settings").select("key,value");
+      if (data?.length) {
+        setSettings((prev) => {
+          const next = { ...prev };
+          for (const row of data) next[row.key] = row.value ?? "";
+          return next;
+        });
+      }
+    } catch (err) {
+      console.warn("Failed to load site settings:", err);
     }
   }, []);
 
   useEffect(() => {
-    refresh();
+    void refresh();
   }, [refresh]);
 
   return (
